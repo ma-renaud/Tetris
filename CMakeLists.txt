@@ -17,6 +17,6 @@ include_directories(includes
 file(GLOB_RECURSE HEADER_FILES "includes/*.h")
 file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 
-add_executable(Tutorial ${SOURCE_FILES} ${HEADER_FILES} includes/game.h src/game.cpp)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES} includes/game.h src/game.cpp)
 
-target_link_libraries(Tutorial ${SDL2_LIBRARY})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
