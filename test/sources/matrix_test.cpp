@@ -35,37 +35,19 @@ TEST_F(MatrixTestGroup, test_matrix_overflow) { // NOLINT
 
 TEST_F(MatrixTestGroup, test_init) { // NOLINT
   SquareMatrix<int, 3> expected{};
-  expected(0,0) = 1;
-  expected(0,1) = 2;
-  expected(0,2) = 3;
-  expected(1,0) = 4;
-  expected(1,1) = 5;
-  expected(1,2) = 6;
-  expected(2,0) = 7;
-  expected(2,1) = 8;
-  expected(2,2) = 9;
+  expected.init({{{1, 2, 3},
+                  {4, 5, 6},
+                  {7, 8, 9}}});
 
   ASSERT_THAT(matrix, Eq(expected));
 }
 
 TEST_F(MatrixTestGroup, test_rotate_clockwise) { // NOLINT
   SquareMatrix<int, 4> expected{};
-  expected(0,0) = 13;
-  expected(0,1) = 9;
-  expected(0,2) = 5;
-  expected(0,3) = 1;
-  expected(1,0) = 14;
-  expected(1,1) = 10;
-  expected(1,2) = 6;
-  expected(1,3) = 2;
-  expected(2,0) = 15;
-  expected(2,1) = 11;
-  expected(2,2) = 7;
-  expected(2,3) = 3;
-  expected(3,0) = 16;
-  expected(3,1) = 12;
-  expected(3,2) = 8;
-  expected(3,3) = 4;
+  expected.init({{{13, 9, 5, 1},
+                  {14, 10, 6, 2},
+                  {15, 11, 7, 3},
+                  {16, 12, 8, 4}}});
 
   SquareMatrix<int, 4> matrix_x4{};
   init_matrix<4>(matrix_x4);
@@ -76,22 +58,10 @@ TEST_F(MatrixTestGroup, test_rotate_clockwise) { // NOLINT
 
 TEST_F(MatrixTestGroup, test_rotate_counter_clockwise) { // NOLINT
   SquareMatrix<int, 4> expected{};
-  expected(0,0) = 4;
-  expected(0,1) = 8;
-  expected(0,2) = 12;
-  expected(0,3) = 16;
-  expected(1,0) = 3;
-  expected(1,1) = 7;
-  expected(1,2) = 11;
-  expected(1,3) = 15;
-  expected(2,0) = 2;
-  expected(2,1) = 6;
-  expected(2,2) = 10;
-  expected(2,3) = 14;
-  expected(3,0) = 1;
-  expected(3,1) = 5;
-  expected(3,2) = 9;
-  expected(3,3) = 13;
+  expected.init({{{4, 8, 12, 16},
+                  {3, 7, 11, 15},
+                  {2, 6, 10, 14},
+                  {1, 5, 9, 13}}});
 
   SquareMatrix<int, 4> matrix_x4{};
   init_matrix<4>(matrix_x4);

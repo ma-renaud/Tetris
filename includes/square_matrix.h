@@ -15,6 +15,10 @@ public:
   constexpr std::size_t size() const noexcept { return N; }
   bool operator==(const SquareMatrix<T, N> &lhs) const { return data == lhs.data; }
 
+  void init(std::array<std::array<T, N>, N> arr) {
+    data = arr;
+  }
+
   void rotate(Rotation way) {
     if (way == Rotation::CW)
       rotate_cw();
