@@ -2,8 +2,8 @@
 /cmake-build-release/
 /Debug/
 /Release/
-/TestWin/
 /test-debug/
+/matrix-debug/
 /.idea/*
 /test/.idea/*
 

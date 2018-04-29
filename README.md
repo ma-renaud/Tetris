@@ -1,6 +1,11 @@
 # Tetris Game
 
-A tetris game made to learn SDL2 based on tutorials from [Let's Make Games](https://www.youtube.com/channel/UCAM9ZPgEIdeHAsmG50wqL1g)' Youtube channel and the source from [https://github.com/antonte/tetris](https://github.com/antonte/tetris).
+A tetris game made to learn SDL2.
+
+##References
+* SDL: [Let's Make Games](https://www.youtube.com/channel/UCAM9ZPgEIdeHAsmG50wqL1g)
+* Matrix rotation: A post on Stackoverflow from [Jack](https://stackoverflow.com/users/828547/jack) ([How do you rotate a two dimensional array?](https://stackoverflow.com/a/35438327))
+* [Tetris Guideline](https://tetris.wiki/Tetris_Guideline)
 
 
 ## License
