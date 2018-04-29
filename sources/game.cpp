@@ -1,48 +1,44 @@
 #include <iostream>
 #include "game.h"
 
-Game::Game() {
+int unit_size = 26;
+SDL_Rect wellRect = {unit_size, unit_size*2, unit_size*10, unit_size*22};
 
-}
-
-Game::~Game() {
-
-}
 
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
 
-  int flags  = 0;
-  if(fullscreen)
+  Uint32 flags = 0;
+  if (fullscreen)
     flags = SDL_WINDOW_FULLSCREEN;
 
-  if(SDL_Init(SDL_INIT_EVERYTHING) == 0) {
+  if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
     std::cout << "Subsystems Initialised!..." << std::endl;
     window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-    if(window)
+    if (window)
       std::cout << "Window created!" << std::endl;
 
     renderer = SDL_CreateRenderer(window, -1, 0);
-    if(renderer) {
+    if (renderer) {
       SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
       std::cout << "Renderer created!" << std::endl;
     }
 
     is_running = true;
-  }
-  else {
+  } else {
     is_running = false;
   }
+
+  tetromino = std::make_unique<TetrominoSDL>(std::make_unique<L>());
+  tetromino->set_unit_size(unit_size);
 }
 
 void Game::handleEvents() {
   SDL_Event event;
   SDL_PollEvent(&event);
   switch (event.type) {
-  case SDL_QUIT:
-    is_running = false;
+  case SDL_QUIT:is_running = false;
     break;
-  default:
-    break;
+  default:break;
   }
 }
 
@@ -51,8 +47,14 @@ void Game::update() {
 }
 
 void Game::render() {
+  SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
   SDL_RenderClear(renderer);
-  //this is where we would add stuff to render
+
+  SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // the rect color (solid blue)
+  SDL_RenderDrawRect(renderer, &wellRect);
+
+  tetromino->draw(renderer);
+
   SDL_RenderPresent(renderer);
 }
 
