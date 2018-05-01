@@ -28,10 +28,11 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     is_running = false;
   }
 
+  well = std::make_unique<WellSDL>(std::make_unique<Well>());
+  well->set_unit_size(unit_size);
+
   tetromino = std::make_unique<TetrominoSDL>(std::make_unique<L>());
   tetromino->set_unit_size(unit_size);
-
-  well = std::make_unique<Well>();
 }
 
 void Game::handleEvents() {
@@ -52,9 +53,7 @@ void Game::render() {
   SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
   SDL_RenderClear(renderer);
 
-  SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // the rect color (solid blue)
-  SDL_RenderDrawRect(renderer, &wellRect);
-
+  well->draw(renderer);
   tetromino->draw(renderer);
 
   SDL_RenderPresent(renderer);

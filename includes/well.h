@@ -8,9 +8,12 @@ public:
   Well();
   ~Well() = default;
 
-private:
   static constexpr uint8_t WIDTH = 12;
   static constexpr uint8_t HEIGHT = 22;
+
+  uint8_t get_tile(int x, int y);
+
+private:
   std::array<std::array<uint8_t, WIDTH>, HEIGHT> well;
 
   void init();

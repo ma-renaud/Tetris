@@ -10,3 +10,7 @@ void Well::init() {
   }
   well[HEIGHT - 1] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 }
+
+uint8_t Well::get_tile(int x, int y) {
+  return well.at(static_cast<unsigned long>(x)).at(static_cast<unsigned long>(y));
+}
