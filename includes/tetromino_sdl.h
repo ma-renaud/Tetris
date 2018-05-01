@@ -14,6 +14,7 @@ public:
   void draw(SDL_Renderer *renderer);
 
 private:
+  static constexpr int TOP_OFFSET = 2;
   std::unique_ptr<Tetromino> tetromino;
   int unit_size = 0;
 

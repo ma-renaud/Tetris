@@ -11,13 +11,11 @@ void TetrominoSDL::set_unit_size(int unit_size) {
 void TetrominoSDL::draw(SDL_Renderer *renderer) {
   SDL_Rect rect = {tetromino->xpos()*unit_size, tetromino->ypos()*unit_size, unit_size, unit_size};
 
-
-
   for (int i = 0; i < tetromino->matrix_size(); i++) {
     for (int j = 0; j < tetromino->matrix_size(); j++) {
       if(tetromino->is_present(i, j)) {
         rect.x = (tetromino->xpos()+j)*unit_size;
-        rect.y = (tetromino->ypos()+i)*unit_size;
+        rect.y = (tetromino->ypos()+i-TOP_OFFSET)*unit_size;
         draw_rect(renderer, &rect);
       }
     }
