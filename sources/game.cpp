@@ -30,6 +30,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
   tetromino = std::make_unique<TetrominoSDL>(std::make_unique<L>());
   tetromino->set_unit_size(unit_size);
+
+  well = std::make_unique<Well>();
 }
 
 void Game::handleEvents() {

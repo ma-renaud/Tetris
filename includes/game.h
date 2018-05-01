@@ -5,6 +5,7 @@
 #include <SDL_image.h>
 #include <iostream>
 #include "tetromino_sdl.h"
+#include "well.h"
 
 class Game {
 public:
@@ -25,6 +26,7 @@ private:
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
   std::unique_ptr<TetrominoSDL> tetromino;
+  std::unique_ptr<Well> well;
 };
 
 #endif //TETRIS_GAME_H
