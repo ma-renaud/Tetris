@@ -13,6 +13,7 @@ public:
   TetrominoShape shape() { return _shape; }
   int xpos() { return _xpos; }
   int ypos() { return _ypos; }
+  void move(int x, int y) { _xpos += x; _ypos += y; }
   virtual void rotate(Rotation way) = 0;
   virtual int matrix_size() = 0;
   virtual bool is_present(int x, int y) = 0;
