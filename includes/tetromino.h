@@ -16,6 +16,7 @@ public:
   void move(int x, int y) { _xpos += x; _ypos += y; }
   virtual void rotate(Rotation way) = 0;
   virtual int matrix_size() = 0;
+  virtual uint8_t get_tile(int x, int y) = 0;
   virtual bool is_present(int x, int y) = 0;
 
 protected:
@@ -32,6 +33,7 @@ public:
 
   void rotate(Rotation way) override { matrix.rotate(way); };
   int matrix_size() override { return static_cast<int>(N); }
+  uint8_t get_tile(int x, int y) override { return matrix(x, y); };
   bool is_present(int x, int y) override { return matrix(x, y) > 0; }
 
 protected:

@@ -15,11 +15,12 @@ public:
   uint8_t get_tile(int x, int y);
   bool is_block(int x, int y);
   bool is_collision(Tetromino* tetromino);
+  void add_to_well(Tetromino* tetromino);
 
-
-private:
+protected:
   std::array<std::array<uint8_t, WIDTH>, HEIGHT> well;
 
+private:
   void init();
 };
 

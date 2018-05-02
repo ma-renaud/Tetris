@@ -23,13 +23,28 @@ bool Well::is_block(int x, int y) {
 }
 
 bool Well::is_collision(Tetromino *tetromino) {
-  bool res = false;
+  int row, col;
   for (int i = 0; i < tetromino->matrix_size(); i++) {
     for (int j = 0; j < tetromino->matrix_size(); j++) {
-      if (tetromino->is_present(i, j) && is_block(i + tetromino->ypos(), j + tetromino->xpos())) {
-        res = true;
+      col = j + tetromino->xpos();
+      row = i + tetromino->ypos();
+      if (tetromino->is_present(i, j) && is_block(row, col)) {
+        return true;
       }
     }
   }
-  return res;
+  return false;
+}
+
+void Well::add_to_well(Tetromino *tetromino) {
+  int row, col;
+  for (int i = 0; i < tetromino->matrix_size(); i++) {
+    for (int j = 0; j < tetromino->matrix_size(); j++) {
+      col = j + tetromino->xpos();
+      row = i + tetromino->ypos();
+      if (row < well.size() && col < well.at(static_cast<unsigned long>(row)).size()) {
+        well[row][col] = tetromino->get_tile(i, j);
+      }
+    }
+  }
 }
