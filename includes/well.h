@@ -2,6 +2,7 @@
 #define TETRIS_WELL_H
 
 #include <array>
+#include "tetromino.h"
 
 class Well {
 public:
@@ -12,6 +13,9 @@ public:
   static constexpr uint8_t HEIGHT = 22;
 
   uint8_t get_tile(int x, int y);
+  bool is_block(int x, int y);
+  bool is_collision(Tetromino* tetromino);
+
 
 private:
   std::array<std::array<uint8_t, WIDTH>, HEIGHT> well;

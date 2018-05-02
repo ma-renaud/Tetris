@@ -31,7 +31,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   well = std::make_unique<WellSDL>(std::make_unique<Well>());
   well->set_unit_size(unit_size);
 
-  tetromino = std::make_unique<TetrominoSDL>(std::make_unique<L>());
+  tetromino = std::make_unique<TetrominoSDL>(std::make_unique<T>());
   tetromino->set_unit_size(unit_size);
 }
 

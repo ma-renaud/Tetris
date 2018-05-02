@@ -22,7 +22,7 @@ public:
   void rotate(Rotation way) {
     if (way == Rotation::CW)
       rotate_cw();
-    else if(way == Rotation::CCW)
+    else if (way == Rotation::CCW)
       rotate_ccw();
   }
 

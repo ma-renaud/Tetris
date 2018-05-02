@@ -12,5 +12,24 @@ void Well::init() {
 }
 
 uint8_t Well::get_tile(int x, int y) {
-  return well.at(static_cast<unsigned long>(x)).at(static_cast<unsigned long>(y));
+  if (x < well.size() && y < well.at(static_cast<unsigned long>(x)).size())
+    return well.at(static_cast<unsigned long>(x)).at(static_cast<unsigned long>(y));
+  else
+    return 0;
+}
+
+bool Well::is_block(int x, int y) {
+  return get_tile(x, y) > 0;
+}
+
+bool Well::is_collision(Tetromino *tetromino) {
+  bool res = false;
+  for (int i = 0; i < tetromino->matrix_size(); i++) {
+    for (int j = 0; j < tetromino->matrix_size(); j++) {
+      if (tetromino->is_present(i, j) && is_block(i + tetromino->ypos(), j + tetromino->xpos())) {
+        res = true;
+      }
+    }
+  }
+  return res;
 }
