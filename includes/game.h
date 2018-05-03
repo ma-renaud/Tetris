@@ -4,8 +4,10 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
-#include "tetromino_sdl.h"
-#include "well_sdl.h"
+#include <bits/unique_ptr.h>
+#include "tetromino.h"
+#include "well.h"
+#include "tetris_drawer_rect.h"
 
 class Game {
 public:
@@ -14,7 +16,8 @@ public:
 
   void init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen);
 
-  void handleEvents();
+  void handle_events();
+  void handle_keys(SDL_Keycode key);
   void update();
   void render();
   void clean();
@@ -22,11 +25,13 @@ public:
   bool running();
 
 private:
+  static constexpr int unit_size = 26;
   bool is_running = false;
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
-  std::unique_ptr<TetrominoSDL> tetromino;
-  std::unique_ptr<WellSDL> well;
+  std::unique_ptr<Tetromino> tetromino;
+  std::unique_ptr<Well> well;
+  std::unique_ptr<TetrisDrawer> drawer;
 };
 
 #endif //TETRIS_GAME_H

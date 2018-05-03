@@ -6,7 +6,7 @@ int main(int /*argc*/, char */*argv*/[]) {
   game.init("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 720/2, 720, false); // NOLINT
 
   while(game.running()) {
-    game.handleEvents();
+    game.handle_events();
     game.update();
     game.render();
   }

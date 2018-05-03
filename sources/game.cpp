@@ -1,10 +1,6 @@
 #include <iostream>
 #include "game.h"
 
-int unit_size = 26;
-SDL_Rect wellRect = {unit_size, unit_size*2, unit_size*10, unit_size*22};
-
-
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
 
   Uint32 flags = 0;
@@ -28,18 +24,46 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     is_running = false;
   }
 
-  well = std::make_unique<WellSDL>(std::make_unique<Well>());
-  well->set_unit_size(unit_size);
-
-  tetromino = std::make_unique<TetrominoSDL>(std::make_unique<T>());
-  tetromino->set_unit_size(unit_size);
+  well = std::make_unique<Well>();
+  tetromino = std::make_unique<L>();
+  drawer = std::make_unique<TetrisDrawerRect>();
+  drawer->set_unit_size(unit_size);
 }
 
-void Game::handleEvents() {
+void Game::handle_events() {
   SDL_Event event;
   SDL_PollEvent(&event);
   switch (event.type) {
   case SDL_QUIT:is_running = false;
+    break;
+  case SDL_KEYDOWN:handle_keys(event.key.keysym.sym);
+    break;
+  default:break;
+  }
+}
+
+void Game::handle_keys(SDL_Keycode key) {
+  std::unique_ptr<Tetromino> copy;
+  switch (key) {
+  case SDLK_DOWN:copy = tetromino->clone();
+    copy->move(0, 1);
+    if (!well->is_collision(copy.get()))
+      tetromino = std::move(copy);
+    break;
+  case SDLK_RIGHT:copy = tetromino->clone();
+    copy->move(1, 0);
+    if (!well->is_collision(copy.get()))
+      tetromino = std::move(copy);
+    break;
+  case SDLK_LEFT:copy = tetromino->clone();
+    copy->move(-1, 0);
+    if (!well->is_collision(copy.get()))
+      tetromino = std::move(copy);
+    break;
+  case SDLK_UP:copy = tetromino->clone();
+    copy->rotate(Rotation::CCW);
+    if (!well->is_collision(copy.get()))
+      tetromino = std::move(copy);
     break;
   default:break;
   }
@@ -53,8 +77,8 @@ void Game::render() {
   SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
   SDL_RenderClear(renderer);
 
-  well->draw(renderer);
-  tetromino->draw(renderer);
+  drawer->draw(renderer, well.get());
+  drawer->draw(renderer, tetromino.get());
 
   SDL_RenderPresent(renderer);
 }
