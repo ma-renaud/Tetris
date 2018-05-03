@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <iostream>
-#include <bits/unique_ptr.h>
+#include <memory>
 #include "tetromino.h"
 #include "well.h"
 #include "tetris_drawer_rect.h"
