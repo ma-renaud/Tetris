@@ -27,6 +27,7 @@ public:
 private:
   static constexpr int unit_size = 26;
   uint32_t drop_time = 0;
+  SDL_Keycode pressed_key = SDLK_UNKNOWN;
   bool is_running = false;
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;

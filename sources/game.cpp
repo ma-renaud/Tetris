@@ -36,10 +36,18 @@ void Game::handle_events() {
   SDL_Event event;
   SDL_PollEvent(&event);
   switch (event.type) {
-  case SDL_QUIT:is_running = false;
+  case SDL_QUIT: {
+    is_running = false;
     break;
-  case SDL_KEYDOWN:handle_keys(event.key.keysym.sym);
+  }
+  case SDL_KEYDOWN: {
+    handle_keys(event.key.keysym.sym);
     break;
+  }
+  case SDL_KEYUP: {
+    pressed_key = SDLK_UNKNOWN;
+    break;
+  }
   default:break;
   }
 }
@@ -47,33 +55,43 @@ void Game::handle_events() {
 void Game::handle_keys(SDL_Keycode key) {
   std::unique_ptr<Tetromino> copy;
   switch (key) {
-  case SDLK_DOWN:copy = tetromino->clone();
+  case SDLK_DOWN: {
+    copy = tetromino->clone();
     copy->move(0, 1);
     if (!well->is_collision(copy.get()))
       tetromino = std::move(copy);
     break;
-  case SDLK_RIGHT:copy = tetromino->clone();
+  }
+  case SDLK_RIGHT: {
+    copy = tetromino->clone();
     copy->move(1, 0);
     if (!well->is_collision(copy.get()))
       tetromino = std::move(copy);
     break;
-  case SDLK_LEFT:copy = tetromino->clone();
+  }
+  case SDLK_LEFT: {
+    copy = tetromino->clone();
     copy->move(-1, 0);
     if (!well->is_collision(copy.get()))
       tetromino = std::move(copy);
     break;
-  case SDLK_UP:copy = tetromino->clone();
-    copy->rotate(Rotation::CCW);
-    if (!well->is_collision(copy.get()))
-      tetromino = std::move(copy);
+  }
+  case SDLK_UP: {
+    if (key != pressed_key) {
+      copy = tetromino->clone();
+      copy->rotate(Rotation::CCW);
+      if (!well->is_collision(copy.get()))
+        tetromino = std::move(copy);
+    }
     break;
+  }
   default:break;
   }
+  pressed_key = key;
 }
 
 void Game::update() {
-  if (SDL_GetTicks() > drop_time)
-  {
+  if (SDL_GetTicks() > drop_time) {
     drop_time += 1000;
     std::unique_ptr<Tetromino> copy = tetromino->clone();
     copy->move(0, 1);
