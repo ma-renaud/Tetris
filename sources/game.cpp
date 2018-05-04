@@ -3,6 +3,8 @@
 
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
 
+  drop_time = SDL_GetTicks();
+
   Uint32 flags = 0;
   if (fullscreen)
     flags = SDL_WINDOW_FULLSCREEN;
@@ -70,7 +72,14 @@ void Game::handle_keys(SDL_Keycode key) {
 }
 
 void Game::update() {
-
+  if (SDL_GetTicks() > drop_time)
+  {
+    drop_time += 1000;
+    std::unique_ptr<Tetromino> copy = tetromino->clone();
+    copy->move(0, 1);
+    if (!well->is_collision(copy.get()))
+      tetromino = std::move(copy);
+  }
 }
 
 void Game::render() {
