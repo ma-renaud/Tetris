@@ -93,10 +93,7 @@ void Game::handle_keys(SDL_Keycode key) {
 void Game::update() {
   if (SDL_GetTicks() > drop_time) {
     drop_time += 1000;
-    std::unique_ptr<Tetromino> copy = tetromino->clone();
-    copy->move(0, 1);
-    if (!well->is_collision(copy.get()))
-      tetromino = std::move(copy);
+    check_drop();
   }
 }
 
@@ -115,6 +112,17 @@ void Game::clean() {
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
   std::cout << "Game Cleaned!" << std::endl;
+}
+
+void Game::check_drop() {
+  std::unique_ptr<Tetromino> copy = tetromino->clone();
+  copy->move(0, 1);
+  if (!well->is_collision(copy.get()))
+    tetromino = std::move(copy);
+  else {
+    well->add_to_well(tetromino.get());
+    tetromino = std::make_unique<L>();
+  }
 }
 
 bool Game::running() {
