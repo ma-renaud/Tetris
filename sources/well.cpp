@@ -38,12 +38,14 @@ bool Well::is_collision(Tetromino *tetromino) {
 
 void Well::add_to_well(Tetromino *tetromino) {
   int row, col;
+  uint8_t tile;
   for (int i = 0; i < tetromino->matrix_size(); i++) {
     for (int j = 0; j < tetromino->matrix_size(); j++) {
       col = j + tetromino->xpos();
       row = i + tetromino->ypos();
-      if (row < well.size() && col < well.at(static_cast<unsigned long>(row)).size()) {
-        well[row][col] = tetromino->get_tile(i, j);
+      tile = tetromino->get_tile(i, j);
+      if (tile > 0 && row < well.size() && col < well.at(static_cast<unsigned long>(row)).size()) {
+        well[row][col] = tile;
       }
     }
   }
