@@ -1,3 +1,4 @@
+#include <numeric>
 #include "well.h"
 
 Well::Well() {
@@ -49,4 +50,23 @@ void Well::add_to_well(Tetromino *tetromino) {
       }
     }
   }
+}
+
+void Well::clear_lines() {
+  bool full_line;
+  for (int i = HEIGHT - 2; i >= 0; i--) {
+    full_line = false;
+    for (int j = 1; j < WIDTH-1; j++) {
+      if (!is_block(i, j))
+        break;
+      else if (j == WIDTH-1)
+        full_line = true;
+    }
+    if (full_line)
+      clear_line(i);
+  }
+}
+
+void Well::clear_line(int line_index) {
+
 }

@@ -54,7 +54,6 @@ TEST_F(WellTestGroup, test_collision_between_tetrominos) { // NOLINT
   ASSERT_TRUE(well->is_collision(tetromino.get()));
 }
 
-
 TEST_F(WellTestGroup, test_add_to_well) { // NOLINT
   std::array<std::array<uint8_t, Well::WIDTH>, Well::HEIGHT> expected = well->get_well();
   expected[19] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
@@ -63,6 +62,26 @@ TEST_F(WellTestGroup, test_add_to_well) { // NOLINT
   std::unique_ptr<Tetromino> tetromino = std::make_unique<L>();
   tetromino->move(4,16);
   well->add_to_well(tetromino.get());
+
+  ASSERT_THAT(well->get_well(), Eq(expected));
+}
+
+TEST_F(WellTestGroup, test_clear_lines) { // NOLINT
+  std::array<std::array<uint8_t, Well::WIDTH>, Well::HEIGHT> expected = well->get_well();
+  expected[20] = {1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1};
+
+  std::unique_ptr<Tetromino> tetromino = std::make_unique<L>();
+  tetromino->move(4,16);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-3,0);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-3,0);
+  well->add_to_well(tetromino.get());
+  tetromino->rotate(Rotation::CCW);
+  tetromino->rotate(Rotation::CCW);
+  tetromino->move(-1,-1);
+  well->add_to_well(tetromino.get());
+  well->clear_lines();
 
   ASSERT_THAT(well->get_well(), Eq(expected));
 }

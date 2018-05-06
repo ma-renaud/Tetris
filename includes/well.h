@@ -16,12 +16,14 @@ public:
   bool is_block(int x, int y);
   bool is_collision(Tetromino* tetromino);
   void add_to_well(Tetromino* tetromino);
+  void clear_lines();
 
 protected:
   std::array<std::array<uint8_t, WIDTH>, HEIGHT> well;
 
 private:
   void init();
+  void clear_line(int line_index);
 };
 
 #endif //TETRIS_WELL_H
