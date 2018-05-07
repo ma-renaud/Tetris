@@ -6,8 +6,9 @@ Well::Well() {
 }
 
 void Well::init() {
+  empty_line = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
   for (int i = 0; i < HEIGHT - 1; i++) {
-    well[i] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+    well[i] = empty_line;
   }
   well[HEIGHT - 1] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 }
@@ -55,18 +56,22 @@ void Well::add_to_well(Tetromino *tetromino) {
 void Well::clear_lines() {
   bool full_line;
   for (int i = HEIGHT - 2; i >= 0; i--) {
-    full_line = false;
-    for (int j = 1; j < WIDTH-1; j++) {
-      if (!is_block(i, j))
-        break;
-      else if (j == WIDTH-1)
-        full_line = true;
+    if (well[i] != empty_line) {
+      full_line = true;
+      for (int j = 1; j < WIDTH-1; j++) {
+        if (!is_block(i, j)){
+          full_line = false;
+          break;
+        }
+      }
+      if (full_line)
+        clear_line(i);
     }
-    if (full_line)
-      clear_line(i);
   }
 }
 
 void Well::clear_line(int line_index) {
-
+  for (int i = line_index; i > 0; i--) {
+    well[i] = well[i-1];
+  }
 }

@@ -22,6 +22,8 @@ protected:
   std::array<std::array<uint8_t, WIDTH>, HEIGHT> well;
 
 private:
+  std::array<uint8_t, WIDTH> empty_line;
+
   void init();
   void clear_line(int line_index);
 };

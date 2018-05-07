@@ -121,6 +121,7 @@ void Game::check_drop() {
     tetromino = std::move(copy);
   else {
     well->add_to_well(tetromino.get());
+    well->clear_lines();
     tetromino = std::make_unique<L>();
   }
 }
