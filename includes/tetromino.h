@@ -2,15 +2,15 @@
 #define TETRIS_TETROMINO_H
 
 #include "square_matrix.h"
+#include "cloneable.h"
 #include <memory>
 
 enum class TetrominoShape { I, O, T, S, Z, J, L };
 
-class Tetromino {
+class Tetromino : public clone_inherit<abstract_method<Tetromino>> {
 public:
   Tetromino() = default;
   virtual ~Tetromino() = default;
-  virtual std::unique_ptr<Tetromino> clone() const = 0;
 
   TetrominoShape shape() { return _shape; }
   int xpos() { return _xpos; }
@@ -31,11 +31,10 @@ protected:
 };
 
 template<std::size_t N>
-class TetrominoProxy : public Tetromino {
+class TetrominoProxy : public clone_inherit<abstract_method<TetrominoProxy<1>>, virtual_inherit_from<Tetromino>> {
 public:
   TetrominoProxy() = default;
   ~TetrominoProxy() override = default;
-  std::unique_ptr<Tetromino> clone() const override = 0;
 
   void rotate(Rotation way) override { matrix.rotate(way); };
   int matrix_size() override { return static_cast<int>(N); }
@@ -47,7 +46,7 @@ protected:
 
 };
 
-class I : public TetrominoProxy<4> {
+class I : public clone_inherit<I, TetrominoProxy<4>> {
 public:
   I() {
     _shape = TetrominoShape::I;
@@ -58,13 +57,9 @@ public:
                   {1, 1, 1, 1},
                   {0, 0, 0, 0}}});
   }
-
-  std::unique_ptr<Tetromino> clone() const override {
-    return std::unique_ptr<Tetromino>(new I(*this));
-  }
 };
 
-class O : public TetrominoProxy<4> {
+class O : public clone_inherit<O, TetrominoProxy<4>> {
 public:
   O() {
     _shape = TetrominoShape::O;
@@ -75,13 +70,9 @@ public:
                   {0, 1, 1, 0},
                   {0, 0, 0, 0}}});
   }
-
-  std::unique_ptr<Tetromino> clone() const override {
-    return std::unique_ptr<Tetromino>(new O(*this));
-  }
 };
 
-class T : public TetrominoProxy<3> {
+class T : public clone_inherit<T, TetrominoProxy<3>> {
 public:
   T() {
     _shape = TetrominoShape::T;
@@ -91,13 +82,9 @@ public:
                   {1, 1, 1},
                   {0, 0, 0}}});
   }
-
-  std::unique_ptr<Tetromino> clone() const override {
-    return std::unique_ptr<Tetromino>(new T(*this));
-  }
 };
 
-class S : public TetrominoProxy<3> {
+class S : public clone_inherit<S, TetrominoProxy<3>> {
 public:
   S() {
     _shape = TetrominoShape::S;
@@ -107,13 +94,9 @@ public:
                   {1, 1, 0},
                   {0, 0, 0}}});
   }
-
-  std::unique_ptr<Tetromino> clone() const override {
-    return std::unique_ptr<Tetromino>(new S(*this));
-  }
 };
 
-class Z : public TetrominoProxy<3> {
+class Z : public clone_inherit<Z, TetrominoProxy<3>> {
 public:
   Z() {
     _shape = TetrominoShape::Z;
@@ -123,13 +106,9 @@ public:
                   {0, 1, 1},
                   {0, 0, 0}}});
   }
-
-  std::unique_ptr<Tetromino> clone() const override {
-    return std::unique_ptr<Tetromino>(new Z(*this));
-  }
 };
 
-class J : public TetrominoProxy<3> {
+class J : public clone_inherit<J, TetrominoProxy<3>> {
 public:
   J() {
     _shape = TetrominoShape::J;
@@ -139,13 +118,9 @@ public:
                   {1, 1, 1},
                   {0, 0, 0}}});
   }
-
-  std::unique_ptr<Tetromino> clone() const override {
-    return std::unique_ptr<Tetromino>(new J(*this));
-  }
 };
 
-class L : public TetrominoProxy<3> {
+class L : public clone_inherit<L, TetrominoProxy<3>> {
 public:
   L() {
     _shape = TetrominoShape::L;
@@ -154,10 +129,6 @@ public:
     matrix.init({{{0, 0, 1},
                   {1, 1, 1},
                   {0, 0, 0}}});
-  }
-
-  std::unique_ptr<Tetromino> clone() const override {
-    return std::unique_ptr<Tetromino>(new L(*this));
   }
 };
 
