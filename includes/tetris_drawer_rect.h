@@ -2,6 +2,7 @@
 #define TETRIS_TETRISDRAWERRECT_H
 
 #include "tetris_drawer.h"
+#include "color.h"
 
 class TetrisDrawerRect: public TetrisDrawer{
 public:
@@ -11,8 +12,10 @@ public:
   void draw(SDL_Renderer *renderer, Tetromino* tetromino) override;
   void draw(SDL_Renderer *renderer, Well* well) override;
 
+  Color get_tetromino_color(int tile);
+
 private:
-  void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+  void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, Color color);
 };
 
 #endif //TETRIS_TETRISDRAWERRECT_H

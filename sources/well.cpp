@@ -6,11 +6,11 @@ Well::Well() {
 }
 
 void Well::init() {
-  empty_line = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
+  empty_line = {42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 42};
   for (int i = 0; i < HEIGHT - 1; i++) {
     well[i] = empty_line;
   }
-  well[HEIGHT - 1] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  well[HEIGHT - 1] = {42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42};
 }
 
 uint8_t Well::get_tile(int x, int y) {

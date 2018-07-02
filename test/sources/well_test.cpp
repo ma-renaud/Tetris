@@ -56,8 +56,8 @@ TEST_F(WellTestGroup, test_collision_between_tetrominos) { // NOLINT
 
 TEST_F(WellTestGroup, test_add_to_well) { // NOLINT
   std::array<std::array<uint8_t, Well::WIDTH>, Well::HEIGHT> expected = well->get_well();
-  expected[19] = {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1};
-  expected[20] = {1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
+  expected[19] = {42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 42};
+  expected[20] = {42, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 42};
 
   std::unique_ptr<Tetromino> tetromino = std::make_unique<L>();
   tetromino->move(4,16);
@@ -68,7 +68,7 @@ TEST_F(WellTestGroup, test_add_to_well) { // NOLINT
 
 TEST_F(WellTestGroup, test_clear_lines) { // NOLINT
   std::array<std::array<uint8_t, Well::WIDTH>, Well::HEIGHT> expected = well->get_well();
-  expected[20] = {1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1};
+  expected[20] = {42, 9, 9, 9, 9, 0, 0, 9, 0, 0, 9, 42};
 
   std::unique_ptr<Tetromino> tetromino = std::make_unique<L>();
   tetromino->move(4,16);

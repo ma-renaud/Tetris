@@ -10,7 +10,7 @@ enum class TetrominoShape { I, O, T, S, Z, J, L, END_OF_SHAPES };
 class Tetromino : public clone_inherit<abstract_method<Tetromino>> {
 public:
   Tetromino() = default;
-  virtual ~Tetromino() = default;
+  ~Tetromino() = default;
 
   TetrominoShape shape() { return _shape; }
   int xpos() { return _xpos; }
@@ -54,7 +54,7 @@ public:
     _ypos = 2;
     matrix.init({{{0, 0, 0, 0},
                   {0, 0, 0, 0},
-                  {1, 1, 1, 1},
+                  {1, 2, 2, 3},
                   {0, 0, 0, 0}}});
   }
 };
@@ -66,8 +66,8 @@ public:
     _xpos = 4;
     _ypos = 2;
     matrix.init({{{0, 0, 0, 0},
-                  {0, 1, 1, 0},
-                  {0, 1, 1, 0},
+                  {0, 4, 4, 0},
+                  {0, 4, 4, 0},
                   {0, 0, 0, 0}}});
   }
 };
@@ -78,8 +78,8 @@ public:
     _shape = TetrominoShape::T;
     _xpos = 4;
     _ypos = 3;
-    matrix.init({{{0, 1, 0},
-                  {1, 1, 1},
+    matrix.init({{{0, 5, 0},
+                  {5, 5, 5},
                   {0, 0, 0}}});
   }
 };
@@ -90,8 +90,8 @@ public:
     _shape = TetrominoShape::S;
     _xpos = 4;
     _ypos = 3;
-    matrix.init({{{0, 1, 1},
-                  {1, 1, 0},
+    matrix.init({{{0, 6, 6},
+                  {6, 6, 0},
                   {0, 0, 0}}});
   }
 };
@@ -102,8 +102,8 @@ public:
     _shape = TetrominoShape::Z;
     _xpos = 4;
     _ypos = 3;
-    matrix.init({{{1, 1, 0},
-                  {0, 1, 1},
+    matrix.init({{{7, 7, 0},
+                  {0, 7, 7},
                   {0, 0, 0}}});
   }
 };
@@ -114,8 +114,8 @@ public:
     _shape = TetrominoShape::J;
     _xpos = 4;
     _ypos = 3;
-    matrix.init({{{1, 0, 0},
-                  {1, 1, 1},
+    matrix.init({{{8, 0, 0},
+                  {8, 8, 8},
                   {0, 0, 0}}});
   }
 };
@@ -126,8 +126,8 @@ public:
     _shape = TetrominoShape::L;
     _xpos = 4;
     _ypos = 3;
-    matrix.init({{{0, 0, 1},
-                  {1, 1, 1},
+    matrix.init({{{0, 0, 9},
+                  {9, 9, 9},
                   {0, 0, 0}}});
   }
 };
