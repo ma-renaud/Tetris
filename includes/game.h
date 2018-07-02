@@ -8,6 +8,7 @@
 #include "tetromino.h"
 #include "well.h"
 #include "tetris_drawer_rect.h"
+#include "bag.h"
 
 class Game {
 public:
@@ -33,8 +34,9 @@ private:
   SDL_Window *window = nullptr;
   SDL_Renderer *renderer = nullptr;
   std::unique_ptr<Tetromino> tetromino;
-  std::unique_ptr<Well> well;
   std::unique_ptr<TetrisDrawer> drawer;
+  Well well;
+  Bag bag;
 };
 
 #endif //TETRIS_GAME_H

@@ -5,7 +5,7 @@
 #include "cloneable.h"
 #include <memory>
 
-enum class TetrominoShape { I, O, T, S, Z, J, L };
+enum class TetrominoShape { I, O, T, S, Z, J, L, END_OF_SHAPES };
 
 class Tetromino : public clone_inherit<abstract_method<Tetromino>> {
 public:
