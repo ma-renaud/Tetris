@@ -68,18 +68,29 @@ TEST_F(WellTestGroup, test_add_to_well) { // NOLINT
 
 TEST_F(WellTestGroup, test_clear_lines) { // NOLINT
   std::array<std::array<uint8_t, Well::WIDTH>, Well::HEIGHT> expected = well->get_well();
-  expected[20] = {42, 9, 9, 9, 9, 0, 0, 9, 0, 0, 9, 42};
+  expected[20] = {42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 42};
 
-  std::unique_ptr<Tetromino> tetromino = std::make_unique<L>();
-  tetromino->move(4,16);
-  well->add_to_well(tetromino.get());
-  tetromino->move(-3,0);
-  well->add_to_well(tetromino.get());
-  tetromino->move(-3,0);
-  well->add_to_well(tetromino.get());
+  std::unique_ptr<Tetromino> tetromino = std::make_unique<I>();
   tetromino->rotate(Rotation::CCW);
-  tetromino->rotate(Rotation::CCW);
-  tetromino->move(-1,-1);
+  tetromino->move(4,15);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-1,0);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-1,0);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-1,0);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-1,0);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-1,0);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-1,0);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-1,0);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-1,0);
+  well->add_to_well(tetromino.get());
+  tetromino->move(-1,0);
   well->add_to_well(tetromino.get());
   well->clear_lines();
 

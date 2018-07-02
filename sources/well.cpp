@@ -64,8 +64,10 @@ void Well::clear_lines() {
           break;
         }
       }
-      if (full_line)
+      if (full_line) {
         clear_line(i);
+        ++i;
+      }
     }
   }
 }
