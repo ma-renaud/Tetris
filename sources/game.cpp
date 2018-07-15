@@ -5,6 +5,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
   drop_time = SDL_GetTicks();
 
+  this->width = width;
+  this->height = height;
+
   Uint32 flags = 0;
   if (fullscreen)
     flags = SDL_WINDOW_FULLSCREEN;
@@ -21,12 +24,18 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
       std::cout << "Renderer created!" << std::endl;
     }
 
+    if (TTF_Init() == -1) {
+      printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+    }
+
+    load_font();
+
     is_running = true;
   } else {
     is_running = false;
   }
 
-  tetromino = bag.next();
+  load_a_tetromino();
   drawer = std::make_unique<TetrisDrawerRect>();
   drawer->set_unit_size(unit_size);
 }
@@ -40,7 +49,15 @@ void Game::handle_events() {
     break;
   }
   case SDL_KEYDOWN: {
-    handle_keys(event.key.keysym.sym);
+    if (!is_game_over)
+      handle_keys(event.key.keysym.sym);
+    else
+    {
+      well.clear();
+      tetromino = bag.next();
+      drop_time += 1000;
+      is_game_over = false;
+    }
     break;
   }
   case SDL_KEYUP: {
@@ -90,7 +107,7 @@ void Game::handle_keys(SDL_Keycode key) {
 }
 
 void Game::update() {
-  if (SDL_GetTicks() > drop_time) {
+  if (!is_game_over and ((SDL_GetTicks() > drop_time))) {
     drop_time += 1000;
     check_drop();
   }
@@ -103,14 +120,38 @@ void Game::render() {
   drawer->draw(renderer, &well);
   drawer->draw(renderer, tetromino.get());
 
+  if (is_game_over)
+    text.render(renderer, (width - text.getWidth()) / 2, (height - text.getHeight() - 10));
+
   SDL_RenderPresent(renderer);
 }
 
 void Game::clean() {
+  //Free global font
+  TTF_CloseFont(font);
+  font = nullptr;
+
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
   std::cout << "Game Cleaned!" << std::endl;
+}
+
+bool Game::running() {
+  return is_running;
+}
+
+void Game::load_font() {
+  font = TTF_OpenFont("LVDC_Game_Over.ttf", 16);
+  if (font == nullptr) {
+    printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
+  } else {
+    //Render text
+    SDL_Color textColor = {0, 0, 0};
+    if (!text.loadFromRenderedText(renderer, font, "Game Over!", textColor)) {
+      printf("Failed to render text texture!\n");
+    }
+  }
 }
 
 void Game::check_drop() {
@@ -121,10 +162,18 @@ void Game::check_drop() {
   else {
     well.add_to_well(tetromino.get());
     well.clear_lines();
-    tetromino = bag.next();
+    load_a_tetromino();
   }
 }
 
-bool Game::running() {
-  return is_running;
+void Game::check_game_over() {
+  is_game_over = (tetromino->ypos() == 0);
+}
+
+void Game::load_a_tetromino() {
+  tetromino = bag.next();
+  while(!is_game_over and well.is_collision(tetromino.get())) {
+    tetromino->move(0, -1);
+    check_game_over();
+  }
 }

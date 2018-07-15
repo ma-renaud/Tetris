@@ -7,10 +7,7 @@ Well::Well() {
 
 void Well::init() {
   empty_line = {42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 42};
-  for (int i = 0; i < HEIGHT - 1; i++) {
-    well[i] = empty_line;
-  }
-  well[HEIGHT - 1] = {42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42};
+  clear();
 }
 
 uint8_t Well::get_tile(int x, int y) {
@@ -76,4 +73,11 @@ void Well::clear_line(int line_index) {
   for (int i = line_index; i > 0; i--) {
     well[i] = well[i-1];
   }
+}
+
+void Well::clear() {
+  for (int i = 0; i < HEIGHT - 1; i++) {
+    well[i] = empty_line;
+  }
+  well[HEIGHT - 1] = {42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42};
 }

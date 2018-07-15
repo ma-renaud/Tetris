@@ -17,6 +17,7 @@ public:
   bool is_collision(Tetromino* tetromino);
   void add_to_well(Tetromino* tetromino);
   void clear_lines();
+  void clear();
 
 protected:
   std::array<std::array<uint8_t, WIDTH>, HEIGHT> well;
