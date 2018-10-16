@@ -14,6 +14,7 @@ public:
     case TetrominoShape::Z :return std::make_unique<Z>();
     case TetrominoShape::J :return std::make_unique<J>();
     case TetrominoShape::L :return std::make_unique<L>();
+    default :return std::make_unique<I>();
     }
   }
 };

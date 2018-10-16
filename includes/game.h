@@ -41,7 +41,7 @@ private:
   std::unique_ptr<TetrisDrawer> drawer;
   Well well;
   Bag bag;
-  Texture text;
+  Texture game_over;
   TTF_Font *font = nullptr;
 
   void load_font();

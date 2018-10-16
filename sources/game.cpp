@@ -121,7 +121,7 @@ void Game::render() {
   drawer->draw(renderer, tetromino.get());
 
   if (is_game_over)
-    text.render(renderer, (width - text.getWidth()) / 2, (height - text.getHeight() - 10));
+    game_over.render(renderer, (width - game_over.getWidth()) / 2, (height - game_over.getHeight() - 10));
 
   SDL_RenderPresent(renderer);
 }
@@ -144,12 +144,12 @@ bool Game::running() {
 void Game::load_font() {
   font = TTF_OpenFont("LVDC_Game_Over.ttf", 16);
   if (font == nullptr) {
-    printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
+    printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
   } else {
-    //Render text
+    //Render game_over
     SDL_Color textColor = {0, 0, 0};
-    if (!text.loadFromRenderedText(renderer, font, "Game Over!", textColor)) {
-      printf("Failed to render text texture!\n");
+    if (!game_over.loadFromRenderedText(renderer, font, "Game Over!", textColor)) {
+      printf("Failed to render game_over texture!\n");
     }
   }
 }
