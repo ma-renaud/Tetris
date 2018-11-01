@@ -26,14 +26,21 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
     if (TTF_Init() == -1) {
       printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+    } else {
+      font = TTF_OpenFont("LVDC_Game_Over.ttf", 16);
+      if (font == nullptr) {
+        printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
+      }
     }
 
-    load_font();
+    load_text();
 
     is_running = true;
   } else {
     is_running = false;
   }
+
+  menu = std::make_unique<Menu>((width - Menu::get_width()) / 2, (height - Menu::get_height()) / 2 - 75);
 
   load_a_tetromino();
   drawer = std::make_unique<TetrisDrawerRect>();
@@ -51,8 +58,7 @@ void Game::handle_events() {
   case SDL_KEYDOWN: {
     if (!is_game_over)
       handle_keys(event.key.keysym.sym);
-    else
-    {
+    else {
       well.clear();
       tetromino = bag.next();
       drop_time += 1000;
@@ -107,10 +113,10 @@ void Game::handle_keys(SDL_Keycode key) {
 }
 
 void Game::update() {
-  if (!is_game_over and ((SDL_GetTicks() > drop_time))) {
-    drop_time += 1000;
-    check_drop();
-  }
+//  if (!is_game_over and ((SDL_GetTicks() > drop_time))) {
+//    drop_time += 1000;
+//    check_drop();
+//  }
 }
 
 void Game::render() {
@@ -120,8 +126,10 @@ void Game::render() {
   drawer->draw(renderer, &well);
   drawer->draw(renderer, tetromino.get());
 
+  menu->render(renderer);
+
   if (is_game_over)
-    game_over.render(renderer, (width - game_over.getWidth()) / 2, (height - game_over.getHeight() - 10));
+    game_over.render(renderer, (width - game_over.get_width()) / 2, (height - game_over.get_height() - 10));
 
   SDL_RenderPresent(renderer);
 }
@@ -141,11 +149,8 @@ bool Game::running() {
   return is_running;
 }
 
-void Game::load_font() {
-  font = TTF_OpenFont("LVDC_Game_Over.ttf", 16);
-  if (font == nullptr) {
-    printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
-  } else {
+void Game::load_text() {
+  if (font != nullptr) {
     //Render game_over
     SDL_Color textColor = {0, 0, 0};
     if (!game_over.loadFromRenderedText(renderer, font, "Game Over!", textColor)) {
@@ -172,7 +177,7 @@ void Game::check_game_over() {
 
 void Game::load_a_tetromino() {
   tetromino = bag.next();
-  while(!is_game_over and well.is_collision(tetromino.get())) {
+  while (!is_game_over and well.is_collision(tetromino.get())) {
     tetromino->move(0, -1);
     check_game_over();
   }

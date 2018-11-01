@@ -11,6 +11,7 @@
 #include "tetris_drawer_rect.h"
 #include "bag.h"
 #include "texture.h"
+#include "menu.h"
 
 class Game {
 public:
@@ -39,12 +40,13 @@ private:
   SDL_Renderer *renderer = nullptr;
   std::unique_ptr<Tetromino> tetromino;
   std::unique_ptr<TetrisDrawer> drawer;
+  std::unique_ptr<Menu> menu;
   Well well;
   Bag bag;
   Texture game_over;
   TTF_Font *font = nullptr;
 
-  void load_font();
+  void load_text();
   void check_drop();
   void check_game_over();
   void load_a_tetromino();
