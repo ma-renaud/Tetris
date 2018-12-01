@@ -1,8 +1,8 @@
 #include <SDL.h>
-#include "game.h"
+#include "tetris.h"
 
 int main(int /*argc*/, char */*argv*/[]) {
-  Game game;
+  Tetris game;
   game.init("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 720 / 2 + 300, 720, false); // NOLINT
 
   const int FPS = 60;

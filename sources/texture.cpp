@@ -135,12 +135,12 @@ void Texture::render(SDL_Renderer *renderer, int x, int y, SDL_Rect* clip, doubl
   SDL_RenderCopyEx( renderer, mTexture, clip, &renderQuad, angle, center, flip );
 }
 
-int Texture::get_width()
+int Texture::get_width() const
 {
   return mWidth;
 }
 
-int Texture::get_height()
+int Texture::get_height() const
 {
   return mHeight;
 }

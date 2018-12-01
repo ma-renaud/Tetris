@@ -38,8 +38,8 @@ public:
   void render(SDL_Renderer *renderer, int x, int y, SDL_Rect* clip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE );
 
   //Gets image dimensions
-  int get_width();
-  int get_height();
+  int get_width() const;
+  int get_height() const;
 
 private:
   //The actual hardware texture
