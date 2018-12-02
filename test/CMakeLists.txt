@@ -13,7 +13,6 @@ ExternalProject_Add(
         CMAKE_ARGS -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
         # Disable install step
         INSTALL_COMMAND ""
-        BUILD_BYPRODUCTS ${binary_dir}/lib/gtestd.lib
 )
 
 # Get GTest source and binary directories from CMake project
@@ -31,7 +30,7 @@ IF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
         )
 ELSE()
     set_target_properties(libgtest PROPERTIES
-        "IMPORTED_LOCATION" "${binary_dir}/googlemock/gtest/libgtest.a"
+        "IMPORTED_LOCATION" "${binary_dir}/lib/libgtest.a"
         "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
         )
 ENDIF()
@@ -47,8 +46,8 @@ IF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
         "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
         )
 ELSE()
-    set_target_properties(libgtest PROPERTIES
-        "IMPORTED_LOCATION" "${binary_dir}/googlemock/gtest/libgtest.a"
+    set_target_properties(libgmock PROPERTIES
+        "IMPORTED_LOCATION" "${binary_dir}/lib/libgmock.a"
         "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
         )
 ENDIF()
@@ -57,9 +56,6 @@ ENDIF()
 include_directories("${source_dir}/googletest/include"
         "${source_dir}/googlemock/include"
         "../include")
-
-message(STATUS "${source_dir}")
-message(STATUS "${binary_dir}")
 
 include_directories("includes")
 include_directories("../includes")
