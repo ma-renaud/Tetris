@@ -21,6 +21,11 @@ include_directories(includes
 file(GLOB_RECURSE HEADER_FILES "includes/*.h")
 file(GLOB_RECURSE SOURCE_FILES "sources/*.cpp")
 
+#Hide console when built with visual studio
+IF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
+endif()
+
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}

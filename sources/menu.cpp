@@ -18,7 +18,7 @@ Menu::Menu(int xpos, int ypos, TTF_Font *font, SDL_Renderer *renderer, Game *gam
                                                                                      ypos(ypos),
                                                                                      game(game) {
 
-  arrow.loadFromFile(renderer, "../images/arrow.png");
+  arrow.loadFromFile(renderer, "./arrow.png");
 
   if (font != nullptr) {
     //Render game_over

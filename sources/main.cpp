@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include "tetris.h"
 
-int main(int /*argc*/, char */*argv*/[]) {
+int main(int argc, char*argv[]) {
   Tetris game;
   game.init("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 720 / 2 + 300, 720, false); // NOLINT
 
