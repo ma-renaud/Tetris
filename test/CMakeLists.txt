@@ -1,5 +1,6 @@
 project(tetris C CXX)
 cmake_minimum_required(VERSION 3.5.0)
+set(CMAKE_CXX_STANDARD 14)
 
 # Enable ExternalProject CMake module
 include(ExternalProject)
@@ -12,6 +13,7 @@ ExternalProject_Add(
         CMAKE_ARGS -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
         # Disable install step
         INSTALL_COMMAND ""
+        BUILD_BYPRODUCTS ${binary_dir}/lib/gtestd.lib
 )
 
 # Get GTest source and binary directories from CMake project
@@ -22,27 +24,42 @@ add_library(libgtest IMPORTED STATIC GLOBAL)
 add_dependencies(libgtest gtest)
 
 # Set libgtest properties
-set_target_properties(libgtest PROPERTIES
+IF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+    set_target_properties(libgtest PROPERTIES
+        "IMPORTED_LOCATION" "${binary_dir}/lib/Debug/gtestd.lib"
+        "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
+        )
+ELSE()
+    set_target_properties(libgtest PROPERTIES
         "IMPORTED_LOCATION" "${binary_dir}/googlemock/gtest/libgtest.a"
         "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
         )
+ENDIF()
 
 # Create a libgmock target to be used as a dependency by matrix programs
 add_library(libgmock IMPORTED STATIC GLOBAL)
 add_dependencies(libgmock gtest)
 
 # Set libgmock properties
-set_target_properties(libgmock PROPERTIES
-        "IMPORTED_LOCATION" "${binary_dir}/googlemock/libgmock.a"
+IF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+    set_target_properties(libgmock PROPERTIES
+        "IMPORTED_LOCATION" "${binary_dir}/lib/Debug/gmockd.lib"
         "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
         )
+ELSE()
+    set_target_properties(libgtest PROPERTIES
+        "IMPORTED_LOCATION" "${binary_dir}/googlemock/gtest/libgtest.a"
+        "IMPORTED_LINK_INTERFACE_LIBRARIES" "${CMAKE_THREAD_LIBS_INIT}"
+        )
+ENDIF()
 
 # I couldn't make it work with INTERFACE_INCLUDE_DIRECTORIES
 include_directories("${source_dir}/googletest/include"
         "${source_dir}/googlemock/include"
         "../include")
 
-set(CMAKE_CXX_STANDARD 14)
+message(STATUS "${source_dir}")
+message(STATUS "${binary_dir}")
 
 include_directories("includes")
 include_directories("../includes")
@@ -55,6 +72,11 @@ IF(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
+
+IF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
+    SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd /Z7 /Od")
+    SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /MTd /Z7 /Od")
+ENDIF()
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
