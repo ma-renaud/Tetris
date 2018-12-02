@@ -18,7 +18,7 @@ Menu::Menu(int xpos, int ypos, TTF_Font *font, SDL_Renderer *renderer, Game *gam
                                                                                      ypos(ypos),
                                                                                      game(game) {
 
-  arrow.loadFromFile(renderer, "./arrow.png");
+  arrow.loadFromFile(renderer, "../assets/images/arrow.png");
 
   if (font != nullptr) {
     //Render game_over
@@ -50,6 +50,11 @@ void Menu::handle_keys(SDL_Keycode key) {
     }
     case SDLK_RETURN: {
       exec_option();
+      break;
+    }
+    case SDLK_ESCAPE: {
+      game->unpause();
+      selected_index = 0;
       break;
     }
     default:break;
