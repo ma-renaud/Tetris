@@ -30,7 +30,9 @@ void TetrisDrawerRect::draw(SDL_Renderer *renderer, Well *well) {
 
 Color TetrisDrawerRect::get_tetromino_color(int tile) {
   switch (tile) {
-  case 1 ... 3  :return Color(49, 199, 239);
+  case 1:
+  case 2:
+  case 3        :return Color(49, 199, 239);
   case 4        :return Color(247, 211, 8);
   case 5        :return Color(173, 77, 156);
   case 6        :return Color(66, 182, 66);

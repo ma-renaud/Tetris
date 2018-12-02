@@ -24,7 +24,7 @@ void Bag::fill() {
       }
 
       if (exceed_S_or_Z_streak(tetromino->shape())) {
-        while (tetromino->shape() == TetrominoShape::S or tetromino->shape() == TetrominoShape::Z) {
+        while (tetromino->shape() == TetrominoShape::S || tetromino->shape() == TetrominoShape::Z) {
           tetromino.reset();
           tetromino = TetrominoFactory::getTetromino(static_cast<TetrominoShape>(shapes(prng)));
         }
@@ -46,8 +46,8 @@ bool Bag::exceed_I_interval(TetrominoShape shape) {
 }
 
 bool Bag::exceed_S_or_Z_streak(TetrominoShape shape) {
-  if ((shape == TetrominoShape::S or shape == TetrominoShape::Z) and
-      (bag.front()->shape() == TetrominoShape::S or bag.front()->shape() == TetrominoShape::Z))
+  if ((shape == TetrominoShape::S || shape == TetrominoShape::Z) &&
+      (bag.front()->shape() == TetrominoShape::S || bag.front()->shape() == TetrominoShape::Z))
     ++S_or_Z_streak;
   else
     S_or_Z_streak = 0;

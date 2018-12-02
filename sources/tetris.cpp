@@ -121,7 +121,7 @@ void Tetris::handle_keys(SDL_Keycode key) {
 }
 
 void Tetris::update() {
-  if (!is_game_over and !is_paused and ((SDL_GetTicks() > drop_time))) {
+  if (!is_game_over && !is_paused && ((SDL_GetTicks() > drop_time))) {
     drop_time += 1000;
     check_drop();
   }
@@ -194,7 +194,7 @@ void Tetris::check_game_over() {
 
 void Tetris::load_a_tetromino() {
   tetromino = bag.next();
-  while (!is_game_over and well.is_collision(tetromino.get())) {
+  while (!is_game_over && well.is_collision(tetromino.get())) {
     tetromino->move(0, -1);
     check_game_over();
   }

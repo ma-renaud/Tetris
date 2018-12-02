@@ -6,6 +6,7 @@
 /matrix-debug/
 /.idea/*
 /test/.idea/*
+.vs
 
 .metadata
 bin/

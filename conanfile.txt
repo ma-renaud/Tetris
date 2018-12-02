@@ -1,0 +1,7 @@
+[requires]
+sdl2/2.0.9@bincrafters/stable
+sdl2_image/2.0.4@bincrafters/stable
+sdl2_ttf/2.0.14@bincrafters/stable
+
+[generators]
+cmake
