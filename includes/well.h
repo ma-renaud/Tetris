@@ -16,7 +16,7 @@ public:
   bool is_block(int x, int y);
   bool is_collision(Tetromino* tetromino);
   void add_to_well(Tetromino* tetromino);
-  void clear_lines();
+  int clear_lines();
   void clear();
 
 protected:

@@ -50,7 +50,8 @@ void Well::add_to_well(Tetromino *tetromino) {
   }
 }
 
-void Well::clear_lines() {
+int Well::clear_lines() {
+  int nb_lines = 0;
   bool full_line;
   for (int i = HEIGHT - 2; i >= 0; i--) {
     if (well[i] != empty_line) {
@@ -63,10 +64,12 @@ void Well::clear_lines() {
       }
       if (full_line) {
         clear_line(i);
+        nb_lines++;
         ++i;
       }
     }
   }
+  return nb_lines;
 }
 
 void Well::clear_line(int line_index) {

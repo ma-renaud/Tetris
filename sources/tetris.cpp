@@ -183,8 +183,23 @@ void Tetris::check_drop() {
     tetromino = std::move(copy);
   else {
     well.add_to_well(tetromino.get());
-    well.clear_lines();
+    update_score(well.clear_lines());
     load_a_tetromino();
+  }
+}
+
+void Tetris::update_score(int nb_lines) {
+  if (nb_lines > 0) {
+    score += line_points[nb_lines - 1] * (level + 1);
+    update_level(nb_lines);
+  }
+}
+
+void Tetris::update_level(int nb_lines) {
+  line_cleared += line_awards[nb_lines-1];
+  if(line_cleared >= (level+1)*5){
+    line_cleared = 0;
+    level++;
   }
 }
 
