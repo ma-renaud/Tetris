@@ -56,8 +56,8 @@ int Well::clear_lines() {
   for (int i = HEIGHT - 2; i >= 0; i--) {
     if (well[i] != empty_line) {
       full_line = true;
-      for (int j = 1; j < WIDTH-1; j++) {
-        if (!is_block(i, j)){
+      for (int j = 1; j < WIDTH - 1; j++) {
+        if (!is_block(i, j)) {
           full_line = false;
           break;
         }
@@ -74,7 +74,7 @@ int Well::clear_lines() {
 
 void Well::clear_line(int line_index) {
   for (int i = line_index; i > 0; i--) {
-    well[i] = well[i-1];
+    well[i] = well[i - 1];
   }
 }
 

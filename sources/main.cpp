@@ -3,7 +3,7 @@
 
 int main(int argc, char*argv[]) {
   Tetris game;
-  game.init("Tetris", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 720 / 2 + 300, 720, false); // NOLINT
+  game.init("Tetris", SDL_WINDOWPOS_CENTERED_DISPLAY(1), SDL_WINDOWPOS_CENTERED_DISPLAY(1), 720 / 2 + 300, 720, false); // NOLINT
 
   const int FPS = 60;
   const int FRAME_DELAY = 1000 / FPS;

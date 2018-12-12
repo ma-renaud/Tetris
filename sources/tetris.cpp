@@ -47,7 +47,7 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
                                 this);
 
   load_a_tetromino();
-  drawer = std::make_unique<TetrisDrawerRect>();
+  drawer = std::make_unique<TetrisDrawerRect>(font, renderer);
   drawer->set_unit_size(unit_size);
 }
 
@@ -131,8 +131,9 @@ void Tetris::render() {
   SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
   SDL_RenderClear(renderer);
 
-  drawer->draw(renderer, &well);
-  drawer->draw(renderer, tetromino.get());
+  drawer->draw(&well);
+  drawer->draw(tetromino.get());
+  drawer->draw(&score);
 
   if (is_paused)
     menu->render();

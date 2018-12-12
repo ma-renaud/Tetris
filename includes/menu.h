@@ -16,7 +16,7 @@ class Menu {
   static const Color FRAME_COLOR;
   static const Color BACKGROUD_COLOR;
 
-public:
+ public:
   Menu(int xpos, int ypos, TTF_Font *font, SDL_Renderer *renderer, Game *game);
   ~Menu() = default;
 
@@ -25,7 +25,7 @@ public:
   void handle_keys(SDL_Keycode key);
   void render();
 
-private:
+ private:
   int xpos;
   int ypos;
   int selected_index = 0;

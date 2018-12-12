@@ -7,16 +7,16 @@
 #include "score_lvl.h"
 
 class TetrisDrawer {
-public:
+ public:
   TetrisDrawer() = default;
   virtual ~TetrisDrawer() = default;
 
-  virtual void draw(SDL_Renderer *renderer, Tetromino* tetromino) = 0;
-  virtual void draw(SDL_Renderer *renderer, Well* well) = 0;
-  virtual void draw(SDL_Renderer *renderer, ScoreLvl* score) = 0;
+  virtual void draw(Tetromino *tetromino) = 0;
+  virtual void draw(Well *well) = 0;
+  virtual void draw(ScoreLvl *score) = 0;
   void set_unit_size(int unit_size) { this->unit_size = unit_size; }
 
-protected:
+ protected:
   static constexpr int TOP_OFFSET = 2;
   int unit_size = 0;
 };

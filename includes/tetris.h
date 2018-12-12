@@ -16,7 +16,7 @@
 #include "score_lvl.h"
 
 class Tetris : public Game {
-public:
+ public:
   Tetris() = default;
   ~Tetris() = default;
 
@@ -27,14 +27,17 @@ public:
   void update();
   void render();
   void clean();
-  void pause() override {is_paused = true;}
-  void unpause() override {is_paused = false; drop_time = SDL_GetTicks()+500; }
-  void quit() override {is_running = false;}
+  void pause() override { is_paused = true; }
+  void unpause() override {
+    is_paused = false;
+    drop_time = SDL_GetTicks() + 500;
+  }
+  void quit() override { is_running = false; }
   void restart() override;
 
   bool running();
 
-private:
+ private:
   int width = 0;
   int height = 0;
   bool is_running = false;
