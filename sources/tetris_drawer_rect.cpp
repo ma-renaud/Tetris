@@ -1,3 +1,6 @@
+
+#include <tetris_drawer_rect.h>
+
 #include "tetris_drawer_rect.h"
 
 void TetrisDrawerRect::draw(SDL_Renderer *renderer, Tetromino* tetromino) {
@@ -28,19 +31,23 @@ void TetrisDrawerRect::draw(SDL_Renderer *renderer, Well *well) {
   }
 }
 
+void TetrisDrawerRect::draw(SDL_Renderer *renderer, ScoreLvl *score) {
+
+}
+
 Color TetrisDrawerRect::get_tetromino_color(int tile) {
   switch (tile) {
   case 1:
   case 2:
-  case 3        :return Color(49, 199, 239);
-  case 4        :return Color(247, 211, 8);
-  case 5        :return Color(173, 77, 156);
-  case 6        :return Color(66, 182, 66);
-  case 7        :return Color(239, 32, 41);
-  case 8        :return Color(90, 101, 173);
-  case 9        :return Color(239, 121, 33);
-  case 42       :return Color(127, 64, 20);
-  default       :return Color(255, 255, 255, 0);
+  case 3        :return {49, 199, 239};
+  case 4        :return {247, 211, 8};
+  case 5        :return {173, 77, 156};
+  case 6        :return {66, 182, 66};
+  case 7        :return {239, 32, 41};
+  case 8        :return {90, 101, 173};
+  case 9        :return {239, 121, 33};
+  case 42       :return {127, 64, 20};
+  default       :return {255, 255, 255, 0};
   }
 }
 

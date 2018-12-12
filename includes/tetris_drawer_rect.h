@@ -11,6 +11,7 @@ public:
 
   void draw(SDL_Renderer *renderer, Tetromino* tetromino) override;
   void draw(SDL_Renderer *renderer, Well* well) override;
+  void draw(SDL_Renderer *renderer, ScoreLvl* score) override;
 
   Color get_tetromino_color(int tile);
 

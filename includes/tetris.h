@@ -13,6 +13,7 @@
 #include "texture.h"
 #include "menu.h"
 #include "game.h"
+#include "score_lvl.h"
 
 class Tetris : public Game {
 public:
@@ -39,11 +40,6 @@ private:
   bool is_running = false;
   bool is_game_over = false;
   bool is_paused = false;
-  int level = 0;
-  int score = 0;
-  int line_cleared = 0;
-  int line_points[4] = {40, 100, 300, 1200};
-  int line_awards[4] = {1, 3, 5, 8};
   static constexpr int unit_size = 26;
   uint32_t drop_time = 0;
   SDL_Keycode pressed_key = SDLK_UNKNOWN;
@@ -56,11 +52,10 @@ private:
   Bag bag;
   Texture game_over;
   TTF_Font *font = nullptr;
+  ScoreLvl score;
 
   void load_text();
   void check_drop();
-  void update_score(int nb_lines);
-  void update_level(int nb_lines);
   void check_game_over();
   void load_a_tetromino();
 };

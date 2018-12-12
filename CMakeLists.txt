@@ -26,7 +26,7 @@ IF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 endif()
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES} includes/score_lvl.h sources/score_lvl.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}
                                       ${SDL2_IMAGE_LIBRARIES}
