@@ -26,14 +26,14 @@ class Menu {
   void render();
 
  private:
-  int xpos;
-  int ypos;
+  int xpos = 0;
+  int ypos = 0;
   int selected_index = 0;
   SDL_Rect background;
   SDL_Rect frame;
-  TTF_Font *font;
-  SDL_Renderer *renderer;
-  Game *game;
+  TTF_Font *font = nullptr;
+  SDL_Renderer *renderer = nullptr;
+  Game *game = nullptr;
 
   Texture arrow;
   Texture title;

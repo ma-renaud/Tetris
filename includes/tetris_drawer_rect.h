@@ -18,7 +18,7 @@ class TetrisDrawerRect : public TetrisDrawer {
   Color get_tetromino_color(int tile);
 
  private:
-  static constexpr SDL_Color textColor = {0, 0, 0};
+  static constexpr SDL_Color textColor = {0, 0, 0, 255};
   TTF_Font *font;
   SDL_Renderer *renderer;
   Texture score_header;

@@ -11,7 +11,7 @@ void Well::init() {
 }
 
 uint8_t Well::get_tile(int x, int y) {
-  if (x < well.size() && y < well.at(static_cast<unsigned long>(x)).size())
+  if (static_cast<unsigned long>(x) < well.size() && static_cast<unsigned long>(y) < well.at(static_cast<unsigned long>(x)).size())
     return well.at(static_cast<unsigned long>(x)).at(static_cast<unsigned long>(y));
   else
     return 0;
@@ -36,7 +36,7 @@ bool Well::is_collision(Tetromino *tetromino) {
 }
 
 void Well::add_to_well(Tetromino *tetromino) {
-  int row, col;
+  std::size_t row, col;
   uint8_t tile;
   for (int i = 0; i < tetromino->matrix_size(); i++) {
     for (int j = 0; j < tetromino->matrix_size(); j++) {

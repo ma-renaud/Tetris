@@ -29,8 +29,8 @@ public:
 private:
   std::array<std::array<T, N>, N> data;
   void rotate_ccw() {
-    for (int x = 0; x < N / 2; x++) {
-      for (int y = x; y < N - x - 1; y++) {
+    for (std::size_t x = 0; x < N / 2; x++) {
+      for (std::size_t y = x; y < N - x - 1; y++) {
         int temp = data[x][y];
         data[x][y] = data[y][N - 1 - x];
         data[y][N - 1 - x] = data[N - 1 - x][N - 1 - y];
@@ -41,8 +41,8 @@ private:
   }
 
   void rotate_cw() {
-    for (int x = 0; x < N / 2; x++) {
-      for (int y = x; y < N - x - 1; y++) {
+    for (std::size_t x = 0; x < N / 2; x++) {
+      for (std::size_t y = x; y < N - x - 1; y++) {
         int temp = data[x][y];
         data[x][y] = data[N - 1 - y][x];
         data[N - 1 - y][x] = data[N - 1 - x][N - 1 - y];

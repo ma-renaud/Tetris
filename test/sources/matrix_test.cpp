@@ -10,8 +10,8 @@ public:
 
   template<std::size_t N>
   void init_matrix(SquareMatrix<int, N> &toInit) {
-    for (int i = 0; i < toInit.size(); i++) {
-      for (int j = 0; j < toInit.size(); j++) {
+    for (std::size_t i = 0; i < toInit.size(); i++) {
+      for (std::size_t j = 0; j < toInit.size(); j++) {
         toInit(i, j) = static_cast<int>(i * N + j + 1);
       }
     }

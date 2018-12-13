@@ -63,7 +63,8 @@ include_directories("../includes")
 file(GLOB HEADER_FILES "../includes/*.h")
 file(GLOB_RECURSE SOURCE_FILES "sources/*.cpp"
                                "../sources/well.cpp"
-                               "../sources/bag.cpp")
+                               "../sources/bag.cpp"
+                               "../sources/score_lvl.cpp")
 IF(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
     set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
@@ -77,5 +78,5 @@ ENDIF()
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 
-add_executable(TestingWithGTest ${SOURCE_FILES} ${HEADER_FILES})
+add_executable(TestingWithGTest ${SOURCE_FILES} ${HEADER_FILES} sources/source_lvl_test.cpp)
 target_link_libraries(TestingWithGTest Threads::Threads libgtest libgmock)

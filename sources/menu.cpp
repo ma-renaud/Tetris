@@ -1,10 +1,12 @@
 #include <menu.h>
 #include <algorithm>    // std::min
 
-const Color Menu::FRAME_COLOR = {0, 0, 0};
-const Color Menu::BACKGROUD_COLOR = {255, 255, 255};
+const Color Menu::FRAME_COLOR = {0, 0, 0, 255};
+const Color Menu::BACKGROUD_COLOR = {255, 255, 255, 255};
 
-Menu::Menu(int xpos, int ypos, TTF_Font *font, SDL_Renderer *renderer, Game *game) : background{xpos + FRAME_THIKCNESS,
+Menu::Menu(int xpos, int ypos, TTF_Font *font, SDL_Renderer *renderer, Game *game) : xpos(xpos),
+                                                                                     ypos(ypos),
+                                                                                     background{xpos + FRAME_THIKCNESS,
                                                                                                 ypos + FRAME_THIKCNESS,
                                                                                                 WIDTH,
                                                                                                 HEIGHT},
@@ -14,15 +16,13 @@ Menu::Menu(int xpos, int ypos, TTF_Font *font, SDL_Renderer *renderer, Game *gam
                                                                                                + FRAME_THIKCNESS * 2},
                                                                                      font(font),
                                                                                      renderer(renderer),
-                                                                                     xpos(xpos),
-                                                                                     ypos(ypos),
                                                                                      game(game) {
 
   arrow.loadFromFile(renderer, "../assets/images/arrow.png");
 
   if (font != nullptr) {
     //Render game_over
-    SDL_Color textColor = {0, 0, 0};
+    SDL_Color textColor = {0, 0, 0, 255};
     if (!title.loadFromRenderedText(renderer, font, "Pause", textColor)) {
       printf("Failed to render \"title\" texture!\n");
     }
@@ -41,11 +41,11 @@ Menu::Menu(int xpos, int ypos, TTF_Font *font, SDL_Renderer *renderer, Game *gam
 void Menu::handle_keys(SDL_Keycode key) {
   switch (key) {
     case SDLK_DOWN: {
-      selected_index = std::min(++selected_index, static_cast<int>(options.size() - 1));
+      selected_index = std::min(selected_index+1, static_cast<int>(options.size() - 1));
       break;
     }
     case SDLK_UP: {
-      selected_index = std::max(--selected_index, 0);
+      selected_index = std::max(selected_index-1, 0);
       break;
     }
     case SDLK_RETURN: {

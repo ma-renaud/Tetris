@@ -1,12 +1,15 @@
 #include <iostream>
 #include <tetris.h>
 
-void Tetris::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
+constexpr int Tetris::frame_per_row[];
+
+void Tetris::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps) {
 
   drop_time = SDL_GetTicks();
 
   this->width = width;
   this->height = height;
+  this->fps = fps;
 
   Uint32 flags = 0;
   if (fullscreen)
@@ -121,8 +124,15 @@ void Tetris::handle_keys(SDL_Keycode key) {
 }
 
 void Tetris::update() {
+  static int last_level = -1;
+  static int delay;
+  if(last_level != score.get_level()){
+    last_level = score.get_level();
+    delay = get_speed_ms();
+  }
+
   if (!is_game_over && !is_paused && ((SDL_GetTicks() > drop_time))) {
-    drop_time += 1000;
+    drop_time += delay;
     check_drop();
   }
 }
@@ -170,7 +180,7 @@ bool Tetris::running() {
 void Tetris::load_text() {
   if (font != nullptr) {
     //Render game_over
-    SDL_Color textColor = {0, 0, 0};
+    SDL_Color textColor = {0, 0, 0, 255};
     if (!game_over.loadFromRenderedText(renderer, font, "Game Over!", textColor)) {
       printf("Failed to render game_over texture!\n");
     }
@@ -199,4 +209,8 @@ void Tetris::load_a_tetromino() {
     tetromino->move(0, -1);
     check_game_over();
   }
+}
+
+int Tetris::get_speed_ms() {
+  return (1000*frame_per_row[std::min(score.get_level(), ScoreLvl::MAX_SPEED_LEVEL-1)]/fps);
 }

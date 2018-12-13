@@ -2,11 +2,14 @@
 #include "tetris.h"
 
 int main(int argc, char*argv[]) {
-  Tetris game;
-  game.init("Tetris", SDL_WINDOWPOS_CENTERED_DISPLAY(1), SDL_WINDOWPOS_CENTERED_DISPLAY(1), 720 / 2 + 300, 720, false); // NOLINT
-
+  std::ignore = argc;
+  std::ignore = argv;
   const int FPS = 60;
   const int FRAME_DELAY = 1000 / FPS;
+
+  Tetris game;
+  game.init("Tetris", SDL_WINDOWPOS_CENTERED_DISPLAY(1), SDL_WINDOWPOS_CENTERED_DISPLAY(1), 720 / 2 + 300, 720, false, FPS); // NOLINT
+
   uint32_t frame_start;
   uint32_t frame_time;
 
