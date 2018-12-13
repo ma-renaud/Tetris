@@ -168,6 +168,7 @@ void Tetris::clean() {
 void Tetris::restart() {
   well.clear();
   tetromino = bag.next();
+  score.restart();
   drop_time = SDL_GetTicks() + 1000;
   is_game_over = false;
   is_paused = false;

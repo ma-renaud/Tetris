@@ -7,6 +7,7 @@ class ScoreLvl {
   ~ScoreLvl() = default;
 
   void update(int nb_lines_cleared);
+  void restart();
   int get_score() { return score; }
   int get_level() { return level; }
 

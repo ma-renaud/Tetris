@@ -10,6 +10,12 @@ void ScoreLvl::update(int nb_lines_cleared) {
   }
 }
 
+void ScoreLvl::restart() {
+  score = 0;
+  level = 0;
+  line_cleared = 0;
+}
+
 void ScoreLvl::update_score(int nb_lines) {
   score += ScoreLvl::line_points[nb_lines - 1] * (level + 1);
 }
