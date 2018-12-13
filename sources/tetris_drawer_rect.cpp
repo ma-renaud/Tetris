@@ -88,24 +88,24 @@ void TetrisDrawerRect::draw(ScoreLvl *score) {
   level.render(renderer, XPOS + ((WIDTH - 1) * unit_size - level.get_width()) / 2, LEVEL_HEADER_YPOS + unit_size);
 }
 
-Color TetrisDrawerRect::get_tetromino_color(int tile) {
+SDL_Color TetrisDrawerRect::get_tetromino_color(int tile) {
   switch (tile) {
     case 1:
     case 2:
-    case 3        :return {49, 199, 239};
-    case 4        :return {247, 211, 8};
-    case 5        :return {173, 77, 156};
-    case 6        :return {66, 182, 66};
-    case 7        :return {239, 32, 41};
-    case 8        :return {90, 101, 173};
-    case 9        :return {239, 121, 33};
-    case 42       :return {127, 64, 20};
-    default       :return {255, 255, 255, 0};
+    case 3        :return {49, 199, 239, 255};
+    case 4        :return {247, 211, 8, 255};
+    case 5        :return {173, 77, 156, 255};
+    case 6        :return {66, 182, 66, 255};
+    case 7        :return {239, 32, 41, 255};
+    case 8        :return {90, 101, 173, 255};
+    case 9        :return {239, 121, 33, 255};
+    case 42       :return {127, 64, 20, 255};
+    default       :return {255, 255, 255, 255};
   }
 }
 
-void TetrisDrawerRect::draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, Color color) {
-  SDL_SetRenderDrawColor(renderer, color.red(), color.green(), color.blue(), color.alpha());
+void TetrisDrawerRect::draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color) {
+  SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
   SDL_RenderFillRect(renderer, rect);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // the rect border color (solid black)
   SDL_RenderDrawRect(renderer, rect);

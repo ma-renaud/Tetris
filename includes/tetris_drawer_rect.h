@@ -2,7 +2,6 @@
 #define TETRIS_TETRISDRAWERRECT_H
 
 #include "tetris_drawer.h"
-#include "color.h"
 #include <SDL_ttf.h>
 #include "texture.h"
 
@@ -15,7 +14,7 @@ class TetrisDrawerRect : public TetrisDrawer {
   void draw(Well *well) override;
   void draw(ScoreLvl *score) override;
 
-  Color get_tetromino_color(int tile);
+  SDL_Color get_tetromino_color(int tile);
 
  private:
   static constexpr SDL_Color textColor = {0, 0, 0, 255};
@@ -25,7 +24,7 @@ class TetrisDrawerRect : public TetrisDrawer {
   Texture level_header;
   Texture score;
   Texture level;
-  void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, Color color);
+  void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color);
 };
 
 #endif //TETRIS_TETRISDRAWERRECT_H

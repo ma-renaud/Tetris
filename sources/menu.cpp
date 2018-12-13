@@ -1,8 +1,8 @@
 #include <menu.h>
 #include <algorithm>    // std::min
 
-const Color Menu::FRAME_COLOR = {0, 0, 0, 255};
-const Color Menu::BACKGROUD_COLOR = {255, 255, 255, 255};
+constexpr SDL_Color Menu::FRAME_COLOR;
+constexpr SDL_Color Menu::BACKGROUD_COLOR;
 
 Menu::Menu(int xpos, int ypos, TTF_Font *font, SDL_Renderer *renderer, Game *game) : xpos(xpos),
                                                                                      ypos(ypos),
@@ -75,8 +75,8 @@ void Menu::render() {
   }
 }
 
-void Menu::draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, Color color) {
-  SDL_SetRenderDrawColor(renderer, color.red(), color.green(), color.blue(), color.alpha());
+void Menu::draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color) {
+  SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
   SDL_RenderFillRect(renderer, rect);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // the rect border color (solid black)
   SDL_RenderDrawRect(renderer, rect);
