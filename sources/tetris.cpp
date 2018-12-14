@@ -144,6 +144,7 @@ void Tetris::render() {
   drawer->draw(&well);
   drawer->draw(tetromino.get());
   drawer->draw(&score);
+  drawer->draw(&bag);
 
   if (is_paused)
     menu->render();
