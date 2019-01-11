@@ -32,7 +32,7 @@ void TetrisDrawerRect::draw(Well *well) {
 }
 
 void TetrisDrawerRect::draw(ScoreLvl *score) {
-  static const int WIDTH = 8;
+  static const int WIDTH = 7;
   static const int HEIGHT = 6;
   static const int XPOS = Well::WIDTH * unit_size;
   static const int SCORE_HEADER_XPOS = XPOS + ((WIDTH - 1) * unit_size - score_header.get_width()) / 2;
