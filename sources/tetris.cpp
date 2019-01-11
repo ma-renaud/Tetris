@@ -43,11 +43,10 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
     is_running = false;
   }
 
-  menu = std::make_unique<Menu>((width - Menu::get_width()) / 2,
-                                (height - Menu::get_height()) / 2 - 75,
-                                font,
-                                renderer,
-                                this);
+  int menu_width = 300;
+  int menu_height = 200;
+  menu =
+      std::make_unique<Menu>((width - menu_width) / 2, (height - menu_height) / 2 - 75, menu_width, menu_height, this);
 
   load_a_tetromino();
   drawer = std::make_unique<TetrisDrawerRect>(font, renderer);
@@ -126,7 +125,7 @@ void Tetris::handle_keys(SDL_Keycode key) {
 void Tetris::update() {
   static int last_level = -1;
   static int delay;
-  if(last_level != score.get_level()){
+  if (last_level != score.get_level()) {
     last_level = score.get_level();
     delay = get_speed_ms();
   }
@@ -147,7 +146,7 @@ void Tetris::render() {
   drawer->draw(&bag);
 
   if (is_paused)
-    menu->render();
+    drawer->draw(menu.get());
 
   if (is_game_over)
     game_over.render(renderer, (width - game_over.get_width()) / 2, (height - game_over.get_height() - 10));
@@ -214,5 +213,5 @@ void Tetris::load_a_tetromino() {
 }
 
 int Tetris::get_speed_ms() {
-  return (1000*frame_per_row[std::min(score.get_level(), ScoreLvl::MAX_SPEED_LEVEL-1)]/fps);
+  return (1000 * frame_per_row[std::min(score.get_level(), ScoreLvl::MAX_SPEED_LEVEL - 1)] / fps);
 }

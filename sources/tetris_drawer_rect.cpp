@@ -10,7 +10,17 @@ TetrisDrawerRect::TetrisDrawerRect(TTF_Font *font, SDL_Renderer *renderer) : fon
       printf("Failed to render \"score header\" texture!\n");
     if (!level_header.loadFromRenderedText(renderer, font, "Level", textColor))
       printf("Failed to render \"level header\" texture!\n");
+    if (!menu_title.loadFromRenderedText(renderer, font, "Pause", textColor))
+      printf("Failed to render \"menu title\" texture!\n");
+    if (!menu_options[0].loadFromRenderedText(renderer, font, "Resume", textColor))
+      printf("Failed to render \"resume\" texture!\n");
+    if (!menu_options[1].loadFromRenderedText(renderer, font, "Restart", textColor))
+      printf("Failed to render \"exit\" texture!\n");
+    if (!menu_options[2].loadFromRenderedText(renderer, font, "Exit", textColor))
+      printf("Failed to render \"exit\" texture!\n");
   }
+
+  menu_arrow.loadFromFile(renderer, "../assets/images/arrow.png");
 }
 
 void TetrisDrawerRect::draw(Tetromino *tetromino) {
@@ -67,6 +77,34 @@ void TetrisDrawerRect::draw(Bag *bag) {
   static const int YPOS = 5 * unit_size;
   draw_right_zone(XPOS, YPOS, 7, 8);
   draw(bag->preview().get(), Well::WIDTH+1, 9);
+}
+
+
+void TetrisDrawerRect::draw(Menu *menu) {
+  static const int WIDTH = menu->get_width();
+  static const int HEIGHT = menu->get_height();
+  static const int FRAME_THIKCNESS = 5;
+  static const SDL_Color FRAME_COLOR = {0, 0, 0, 255};
+  static const SDL_Color BACKGROUD_COLOR = {255, 255, 255, 255};
+  static SDL_Rect frame{0, 0, WIDTH + FRAME_THIKCNESS * 2, HEIGHT + FRAME_THIKCNESS * 2};
+  static SDL_Rect background{0, 0, WIDTH, HEIGHT};
+
+  frame.x = menu->get_xpos();
+  frame.y = menu->get_ypos();
+  background.x = frame.x + FRAME_THIKCNESS;
+  background.y = frame.y + FRAME_THIKCNESS;
+
+  draw_rect(renderer, &frame, FRAME_COLOR);
+  draw_rect(renderer, &background, BACKGROUD_COLOR);
+
+  menu_arrow.render(renderer, frame.x + 30, frame.y + 55 + menu->get_selectec_option_index() * 30);
+  menu_title.render(renderer, frame.x + (WIDTH - menu_title.get_width()) / 2, frame.y + 20);
+
+  int i = 0;
+  for (auto &option: menu_options) {
+    option.render(renderer, frame.x + (WIDTH - option.get_width()) / 2, frame.y + i + 60);
+    i += 30;
+  }
 }
 
 void TetrisDrawerRect::draw(Tetromino *tetromino, int xpos, int ypos) {

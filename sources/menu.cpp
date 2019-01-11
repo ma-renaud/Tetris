@@ -1,51 +1,17 @@
 #include <menu.h>
 #include <algorithm>    // std::min
 
-constexpr SDL_Color Menu::FRAME_COLOR;
-constexpr SDL_Color Menu::BACKGROUD_COLOR;
-
-Menu::Menu(int xpos, int ypos, TTF_Font *font, SDL_Renderer *renderer, Game *game) : xpos(xpos),
-                                                                                     ypos(ypos),
-                                                                                     background{xpos + FRAME_THIKCNESS,
-                                                                                                ypos + FRAME_THIKCNESS,
-                                                                                                WIDTH,
-                                                                                                HEIGHT},
-                                                                                     frame{xpos, ypos,
-                                                                                           WIDTH + FRAME_THIKCNESS * 2,
-                                                                                           HEIGHT
-                                                                                               + FRAME_THIKCNESS * 2},
-                                                                                     font(font),
-                                                                                     renderer(renderer),
-                                                                                     game(game) {
-
-  arrow.loadFromFile(renderer, "../assets/images/arrow.png");
-
-  if (font != nullptr) {
-    //Render game_over
-    SDL_Color textColor = {0, 0, 0, 255};
-    if (!title.loadFromRenderedText(renderer, font, "Pause", textColor)) {
-      printf("Failed to render \"title\" texture!\n");
-    }
-    if (!options[0].loadFromRenderedText(renderer, font, "Resume", textColor)) {
-      printf("Failed to render \"resume\" texture!\n");
-    }
-    if (!options[1].loadFromRenderedText(renderer, font, "Restart", textColor)) {
-      printf("Failed to render \"exit\" texture!\n");
-    }
-    if (!options[2].loadFromRenderedText(renderer, font, "Exit", textColor)) {
-      printf("Failed to render \"exit\" texture!\n");
-    }
-  }
-}
+Menu::Menu(int xpos, int ypos, int width, int height, Game *game)
+    : xpos(xpos), ypos(ypos), width(width), height(height), game(game) {}
 
 void Menu::handle_keys(SDL_Keycode key) {
   switch (key) {
     case SDLK_DOWN: {
-      selected_index = std::min(selected_index+1, static_cast<int>(options.size() - 1));
+      selected_index = std::min(selected_index + 1, NB_OPTIONS - 1);
       break;
     }
     case SDLK_UP: {
-      selected_index = std::max(selected_index-1, 0);
+      selected_index = std::max(selected_index - 1, 0);
       break;
     }
     case SDLK_RETURN: {
@@ -59,27 +25,6 @@ void Menu::handle_keys(SDL_Keycode key) {
     }
     default:break;
   }
-}
-
-void Menu::render() {
-  draw_rect(renderer, &frame, FRAME_COLOR);
-  draw_rect(renderer, &background, BACKGROUD_COLOR);
-
-  arrow.render(renderer, xpos + 30, ypos + 55 + selected_index * 30);
-  title.render(renderer, xpos + (WIDTH - title.get_width()) / 2, ypos + 20);
-
-  int i = 0;
-  for (auto &option: options) {
-    option.render(renderer, xpos + (WIDTH - option.get_width()) / 2, ypos + i + 60);
-    i += 30;
-  }
-}
-
-void Menu::draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color) {
-  SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-  SDL_RenderFillRect(renderer, rect);
-  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // the rect border color (solid black)
-  SDL_RenderDrawRect(renderer, rect);
 }
 
 void Menu::exec_option() {
@@ -96,6 +41,7 @@ void Menu::exec_option() {
       game->quit();
       break;
     }
+    default:break;
   }
   selected_index = 0;
 }

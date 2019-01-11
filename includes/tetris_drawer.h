@@ -6,6 +6,7 @@
 #include "tetromino.h"
 #include "score_lvl.h"
 #include "bag.h"
+#include "menu.h"
 
 class TetrisDrawer {
  public:
@@ -16,6 +17,7 @@ class TetrisDrawer {
   virtual void draw(Well *well) = 0;
   virtual void draw(ScoreLvl *score) = 0;
   virtual void draw(Bag *bag) = 0;
+  virtual void draw(Menu *menu) = 0;
   void set_unit_size(int unit_size) { this->unit_size = unit_size; }
 
  protected:
