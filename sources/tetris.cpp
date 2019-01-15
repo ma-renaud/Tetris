@@ -79,7 +79,7 @@ void Tetris::handle_events() {
 
 void Tetris::handle_keys(SDL_Keycode key) {
   if (is_paused)
-    menu->handle_keys(key);
+    menu->handle_keys(static_cast<Menu::MenuKey>(key));
   else {
     std::unique_ptr<Tetromino> copy;
     switch (key) {

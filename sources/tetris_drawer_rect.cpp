@@ -97,7 +97,7 @@ void TetrisDrawerRect::draw(Menu *menu) {
   draw_rect(renderer, &frame, FRAME_COLOR);
   draw_rect(renderer, &background, BACKGROUD_COLOR);
 
-  menu_arrow.render(renderer, frame.x + 30, frame.y + 55 + menu->get_selectec_option_index() * 30);
+  menu_arrow.render(renderer, frame.x + 30, frame.y + 55 + menu->get_selected_option_index() * 30);
   menu_title.render(renderer, frame.x + (WIDTH - menu_title.get_width()) / 2, frame.y + 20);
 
   int i = 0;

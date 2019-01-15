@@ -4,21 +4,21 @@
 Menu::Menu(int xpos, int ypos, int width, int height, Game *game)
     : xpos(xpos), ypos(ypos), width(width), height(height), game(game) {}
 
-void Menu::handle_keys(SDL_Keycode key) {
+void Menu::handle_keys(MenuKey key) {
   switch (key) {
-    case SDLK_DOWN: {
+    case MenuKey::DOWN: {
       selected_index = std::min(selected_index + 1, NB_OPTIONS - 1);
       break;
     }
-    case SDLK_UP: {
+    case MenuKey::UP: {
       selected_index = std::max(selected_index - 1, 0);
       break;
     }
-    case SDLK_RETURN: {
+    case MenuKey::RETURN: {
       exec_option();
       break;
     }
-    case SDLK_ESCAPE: {
+    case MenuKey::ESCAPE: {
       game->unpause();
       selected_index = 0;
       break;
