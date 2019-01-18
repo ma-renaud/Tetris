@@ -49,62 +49,63 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
       std::make_unique<Menu>((width - menu_width) / 2, (height - menu_height) / 2 - 75, menu_width, menu_height, this);
 
   load_a_tetromino();
+  engine = std::make_unique<SDLEngine>();
   drawer = std::make_unique<TetrisDrawerRect>(font, renderer);
   drawer->set_unit_size(unit_size);
 }
 
 void Tetris::handle_events() {
-  SDL_Event event;
-  SDL_PollEvent(&event);
+  EngineWrapper::Event event;
+  engine->poll_event(event);
   switch (event.type) {
-    case SDL_QUIT: {
+    case EngineWrapper::EventType::QUIT: {
       quit();
       break;
     }
-    case SDL_KEYDOWN: {
+    case EngineWrapper::EventType::KEYDOWN: {
       if (!is_game_over)
-        handle_keys(event.key.keysym.sym);
+        handle_keys(event.key);
       else {
         restart();
       }
       break;
     }
-    case SDL_KEYUP: {
-      pressed_key = SDLK_UNKNOWN;
+    case EngineWrapper::EventType::KEYUP: {
+      pressed_key = EngineWrapper::Key::UNKNOWN;
       break;
     }
     default:break;
   }
 }
 
-void Tetris::handle_keys(SDL_Keycode key) {
+void Tetris::handle_keys(EngineWrapper::Key key) {
   if (is_paused)
-    menu->handle_keys(static_cast<Menu::MenuKey>(key));
+    menu->handle_keys(key);
   else {
     std::unique_ptr<Tetromino> copy;
     switch (key) {
-      case SDLK_DOWN: {
+      case EngineWrapper::Key::DOWN: {
         copy = tetromino->clone();
         copy->move(0, 1);
         if (!well.is_collision(copy.get()))
           tetromino = std::move(copy);
         break;
       }
-      case SDLK_RIGHT: {
+      case EngineWrapper::Key::RIGHT: {
         copy = tetromino->clone();
         copy->move(1, 0);
         if (!well.is_collision(copy.get()))
           tetromino = std::move(copy);
         break;
       }
-      case SDLK_LEFT: {
+      case EngineWrapper::Key::LEFT: {
         copy = tetromino->clone();
         copy->move(-1, 0);
         if (!well.is_collision(copy.get()))
           tetromino = std::move(copy);
         break;
       }
-      case SDLK_UP: {
+      case EngineWrapper::Key::UP: {
         if (key != pressed_key) {
           copy = tetromino->clone();
           copy->rotate(Rotation::CCW);
@@ -113,7 +114,7 @@ void Tetris::handle_keys(SDL_Keycode key) {
         }
         break;
       }
-      case SDLK_ESCAPE: {
+      case EngineWrapper::Key::ESCAPE: {
         pause();
       }
       default:break;

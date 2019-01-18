@@ -35,7 +35,7 @@ ENDIF(CMAKE_COMPILER_IS_GNUCC)
 
 message(STATUS "${CMAKE_CXX_FLAGS_DEBUG}")
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES} includes/score_lvl.h sources/score_lvl.cpp)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES} includes/score_lvl.h sources/score_lvl.cpp includes/engine.h includes/SDLEngine.h sources/SDLEngine.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}
                                       ${SDL2_IMAGE_LIBRARIES}
