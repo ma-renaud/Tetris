@@ -15,6 +15,8 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
   if (fullscreen)
     flags = SDL_WINDOW_FULLSCREEN;
 
+  engine = std::make_unique<SDLEngine>();
+
   if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
     std::cout << "Subsystems Initialised!..." << std::endl;
     window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
@@ -49,7 +51,6 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
       std::make_unique<Menu>((width - menu_width) / 2, (height - menu_height) / 2 - 75, menu_width, menu_height, this);
 
   load_a_tetromino();
-  engine = std::make_unique<SDLEngine>();
   drawer = std::make_unique<TetrisDrawerRect>(font, renderer);
   drawer->set_unit_size(unit_size);
 }

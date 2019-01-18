@@ -1,11 +1,10 @@
 #ifndef TETRIS_SDLENGINE_H
 #define TETRIS_SDLENGINE_H
 
+#include <map>
 #include "engine.h"
-#include <SDL.h>
 
-class SDLEngine: public EngineWrapper::Engine
-{
+class SDLEngine : public EngineWrapper::Engine {
  public:
   SDLEngine() = default;
   ~SDLEngine() override = default;
