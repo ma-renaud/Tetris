@@ -3,7 +3,11 @@
 
 constexpr SDL_Color TetrisDrawerRect::textColor;
 
-TetrisDrawerRect::TetrisDrawerRect(TTF_Font *font, SDL_Renderer *renderer) : font(font), renderer(renderer) {
+TetrisDrawerRect::TetrisDrawerRect(SDLEngine *engine) : engine(engine) {
+
+  renderer = engine->get_renderer();
+  font = engine->get_font();
+
   if (font != nullptr) {
     //Render text
     if (!score_header.loadFromRenderedText(renderer, font, "Score", textColor))
@@ -18,9 +22,20 @@ TetrisDrawerRect::TetrisDrawerRect(TTF_Font *font, SDL_Renderer *renderer) : fon
       printf("Failed to render \"exit\" texture!\n");
     if (!menu_options[2].loadFromRenderedText(renderer, font, "Exit", textColor))
       printf("Failed to render \"exit\" texture!\n");
+    if (!game_over.loadFromRenderedText(renderer, font, "Game Over!", textColor))
+      printf("Failed to render \"game over\" texture!\n");
   }
 
   menu_arrow.loadFromFile(renderer, "../assets/images/arrow.png");
+}
+
+void TetrisDrawerRect::clear() {
+  SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
+  SDL_RenderClear(renderer);
+}
+
+void TetrisDrawerRect::render() {
+  SDL_RenderPresent(renderer);
 }
 
 void TetrisDrawerRect::draw(Tetromino *tetromino) {
@@ -76,9 +91,8 @@ void TetrisDrawerRect::draw(Bag *bag) {
   static const int XPOS = Well::WIDTH * unit_size;
   static const int YPOS = 5 * unit_size;
   draw_right_zone(XPOS, YPOS, 7, 8);
-  draw(bag->preview().get(), Well::WIDTH+1, 9);
+  draw(bag->preview().get(), Well::WIDTH + 1, 9);
 }
-
 
 void TetrisDrawerRect::draw(Menu *menu) {
   static const int WIDTH = menu->get_width();
@@ -119,6 +133,12 @@ void TetrisDrawerRect::draw(Tetromino *tetromino, int xpos, int ypos) {
       }
     }
   }
+}
+
+void TetrisDrawerRect::draw_game_over() {
+  game_over.render(renderer,
+                   (engine->get_window_width() - game_over.get_width()) / 2,
+                   (engine->get_window_height() - game_over.get_height() - 10));
 }
 
 SDL_Color TetrisDrawerRect::get_tetromino_color(int tile) {

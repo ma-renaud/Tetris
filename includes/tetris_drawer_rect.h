@@ -8,15 +8,18 @@
 
 class TetrisDrawerRect : public TetrisDrawer {
  public:
-  TetrisDrawerRect(SDLEngine * engine);
+  explicit TetrisDrawerRect(SDLEngine *engine);
   ~TetrisDrawerRect() override = default;
 
+  void clear() override;
+  void render() override;
   void draw(Tetromino *tetromino) override;
   void draw(Well *well) override;
   void draw(ScoreLvl *score) override;
   void draw(Bag *bag) override;
   void draw(Menu *menu) override;
   void draw(Tetromino *tetromino, int xpos, int ypos);
+  void draw_game_over() override;
 
   SDL_Color get_tetromino_color(int tile);
 
@@ -24,6 +27,8 @@ class TetrisDrawerRect : public TetrisDrawer {
   static constexpr SDL_Color textColor = {0, 0, 0, 255};
   TTF_Font *font;
   SDL_Renderer *renderer;
+  SDLEngine *engine;
+  Texture game_over;
   Texture score_header;
   Texture level_header;
   Texture score;

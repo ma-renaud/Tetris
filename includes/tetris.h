@@ -2,10 +2,6 @@
 #define TETRIS_GAME_H
 
 #include "SDLEngine.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <iostream>
 #include <memory>
 #include "tetromino.h"
 #include "well.h"
@@ -53,13 +49,11 @@ class Tetris : public Game {
   std::unique_ptr<Menu> menu;
   Well well;
   Bag bag;
-  Texture game_over;
   ScoreLvl score;
   std::unique_ptr<EngineWrapper::Engine> engine;
 
   static constexpr int frame_per_row[ScoreLvl::MAX_SPEED_LEVEL] = {53,49,45,41,37,33,28,22,17,11,10,9,8,7,6,6,5,5,4,4,3,3,2,2,1};
 
-  void load_text();
   void check_drop();
   void check_game_over();
   void load_a_tetromino();

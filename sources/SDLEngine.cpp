@@ -11,6 +11,9 @@ const std::map<Uint32, EngineWrapper::EventType> event_map =
 
 bool SDLEngine::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
   bool res = false;
+  this->width = width;
+  this->height = height;
+
   if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
     std::cout << "Subsystems Initialised!..." << std::endl;
 
@@ -36,6 +39,7 @@ bool SDLEngine::init(const char *title, int xpos, int ypos, int width, int heigh
         printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
       }
     }
+    res = true;
   }
   return res;
 }
@@ -57,4 +61,9 @@ void SDLEngine::clean() {
 
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
+  SDL_Quit();
+}
+
+uint32_t SDLEngine::get_ticks() {
+  return SDL_GetTicks();
 }

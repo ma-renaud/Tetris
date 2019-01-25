@@ -1,6 +1,8 @@
 #ifndef TETRIS_ENGINE_H
 #define TETRIS_ENGINE_H
 
+#include <cstdint>
+
 namespace EngineWrapper {
 
 enum class EventType { NONE, QUIT, KEYDOWN, KEYUP };
@@ -31,6 +33,7 @@ class Engine {
   virtual bool init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) = 0;
   virtual void poll_event(Event &event) = 0;
   virtual void clean() = 0;
+  virtual uint32_t get_ticks() = 0;
 };
 }
 

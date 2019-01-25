@@ -5,45 +5,14 @@ constexpr int Tetris::frame_per_row[];
 
 void Tetris::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps) {
 
-  drop_time = SDL_GetTicks();
 
   this->width = width;
   this->height = height;
   this->fps = fps;
 
-  Uint32 flags = 0;
-  if (fullscreen)
-    flags = SDL_WINDOW_FULLSCREEN;
-
   engine = std::make_unique<SDLEngine>();
-
-  if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
-    std::cout << "Subsystems Initialised!..." << std::endl;
-    window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-    if (window)
-      std::cout << "Window created!" << std::endl;
-
-    renderer = SDL_CreateRenderer(window, -1, 0);
-    if (renderer) {
-      SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
-      std::cout << "Renderer created!" << std::endl;
-    }
-
-    if (TTF_Init() == -1) {
-      printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-    } else {
-      font = TTF_OpenFont("../assets/LVDC_Game_Over.ttf", 16);
-      if (font == nullptr) {
-        printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
-      }
-    }
-
-    load_text();
-
-    is_running = true;
-  } else {
-    is_running = false;
-  }
+  is_running = engine->init(title, xpos, ypos, width, height, fullscreen);
+  drop_time = engine->get_ticks();
 
   int menu_width = 300;
   int menu_height = 200;
@@ -51,7 +20,7 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
       std::make_unique<Menu>((width - menu_width) / 2, (height - menu_height) / 2 - 75, menu_width, menu_height, this);
 
   load_a_tetromino();
-  drawer = std::make_unique<TetrisDrawerRect>(engine.get());
+  drawer = std::make_unique<TetrisDrawerRect>(dynamic_cast<SDLEngine*>(engine.get()));
   drawer->set_unit_size(unit_size);
 }
 
@@ -132,15 +101,14 @@ void Tetris::update() {
     delay = get_speed_ms();
   }
 
-  if (!is_game_over && !is_paused && ((SDL_GetTicks() > drop_time))) {
+  if (!is_game_over && !is_paused && ((engine->get_ticks() > drop_time))) {
     drop_time += delay;
     check_drop();
   }
 }
 
 void Tetris::render() {
-  SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
-  SDL_RenderClear(renderer);
+  drawer->clear();
 
   drawer->draw(&well);
   drawer->draw(tetromino.get());
@@ -151,14 +119,13 @@ void Tetris::render() {
     drawer->draw(menu.get());
 
   if (is_game_over)
-    game_over.render(renderer, (width - game_over.get_width()) / 2, (height - game_over.get_height() - 10));
+    drawer->draw_game_over();
 
-  SDL_RenderPresent(renderer);
+  drawer->render();
 }
 
 void Tetris::clean() {
   engine->clean();
-  SDL_Quit();
   std::cout << "Tetris Cleaned!" << std::endl;
 }
 
@@ -166,23 +133,13 @@ void Tetris::restart() {
   well.clear();
   tetromino = bag.next();
   score.restart();
-  drop_time = SDL_GetTicks() + 1000;
+  drop_time = engine->get_ticks() + 1000;
   is_game_over = false;
   is_paused = false;
 }
 
 bool Tetris::running() {
   return is_running;
-}
-
-void Tetris::load_text() {
-  if (font != nullptr) {
-    //Render game_over
-    SDL_Color textColor = {0, 0, 0, 255};
-    if (!game_over.loadFromRenderedText(renderer, font, "Game Over!", textColor)) {
-      printf("Failed to render game_over texture!\n");
-    }
-  }
 }
 
 void Tetris::check_drop() {
