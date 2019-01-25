@@ -48,15 +48,12 @@ class Tetris : public Game {
   static constexpr int unit_size = 26;
   uint32_t drop_time = 0;
   EngineWrapper::Key pressed_key = EngineWrapper::Key::UNKNOWN;
-  SDL_Window *window = nullptr;
-  SDL_Renderer *renderer = nullptr;
   std::unique_ptr<Tetromino> tetromino;
   std::unique_ptr<TetrisDrawer> drawer;
   std::unique_ptr<Menu> menu;
   Well well;
   Bag bag;
   Texture game_over;
-  TTF_Font *font = nullptr;
   ScoreLvl score;
   std::unique_ptr<EngineWrapper::Engine> engine;
 

@@ -4,10 +4,11 @@
 #include "tetris_drawer.h"
 #include <SDL_ttf.h>
 #include "texture.h"
+#include "SDLEngine.h"
 
 class TetrisDrawerRect : public TetrisDrawer {
  public:
-  TetrisDrawerRect(TTF_Font *font, SDL_Renderer *renderer);
+  TetrisDrawerRect(SDLEngine * engine);
   ~TetrisDrawerRect() override = default;
 
   void draw(Tetromino *tetromino) override;

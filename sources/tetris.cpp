@@ -51,7 +51,7 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
       std::make_unique<Menu>((width - menu_width) / 2, (height - menu_height) / 2 - 75, menu_width, menu_height, this);
 
   load_a_tetromino();
-  drawer = std::make_unique<TetrisDrawerRect>(font, renderer);
+  drawer = std::make_unique<TetrisDrawerRect>(engine.get());
   drawer->set_unit_size(unit_size);
 }
 
@@ -157,12 +157,7 @@ void Tetris::render() {
 }
 
 void Tetris::clean() {
-  //Free global font
-  TTF_CloseFont(font);
-  font = nullptr;
-
-  SDL_DestroyWindow(window);
-  SDL_DestroyRenderer(renderer);
+  engine->clean();
   SDL_Quit();
   std::cout << "Tetris Cleaned!" << std::endl;
 }
