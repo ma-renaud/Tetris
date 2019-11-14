@@ -3,7 +3,7 @@
 
 constexpr SDL_Color TetrisDrawerRect::textColor;
 
-TetrisDrawerRect::TetrisDrawerRect(SDLEngine *engine) : engine(engine) {
+TetrisDrawerRect::TetrisDrawerRect(SDLEngine *engine, Menu *menu) : engine(engine) {
 
   renderer = engine->get_renderer();
   font = engine->get_font();
@@ -16,14 +16,16 @@ TetrisDrawerRect::TetrisDrawerRect(SDLEngine *engine) : engine(engine) {
       printf("Failed to render \"level header\" texture!\n");
     if (!menu_title.loadFromRenderedText(renderer, font, "Pause", textColor))
       printf("Failed to render \"menu title\" texture!\n");
-    if (!menu_options[0].loadFromRenderedText(renderer, font, "Resume", textColor))
-      printf("Failed to render \"resume\" texture!\n");
-    if (!menu_options[1].loadFromRenderedText(renderer, font, "Restart", textColor))
-      printf("Failed to render \"exit\" texture!\n");
-    if (!menu_options[2].loadFromRenderedText(renderer, font, "Exit", textColor))
-      printf("Failed to render \"exit\" texture!\n");
     if (!game_over.loadFromRenderedText(renderer, font, "Game Over!", textColor))
       printf("Failed to render \"game over\" texture!\n");
+
+    menu_options.reserve(menu->get_nb_options());
+    for (auto &option : menu->get_options())
+    {
+      menu_options.emplace_back();
+      if (!menu_options.back().loadFromRenderedText(renderer, font, option, textColor))
+        printf("%s", std::string("Failed to render \""+option+"\" texture!\n").c_str());
+    }
   }
 
   menu_arrow.loadFromFile(renderer, "../assets/images/arrow.png");

@@ -5,6 +5,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <string>
+#include <utility>
 
 //Texture wrapper class
 class Texture
@@ -13,8 +14,14 @@ public:
   //Initializes variables
   Texture();
 
+  Texture(const Texture&) = delete;
+  Texture(Texture&& other) noexcept;
+
   //Deallocates memory
   ~Texture();
+
+  Texture &operator=(const Texture&) = delete;
+  Texture &operator=(Texture&& other) noexcept;
 
   //Loads image at specified path
   bool loadFromFile(SDL_Renderer *renderer, std::string path );
@@ -38,8 +45,8 @@ public:
   void render(SDL_Renderer *renderer, int x, int y, SDL_Rect* clip = nullptr, double angle = 0.0, SDL_Point* center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE );
 
   //Gets image dimensions
-  int get_width() const;
-  int get_height() const;
+  [[nodiscard]] int get_width() const;
+  [[nodiscard]] int get_height() const;
 
 private:
   //The actual hardware texture

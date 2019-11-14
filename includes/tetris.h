@@ -1,7 +1,7 @@
 #ifndef TETRIS_GAME_H
 #define TETRIS_GAME_H
 
-#include "SDLEngine.h"
+#include "engine.h"
 #include <memory>
 #include "tetromino.h"
 #include "well.h"

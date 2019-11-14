@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.5.0)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "export the build rules into a JSON files for clang-tidy" FORCE)
 
 project("tetris")
 
@@ -26,19 +27,19 @@ IF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 endif()
 
-IF(CMAKE_COMPILER_IS_GNUCC)
-    set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-    set(CMAKE_CXX_FLAGS_DEBUG "-g3")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-ENDIF(CMAKE_COMPILER_IS_GNUCC)
-
-
-message(STATUS "${CMAKE_CXX_FLAGS_DEBUG}")
-
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES} includes/score_lvl.h sources/score_lvl.cpp includes/engine.h includes/SDLEngine.h sources/SDLEngine.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}
                                       ${SDL2_IMAGE_LIBRARIES}
                                       ${SDL2_TTF_LIBRARIES})
+
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_options(${PROJECT_NAME} PUBLIC -Wunused-parameter -Wextra -Wall)
+
+if (${CMAKE_BUILD_TYPE} MATCHES Debug)
+    target_compile_options(${PROJECT_NAME} PUBLIC -O0)
+else ()
+    target_compile_options(${PROJECT_NAME} PUBLIC -O3)
+endif ()
 
 add_subdirectory(./test)

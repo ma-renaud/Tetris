@@ -8,7 +8,7 @@
 
 class TetrisDrawerRect : public TetrisDrawer {
  public:
-  explicit TetrisDrawerRect(SDLEngine *engine);
+  explicit TetrisDrawerRect(SDLEngine *engine, Menu *menu);
   ~TetrisDrawerRect() override = default;
 
   void clear() override;
@@ -35,7 +35,7 @@ class TetrisDrawerRect : public TetrisDrawer {
   Texture level;
   Texture menu_arrow;
   Texture menu_title;
-  std::array<Texture, 3> menu_options;
+  std::vector<Texture> menu_options;
   void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color);
   void draw_right_zone(int xpos, int ypos, int width, int height);
 };

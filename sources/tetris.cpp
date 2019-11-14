@@ -20,7 +20,7 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
       std::make_unique<Menu>((width - menu_width) / 2, (height - menu_height) / 2 - 75, menu_width, menu_height, this);
 
   load_a_tetromino();
-  drawer = std::make_unique<TetrisDrawerRect>(dynamic_cast<SDLEngine*>(engine.get()));
+  drawer = std::make_unique<TetrisDrawerRect>(dynamic_cast<SDLEngine*>(engine.get()), menu.get());
   drawer->set_unit_size(unit_size);
 }
 

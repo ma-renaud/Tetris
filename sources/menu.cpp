@@ -7,7 +7,7 @@ Menu::Menu(int xpos, int ypos, int width, int height, Game *game)
 void Menu::handle_keys(EngineWrapper::Key key) {
   switch (key) {
     case EngineWrapper::Key::DOWN: {
-      selected_index = std::min(selected_index + 1, NB_OPTIONS - 1);
+      selected_index = std::min(selected_index + 1, (static_cast<int>(options.size()) - 1));
       break;
     }
     case EngineWrapper::Key::UP: {
@@ -37,7 +37,7 @@ void Menu::exec_option() {
       game->restart();
       break;
     }
-    case 2: {
+    case 3: {
       game->quit();
       break;
     }
