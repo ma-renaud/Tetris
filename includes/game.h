@@ -7,6 +7,7 @@ class Game {
   virtual void unpause() = 0;
   virtual void quit() = 0;
   virtual void restart() = 0;
+  virtual void title_screen() = 0;
 };
 
 #endif //GAME_H

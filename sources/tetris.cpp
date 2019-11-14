@@ -138,6 +138,10 @@ void Tetris::restart() {
   is_paused = false;
 }
 
+void Tetris::title_screen() {
+
+}
+
 bool Tetris::running() {
   return is_running;
 }

@@ -37,6 +37,10 @@ void Menu::exec_option() {
       game->restart();
       break;
     }
+    case 2: {
+      game->title_screen();
+      break;
+    }
     case 3: {
       game->quit();
       break;

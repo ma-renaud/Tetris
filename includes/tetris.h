@@ -31,6 +31,7 @@ class Tetris : public Game {
   }
   void quit() override { is_running = false; }
   void restart() override;
+  void title_screen() override;
 
   bool running();
 
