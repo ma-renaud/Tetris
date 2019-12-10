@@ -10,7 +10,7 @@ std::unique_ptr<Tetromino> Bag::next() {
   std::unique_ptr<Tetromino> res = std::move(bag.front());
   bag.pop_front();
   fill();
-  return std::move(res);
+  return res;
 }
 
 void Bag::fill() {
