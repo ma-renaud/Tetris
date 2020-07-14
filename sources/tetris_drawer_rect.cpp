@@ -3,7 +3,7 @@
 
 constexpr SDL_Color TetrisDrawerRect::textColor;
 
-TetrisDrawerRect::TetrisDrawerRect(SDLEngine *engine, Menu *menu) : engine(engine) {
+TetrisDrawerRect::TetrisDrawerRect(SDLEngine *engine, MenuPause *menu) : engine(engine) {
 
   renderer = engine->get_renderer();
   font = engine->get_font();
@@ -15,7 +15,7 @@ TetrisDrawerRect::TetrisDrawerRect(SDLEngine *engine, Menu *menu) : engine(engin
     if (!level_header.loadFromRenderedText(renderer, font, "Level", textColor))
       printf("Failed to render \"level header\" texture!\n");
     if (!menu_title.loadFromRenderedText(renderer, font, "Pause", textColor))
-      printf("Failed to render \"menu title\" texture!\n");
+      printf("Failed to render \"pause_menu title\" texture!\n");
     if (!game_over.loadFromRenderedText(renderer, font, "Game Over!", textColor))
       printf("Failed to render \"game over\" texture!\n");
 
@@ -96,7 +96,7 @@ void TetrisDrawerRect::draw(Bag *bag) {
   draw(bag->preview().get(), Well::WIDTH + 1, 9);
 }
 
-void TetrisDrawerRect::draw(Menu *menu) {
+void TetrisDrawerRect::draw(MenuPause *menu) {
   static const int WIDTH = menu->get_width();
   static const int HEIGHT = menu->get_height();
   static const int FRAME_THIKCNESS = 5;

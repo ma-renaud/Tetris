@@ -8,7 +8,7 @@
 
 class TetrisDrawerRect : public TetrisDrawer {
  public:
-  explicit TetrisDrawerRect(SDLEngine *engine, Menu *menu);
+  explicit TetrisDrawerRect(SDLEngine *engine, MenuPause *menu);
   ~TetrisDrawerRect() override = default;
 
   void clear() override;
@@ -17,7 +17,7 @@ class TetrisDrawerRect : public TetrisDrawer {
   void draw(Well *well) override;
   void draw(ScoreLvl *score) override;
   void draw(Bag *bag) override;
-  void draw(Menu *menu) override;
+  void draw(MenuPause *menu) override;
   void draw(Tetromino *tetromino, int xpos, int ypos);
   void draw_game_over() override;
 

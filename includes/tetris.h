@@ -3,12 +3,13 @@
 
 #include "engine.h"
 #include <memory>
+#include <stack>
 #include "tetromino.h"
 #include "well.h"
 #include "tetris_drawer_rect.h"
 #include "bag.h"
 #include "texture.h"
-#include "menu.h"
+#include "menu_pause.h"
 #include "game.h"
 #include "score_lvl.h"
 
@@ -24,11 +25,8 @@ class Tetris : public Game {
   void update();
   void render();
   void clean();
-  void pause() override { is_paused = true; }
-  void unpause() override {
-    is_paused = false;
-    drop_time = SDL_GetTicks() + 500;
-  }
+  void pause() override;
+  void unpause() override;
   void quit() override { is_running = false; }
   void restart() override;
   void title_screen() override;
@@ -41,13 +39,13 @@ class Tetris : public Game {
   int height = 0;
   bool is_running = false;
   bool is_game_over = false;
-  bool is_paused = false;
   static constexpr int unit_size = 26;
   uint32_t drop_time = 0;
   EngineWrapper::Key pressed_key = EngineWrapper::Key::UNKNOWN;
   std::unique_ptr<Tetromino> tetromino;
   std::unique_ptr<TetrisDrawer> drawer;
-  std::unique_ptr<Menu> menu;
+  std::unique_ptr<MenuPause> pause_menu;
+  std::stack<Menu *> menu_stack;
   Well well;
   Bag bag;
   ScoreLvl score;

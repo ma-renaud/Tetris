@@ -1,38 +1,32 @@
-#ifndef TETRIS_MENU_H
-#define TETRIS_MENU_H
+#ifndef TETRIS_INCLUDES_MENU_H
+#define TETRIS_INCLUDES_MENU_H
 
-#include "game.h"
-#include "engine.h"
-#include <string>
 #include <vector>
+#include <string>
+#include "engine.h"
+#include "game.h"
 
 class Menu {
+public:
+  Menu(int xpos, int ypos, int width, int height, Game *game) : xpos(xpos), ypos(ypos), width(width), height(height), game(game) {}
+  virtual ~Menu() = default;
 
- public:
-  Menu(int xpos, int ypos, int width, int height, Game *game);
-  ~Menu() = default;
+  virtual int get_xpos() = 0;
+  virtual int get_ypos() = 0;
+  virtual int get_width() = 0;
+  virtual int get_height() = 0;
+  virtual int get_nb_options() = 0;
+  virtual int get_selected_option_index() = 0;
+  virtual std::vector<std::string> get_options() = 0;
+  virtual void handle_keys(EngineWrapper::Key key) = 0;
 
-  int get_xpos() { return xpos; }
-  int get_ypos() { return ypos; }
-  int get_width() { return width; }
-  int get_height() { return height; }
-  int get_nb_options() { return options.size(); }
-  int get_selected_option_index() { return selected_index; }
-  std::vector<std::string> get_options() { return options; }
-  void handle_keys(EngineWrapper::Key key);
-
- private:
+protected:
   int xpos = 0;
   int ypos = 0;
   int width = 0;
   int height = 0;
   int selected_index = 0;
   Game *game = nullptr;
-
-  std::vector<std::string> options = {"Resume", "Restart", "Title Screen", "Exit"};
-
-  void exec_option();
-
 };
 
-#endif //TETRIS_MENU_H
+#endif //TETRIS_INCLUDES_MENU_H

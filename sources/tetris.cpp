@@ -5,7 +5,6 @@ constexpr int Tetris::frame_per_row[];
 
 void Tetris::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps) {
 
-
   this->width = width;
   this->height = height;
   this->fps = fps;
@@ -16,11 +15,14 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
 
   int menu_width = 300;
   int menu_height = 200;
-  menu =
-      std::make_unique<Menu>((width - menu_width) / 2, (height - menu_height) / 2 - 75, menu_width, menu_height, this);
-
+  pause_menu =
+      std::make_unique<MenuPause>((width - menu_width) / 2,
+                                  (height - menu_height) / 2 - 75,
+                                  menu_width,
+                                  menu_height,
+                                  this);
   load_a_tetromino();
-  drawer = std::make_unique<TetrisDrawerRect>(dynamic_cast<SDLEngine*>(engine.get()), menu.get());
+  drawer = std::make_unique<TetrisDrawerRect>(dynamic_cast<SDLEngine *>(engine.get()), pause_menu.get());
   drawer->set_unit_size(unit_size);
 }
 
@@ -28,66 +30,66 @@ void Tetris::handle_events() {
   EngineWrapper::Event event;
   engine->poll_event(event);
   switch (event.type) {
-    case EngineWrapper::EventType::QUIT: {
-      quit();
-      break;
+  case EngineWrapper::EventType::QUIT: {
+    quit();
+    break;
+  }
+  case EngineWrapper::EventType::KEYDOWN: {
+    if (!is_game_over)
+      handle_keys(event.key);
+    else {
+      restart();
     }
-    case EngineWrapper::EventType::KEYDOWN: {
-      if (!is_game_over)
-        handle_keys(event.key);
-      else {
-        restart();
-      }
-      break;
-    }
-    case EngineWrapper::EventType::KEYUP: {
-      pressed_key = EngineWrapper::Key::UNKNOWN;
-      break;
-    }
-    default:break;
+    break;
+  }
+  case EngineWrapper::EventType::KEYUP: {
+    pressed_key = EngineWrapper::Key::UNKNOWN;
+    break;
+  }
+  default:break;
   }
 }
 
 void Tetris::handle_keys(EngineWrapper::Key key) {
-  if (is_paused)
-    menu->handle_keys(key);
+  if (!menu_stack.empty())
+    menu_stack.top()->handle_keys(key);
   else {
     std::unique_ptr<Tetromino> copy;
     switch (key) {
-      case EngineWrapper::Key::DOWN: {
+    case EngineWrapper::Key::DOWN: {
+      copy = tetromino->clone();
+      copy->move(0, 1);
+      if (!well.is_collision(copy.get()))
+        tetromino = std::move(copy);
+      break;
+    }
+    case EngineWrapper::Key::RIGHT: {
+      copy = tetromino->clone();
+      copy->move(1, 0);
+      if (!well.is_collision(copy.get()))
+        tetromino = std::move(copy);
+      break;
+    }
+    case EngineWrapper::Key::LEFT: {
+      copy = tetromino->clone();
+      copy->move(-1, 0);
+      if (!well.is_collision(copy.get()))
+        tetromino = std::move(copy);
+      break;
+    }
+    case EngineWrapper::Key::UP: {
+      if (key != pressed_key) {
         copy = tetromino->clone();
-        copy->move(0, 1);
+        copy->rotate(Rotation::CCW);
         if (!well.is_collision(copy.get()))
           tetromino = std::move(copy);
-        break;
       }
-      case EngineWrapper::Key::RIGHT: {
-        copy = tetromino->clone();
-        copy->move(1, 0);
-        if (!well.is_collision(copy.get()))
-          tetromino = std::move(copy);
-        break;
-      }
-      case EngineWrapper::Key::LEFT: {
-        copy = tetromino->clone();
-        copy->move(-1, 0);
-        if (!well.is_collision(copy.get()))
-          tetromino = std::move(copy);
-        break;
-      }
-      case EngineWrapper::Key::UP: {
-        if (key != pressed_key) {
-          copy = tetromino->clone();
-          copy->rotate(Rotation::CCW);
-          if (!well.is_collision(copy.get()))
-            tetromino = std::move(copy);
-        }
-        break;
-      }
-      case EngineWrapper::Key::ESCAPE: {
-        pause();
-      }
-      default:break;
+      break;
+    }
+    case EngineWrapper::Key::ESCAPE: {
+      pause();
+    }
+    default:break;
     }
   }
   pressed_key = key;
@@ -101,7 +103,7 @@ void Tetris::update() {
     delay = get_speed_ms();
   }
 
-  if (!is_game_over && !is_paused && ((engine->get_ticks() > drop_time))) {
+  if (!is_game_over && menu_stack.empty() && ((engine->get_ticks() > drop_time))) {
     drop_time += delay;
     check_drop();
   }
@@ -115,8 +117,8 @@ void Tetris::render() {
   drawer->draw(&score);
   drawer->draw(&bag);
 
-  if (is_paused)
-    drawer->draw(menu.get());
+  if (!menu_stack.empty())
+    drawer->draw(dynamic_cast<MenuPause *>(menu_stack.top()));
 
   if (is_game_over)
     drawer->draw_game_over();
@@ -135,7 +137,16 @@ void Tetris::restart() {
   score.restart();
   drop_time = engine->get_ticks() + 1000;
   is_game_over = false;
-  is_paused = false;
+  menu_stack.pop();
+}
+
+void Tetris::pause() {
+  menu_stack.push(pause_menu.get());
+}
+
+void Tetris::unpause() {
+  menu_stack.pop();
+  drop_time = SDL_GetTicks() + 500;
 }
 
 void Tetris::title_screen() {
