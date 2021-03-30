@@ -31,7 +31,7 @@ class Engine {
   virtual ~Engine() = default;
 
   virtual bool init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) = 0;
-  virtual void poll_event(Event &event) = 0;
+  virtual int poll_event(Event &event) = 0;
   virtual void clean() = 0;
   virtual uint32_t get_ticks() = 0;
 };

@@ -12,7 +12,7 @@ class SDLEngine : public EngineWrapper::Engine {
   ~SDLEngine() override = default;
 
   bool init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) override;
-  void poll_event(EngineWrapper::Event &event) override;
+  int poll_event(EngineWrapper::Event &event) override;
   void clean() override;
   uint32_t get_ticks() override;
 

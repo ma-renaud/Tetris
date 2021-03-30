@@ -28,25 +28,26 @@ void Tetris::init(const char *title, int xpos, int ypos, int width, int height, 
 
 void Tetris::handle_events() {
   EngineWrapper::Event event;
-  engine->poll_event(event);
-  switch (event.type) {
-  case EngineWrapper::EventType::QUIT: {
-    quit();
-    break;
-  }
-  case EngineWrapper::EventType::KEYDOWN: {
-    if (!is_game_over)
-      handle_keys(event.key);
-    else {
-      restart();
+  while (engine->poll_event(event) != 0) {
+    switch (event.type) {
+    case EngineWrapper::EventType::QUIT: {
+      quit();
+      break;
     }
-    break;
-  }
-  case EngineWrapper::EventType::KEYUP: {
-    pressed_key = EngineWrapper::Key::UNKNOWN;
-    break;
-  }
-  default:break;
+    case EngineWrapper::EventType::KEYDOWN: {
+      if (!is_game_over)
+        handle_keys(event.key);
+      else {
+        restart();
+      }
+      break;
+    }
+    case EngineWrapper::EventType::KEYUP: {
+      pressed_key = EngineWrapper::Key::UNKNOWN;
+      break;
+    }
+    default:break;
+    }
   }
 }
 
