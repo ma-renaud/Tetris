@@ -3,6 +3,7 @@
 /Debug/
 /Release/
 /test-debug/
+/build/
 /matrix-debug/
 /.idea/*
 /test/.idea/*
