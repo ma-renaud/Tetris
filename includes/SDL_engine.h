@@ -6,10 +6,10 @@
 #include <SDL_ttf.h>
 #include "engine.h"
 
-class SDLEngine : public EngineWrapper::Engine {
+class SDL_engine : public EngineWrapper::Engine {
  public:
-  SDLEngine() = default;
-  ~SDLEngine() override = default;
+  SDL_engine() = default;
+  ~SDL_engine() override = default;
 
   bool init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) override;
   int poll_event(EngineWrapper::Event &event) override;

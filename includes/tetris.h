@@ -6,40 +6,34 @@
 #include <stack>
 #include "tetromino.h"
 #include "well.h"
-#include "tetris_drawer_rect.h"
 #include "bag.h"
 #include "texture.h"
 #include "menu_pause.h"
 #include "game.h"
 #include "score_lvl.h"
 
-class Tetris : public Game {
+class Tetris {
  public:
-  Tetris() = default;
+  Tetris(int xpos, int ypos, int width, int height);
   ~Tetris() = default;
-
-  void init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps);
 
   void handle_events();
   void handle_keys(EngineWrapper::Key key);
   void update();
   void render();
   void clean();
-  void pause() override;
-  void unpause() override;
-  void quit() override { is_running = false; }
-  void restart() override;
-  void title_screen() override;
+  void pause();
+  void unpause();
+  void restart();
+  void title_screen();
 
   bool running();
 
  private:
-  int fps = 0;
   int width = 0;
   int height = 0;
   bool is_running = false;
   bool is_game_over = false;
-  static constexpr int unit_size = 26;
   uint32_t drop_time = 0;
   EngineWrapper::Key pressed_key = EngineWrapper::Key::UNKNOWN;
   std::unique_ptr<Tetromino> tetromino;

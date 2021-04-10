@@ -3,37 +3,21 @@
 
 constexpr int Tetris::frame_per_row[];
 
-void Tetris::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps) {
+Tetris::Tetris(int xpos, int ypos, int width, int height) : width(width), height(height) {
 
   this->width = width;
   this->height = height;
-  this->fps = fps;
 
-  engine = std::make_unique<SDLEngine>();
-  is_running = engine->init(title, xpos, ypos, width, height, fullscreen);
   drop_time = engine->get_ticks();
 
-  int menu_width = 300;
-  int menu_height = 200;
-  pause_menu =
-      std::make_unique<MenuPause>((width - menu_width) / 2,
-                                  (height - menu_height) / 2 - 75,
-                                  menu_width,
-                                  menu_height,
-                                  this);
   load_a_tetromino();
-  drawer = std::make_unique<TetrisDrawerRect>(dynamic_cast<SDLEngine *>(engine.get()), pause_menu.get());
-  drawer->set_unit_size(unit_size);
+
 }
 
 void Tetris::handle_events() {
   EngineWrapper::Event event;
   while (engine->poll_event(event) != 0) {
     switch (event.type) {
-    case EngineWrapper::EventType::QUIT: {
-      quit();
-      break;
-    }
     case EngineWrapper::EventType::KEYDOWN: {
       if (!is_game_over)
         handle_keys(event.key);
@@ -51,7 +35,7 @@ void Tetris::handle_events() {
   }
 }
 
-void Tetris::handle_keys(EngineWrapper::Key key) {
+void Tetris::handle_keys(EngineWrapper::Key key) {w
   if (!menu_stack.empty())
     menu_stack.top()->handle_keys(key);
   else {
@@ -154,9 +138,7 @@ void Tetris::title_screen() {
 
 }
 
-bool Tetris::running() {
-  return is_running;
-}
+
 
 void Tetris::check_drop() {
   std::unique_ptr<Tetromino> copy = tetromino->clone();

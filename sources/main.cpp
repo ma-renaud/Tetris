@@ -1,5 +1,5 @@
 #include <SDL.h>
-#include "tetris.h"
+#include "game.h"
 
 int main(int argc, char*argv[]) {
   std::ignore = argc;

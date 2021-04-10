@@ -1,5 +1,5 @@
-#include "SDLEngine.h"
-#include <SDLEngine.h>
+#include "SDL_engine.h"
+#include <SDL_engine.h>
 #include <iostream>
 
 namespace {
@@ -9,7 +9,7 @@ const std::map<Uint32, EngineWrapper::EventType> event_map =
      {SDL_KEYUP, EngineWrapper::EventType::KEYUP}};
 }
 
-bool SDLEngine::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
+bool SDL_engine::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
   bool res = false;
   this->width = width;
   this->height = height;
@@ -44,7 +44,7 @@ bool SDLEngine::init(const char *title, int xpos, int ypos, int width, int heigh
   return res;
 }
 
-int SDLEngine::poll_event(EngineWrapper::Event &event) {
+int SDL_engine::poll_event(EngineWrapper::Event &event) {
   SDL_Event sdl_event;
   bool res = SDL_PollEvent(&sdl_event);
 
@@ -57,7 +57,7 @@ int SDLEngine::poll_event(EngineWrapper::Event &event) {
   return res;
 }
 
-void SDLEngine::clean() {
+void SDL_engine::clean() {
   TTF_CloseFont(font);
   font = nullptr;
 
@@ -66,6 +66,6 @@ void SDLEngine::clean() {
   SDL_Quit();
 }
 
-uint32_t SDLEngine::get_ticks() {
+uint32_t SDL_engine::get_ticks() {
   return SDL_GetTicks();
 }

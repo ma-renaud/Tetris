@@ -4,11 +4,11 @@
 #include "tetris_drawer.h"
 #include <SDL_ttf.h>
 #include "texture.h"
-#include "SDLEngine.h"
+#include "SDL_engine.h"
 
 class TetrisDrawerRect : public TetrisDrawer {
  public:
-  explicit TetrisDrawerRect(SDLEngine *engine, MenuPause *menu);
+  explicit TetrisDrawerRect(SDL_engine *engine, MenuPause *menu);
   ~TetrisDrawerRect() override = default;
 
   void clear() override;
@@ -24,10 +24,11 @@ class TetrisDrawerRect : public TetrisDrawer {
   SDL_Color get_tetromino_color(int tile);
 
  private:
+  static constexpr int unit_size = 26;
   static constexpr SDL_Color textColor = {0, 0, 0, 255};
   TTF_Font *font;
   SDL_Renderer *renderer;
-  SDLEngine *engine;
+  SDL_engine *engine;
   Texture game_over;
   Texture score_header;
   Texture level_header;

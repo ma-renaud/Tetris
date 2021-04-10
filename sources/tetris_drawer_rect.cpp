@@ -3,7 +3,7 @@
 
 constexpr SDL_Color TetrisDrawerRect::textColor;
 
-TetrisDrawerRect::TetrisDrawerRect(SDLEngine *engine, MenuPause *menu) : engine(engine) {
+TetrisDrawerRect::TetrisDrawerRect(SDL_engine *engine, MenuPause *menu) : engine(engine) {
 
   renderer = engine->get_renderer();
   font = engine->get_font();
