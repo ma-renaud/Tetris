@@ -8,7 +8,7 @@
 
 class TetrisDrawerRect : public TetrisDrawer {
  public:
-  explicit TetrisDrawerRect(SDL_engine *engine, MenuPause *menu);
+  explicit TetrisDrawerRect(SDL_engine *engine);
   ~TetrisDrawerRect() override = default;
 
   void clear() override;
@@ -17,9 +17,11 @@ class TetrisDrawerRect : public TetrisDrawer {
   void draw(Well *well) override;
   void draw(ScoreLvl *score) override;
   void draw(Bag *bag) override;
-  void draw(MenuPause *menu) override;
   void draw(Tetromino *tetromino, int xpos, int ypos);
   void draw_game_over() override;
+  void draw(Menu *menu) override;
+  void draw(MenuPause *menu);
+  void draw(TitleScreen *menu);
 
   SDL_Color get_tetromino_color(int tile);
 
@@ -36,9 +38,9 @@ class TetrisDrawerRect : public TetrisDrawer {
   Texture level;
   Texture menu_arrow;
   Texture menu_title;
-  std::vector<Texture> menu_options;
   void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color);
   void draw_right_zone(int xpos, int ypos, int width, int height);
+  int generate_menu_texture(std::vector<Texture> &menu_options, Menu *menu);
 };
 
 #endif //TETRIS_TETRISDRAWERRECT_H

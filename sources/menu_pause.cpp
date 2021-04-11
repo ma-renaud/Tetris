@@ -1,36 +1,24 @@
 #include <menu_pause.h>
 #include <algorithm>    // std::min
+#include "igame.h"
 
-MenuPause::MenuPause(int xpos, int ypos, int width, int height, Game *game)
-    : Menu(xpos, ypos, width, height, game) {}
+MenuPause::MenuPause(int xpos, int ypos, int width, int height, IGame* game)
+    : Menu(xpos, ypos, width, height), game(game) {
+  options = {"Resume", "Restart", "Title Screen", "Exit"};
+}
 
-void MenuPause::handle_keys(EngineWrapper::Key key) {
-  switch (key) {
-  case EngineWrapper::Key::DOWN: {
-    selected_index = std::min(selected_index + 1, (static_cast<int>(options.size()) - 1));
-    break;
-  }
-  case EngineWrapper::Key::UP: {
-    selected_index = std::max(selected_index - 1, 0);
-    break;
-  }
-  case EngineWrapper::Key::RETURN: {
-    exec_option();
-    break;
-  }
-  case EngineWrapper::Key::ESCAPE: {
-    game->unpause();
+void MenuPause::handle_key(EngineWrapper::Key key) {
+  Menu::handle_key(key);
+  if (key == EngineWrapper::Key::ESCAPE) {
+    game->close_menu();
     selected_index = 0;
-    break;
-  }
-  default:break;
   }
 }
 
 void MenuPause::exec_option() {
   switch (selected_index) {
   case 0: {
-    game->unpause();
+    game->close_menu();
     break;
   }
   case 1: {
@@ -38,7 +26,7 @@ void MenuPause::exec_option() {
     break;
   }
   case 2: {
-    game->title_screen();
+    game->show_title_screen();
     break;
   }
   case 3: {

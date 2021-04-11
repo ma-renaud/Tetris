@@ -34,7 +34,7 @@ bool SDL_engine::init(const char *title, int xpos, int ypos, int width, int heig
     if (TTF_Init() == -1) {
       printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
     } else {
-      font = TTF_OpenFont("../assets/LVDC_Game_Over.ttf", 16);
+      font = TTF_OpenFont("../../assets/LVDC_Game_Over.ttf", 16);
       if (font == nullptr) {
         printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
       }

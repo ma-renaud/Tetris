@@ -3,7 +3,11 @@
 
 constexpr SDL_Color TetrisDrawerRect::textColor;
 
-TetrisDrawerRect::TetrisDrawerRect(SDL_engine *engine, MenuPause *menu) : engine(engine) {
+static constexpr int OPTION_HEIGHT = 30;
+static constexpr int MENU_VERTICAL_PADDING = 60;
+static constexpr int ARROW_VERTICAL_OFFSET = -5;
+
+TetrisDrawerRect::TetrisDrawerRect(SDL_engine *engine) : engine(engine) {
 
   renderer = engine->get_renderer();
   font = engine->get_font();
@@ -18,17 +22,9 @@ TetrisDrawerRect::TetrisDrawerRect(SDL_engine *engine, MenuPause *menu) : engine
       printf("Failed to render \"pause_menu title\" texture!\n");
     if (!game_over.loadFromRenderedText(renderer, font, "Game Over!", textColor))
       printf("Failed to render \"game over\" texture!\n");
-
-    menu_options.reserve(menu->get_nb_options());
-    for (auto &option : menu->get_options())
-    {
-      menu_options.emplace_back();
-      if (!menu_options.back().loadFromRenderedText(renderer, font, option, textColor))
-        printf("%s", std::string("Failed to render \""+option+"\" texture!\n").c_str());
-    }
   }
 
-  menu_arrow.loadFromFile(renderer, "../assets/images/arrow.png");
+  menu_arrow.loadFromFile(renderer, "../../assets/images/arrow.png");
 }
 
 void TetrisDrawerRect::clear() {
@@ -96,6 +92,16 @@ void TetrisDrawerRect::draw(Bag *bag) {
   draw(bag->preview().get(), Well::WIDTH + 1, 9);
 }
 
+void TetrisDrawerRect::draw(Menu *menu) {
+  auto *menu_pause = dynamic_cast<MenuPause *> (menu);
+  if (menu_pause)
+    draw(menu_pause);
+
+  auto *title_screen = dynamic_cast<TitleScreen *> (menu);
+  if (title_screen)
+    draw(title_screen);
+}
+
 void TetrisDrawerRect::draw(MenuPause *menu) {
   static const int WIDTH = menu->get_width();
   static const int HEIGHT = menu->get_height();
@@ -104,6 +110,11 @@ void TetrisDrawerRect::draw(MenuPause *menu) {
   static const SDL_Color BACKGROUD_COLOR = {255, 255, 255, 255};
   static SDL_Rect frame{0, 0, WIDTH + FRAME_THIKCNESS * 2, HEIGHT + FRAME_THIKCNESS * 2};
   static SDL_Rect background{0, 0, WIDTH, HEIGHT};
+  static std::vector<Texture> menu_options;
+  static int largest_option = 0;
+
+  if (menu_options.empty())
+    largest_option = generate_menu_texture(menu_options, menu);
 
   frame.x = menu->get_xpos();
   frame.y = menu->get_ypos();
@@ -113,14 +124,43 @@ void TetrisDrawerRect::draw(MenuPause *menu) {
   draw_rect(renderer, &frame, FRAME_COLOR);
   draw_rect(renderer, &background, BACKGROUD_COLOR);
 
-  menu_arrow.render(renderer, frame.x + 30, frame.y + 55 + menu->get_selected_option_index() * 30);
+  menu_arrow.render(renderer,
+                    frame.x + (WIDTH - largest_option) / 2 - menu_arrow.get_width() - 5,
+                    frame.y + MENU_VERTICAL_PADDING + ARROW_VERTICAL_OFFSET + menu->get_selected_option_index() * OPTION_HEIGHT);
   menu_title.render(renderer, frame.x + (WIDTH - menu_title.get_width()) / 2, frame.y + 20);
 
   int i = 0;
   for (auto &option: menu_options) {
-    option.render(renderer, frame.x + (WIDTH - option.get_width()) / 2, frame.y + i + 60);
-    i += 30;
+    option.render(renderer, frame.x + (WIDTH - option.get_width()) / 2, frame.y + i + MENU_VERTICAL_PADDING);
+    i += OPTION_HEIGHT;
   }
+}
+
+void TetrisDrawerRect::draw(TitleScreen *menu) {
+  static const int WIDTH = menu->get_width();
+  static const int HEIGHT = menu->get_height();
+  static const int NB_OPTIONS = menu->get_nb_options();
+  static const int Y_OFFSET = HEIGHT - NB_OPTIONS * OPTION_HEIGHT - MENU_VERTICAL_PADDING;
+  static std::vector<Texture> menu_options;
+  static int largest_option = 0;
+
+  if (menu_options.empty())
+    largest_option = generate_menu_texture(menu_options, menu);
+
+  SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
+  SDL_RenderClear(renderer);
+
+  menu_arrow.render(renderer,
+                    (WIDTH - largest_option) / 2 - menu_arrow.get_width() - 5,
+                    menu->get_selected_option_index() * OPTION_HEIGHT + Y_OFFSET + ARROW_VERTICAL_OFFSET);
+
+  int i = 0;
+  for (auto &option: menu_options) {
+    option.render(renderer, (WIDTH - option.get_width()) / 2, i + Y_OFFSET);
+    i += OPTION_HEIGHT;
+  }
+
+  std::ignore = menu;
 }
 
 void TetrisDrawerRect::draw(Tetromino *tetromino, int xpos, int ypos) {
@@ -145,17 +185,17 @@ void TetrisDrawerRect::draw_game_over() {
 
 SDL_Color TetrisDrawerRect::get_tetromino_color(int tile) {
   switch (tile) {
-    case 1:
-    case 2:
-    case 3        :return {49, 199, 239, 255};
-    case 4        :return {247, 211, 8, 255};
-    case 5        :return {173, 77, 156, 255};
-    case 6        :return {66, 182, 66, 255};
-    case 7        :return {239, 32, 41, 255};
-    case 8        :return {90, 101, 173, 255};
-    case 9        :return {239, 121, 33, 255};
-    case 42       :return {127, 64, 20, 255};
-    default       :return {255, 255, 255, 255};
+  case 1:
+  case 2:
+  case 3        :return {49, 199, 239, 255};
+  case 4        :return {247, 211, 8, 255};
+  case 5        :return {173, 77, 156, 255};
+  case 6        :return {66, 182, 66, 255};
+  case 7        :return {239, 32, 41, 255};
+  case 8        :return {90, 101, 173, 255};
+  case 9        :return {239, 121, 33, 255};
+  case 42       :return {127, 64, 20, 255};
+  default       :return {255, 255, 255, 255};
   }
 }
 
@@ -185,4 +225,20 @@ void TetrisDrawerRect::draw_right_zone(int xpos, int ypos, int width, int height
     rect.x = xpos + i * unit_size;
     draw_rect(renderer, &rect, get_tetromino_color(BORDER_TILE));
   }
+}
+
+int TetrisDrawerRect::generate_menu_texture(std::vector<Texture> &menu_options, Menu *menu) {
+  int largest_width = 0;
+  if (font != nullptr) {
+    menu_options.reserve(menu->get_nb_options());
+    for (auto &option : menu->get_options()) {
+      menu_options.emplace_back();
+      if (!menu_options.back().loadFromRenderedText(renderer, font, option, textColor))
+        printf("%s", std::string("Failed to render \"" + option + "\" texture!\n").c_str());
+
+      if (menu_options.back().get_width() > largest_width)
+        largest_width = menu_options.back().get_width();
+    }
+  }
+  return largest_width;
 }

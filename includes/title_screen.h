@@ -1,16 +1,16 @@
-#ifndef MENU_PAUSE_H
-#define MENU_PAUSE_H
+#ifndef TITLE_SCREEN_H
+#define TITLE_SCREEN_H
 
 #include "engine.h"
 #include "menu.h"
 
 class IGame;
 
-class MenuPause : public Menu {
+class TitleScreen : public Menu {
 
 public:
-  MenuPause(int xpos, int ypos, int width, int height, IGame *game);
-  ~MenuPause() override = default;
+  TitleScreen(int xpos, int ypos, int width, int height, IGame *game);
+  ~TitleScreen() override = default;
 
   int get_xpos() override { return xpos; }
   int get_ypos() override { return ypos; }
@@ -19,7 +19,6 @@ public:
   int get_nb_options() override { return options.size(); }
   int get_selected_option_index() override { return selected_index; }
   std::vector<std::string> get_options() override { return options; }
-  void handle_key(EngineWrapper::Key key) override;
 
 protected:
   void exec_option() override;
@@ -29,4 +28,4 @@ private:
 
 };
 
-#endif //MENU_PAUSE_H
+#endif //TITLE_SCREEN_H

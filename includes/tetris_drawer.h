@@ -7,6 +7,7 @@
 #include "score_lvl.h"
 #include "bag.h"
 #include "menu_pause.h"
+#include "title_screen.h"
 
 class TetrisDrawer {
  public:
@@ -19,8 +20,8 @@ class TetrisDrawer {
   virtual void draw(Well *well) = 0;
   virtual void draw(ScoreLvl *score) = 0;
   virtual void draw(Bag *bag) = 0;
-  virtual void draw(MenuPause *menu) = 0;
   virtual void draw_game_over() = 0;
+  virtual void draw(Menu *menu) = 0;
 
  protected:
   static constexpr int TOP_OFFSET = 2;
