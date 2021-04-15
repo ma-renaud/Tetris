@@ -21,12 +21,12 @@ public:
   void render();
   void clean();
 
-  void pause() override;
+  void pause();
   void unpause();
-  void close_menu() override;
-  void restart() override;
-  void quit() override { is_running = false; }
-  void show_title_screen() override;
+  void close_menu();
+  void restart();
+  void quit() { is_running = false; }
+  void show_title_screen();
   bool running() const { return is_running; }
 
 private:
@@ -40,7 +40,11 @@ private:
   std::unique_ptr<TitleScreen> title_screen {};
   std::unique_ptr<TetrisDrawer> drawer {};
   std::unique_ptr<Tetris> tetris {};
-  MenuCommandPause unpause_command;
+  MenuCommandUnpause unpause_command;
+  MenuCommandRestart restart_command;
+  MenuCommandCloseMenu close_menu_command;
+  MenuCommandTitleScreen title_screen_command;
+  MenuCommandExitGame exit_game_command;
 };
 
 #endif //GAME_H

@@ -7,7 +7,8 @@
 #include <iostream>
 
 Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps)
-    : fps(fps), width(width), height(height), unpause_command(this) {
+    : fps(fps), width(width), height(height), unpause_command(this), restart_command(this), close_menu_command(this),
+      title_screen_command(this), exit_game_command(this) {
   engine = std::make_unique<SDL_engine>();
   is_running = engine->init(title, xpos, ypos, width, height, fullscreen);
 
@@ -17,9 +18,12 @@ Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fu
                                            (height - menu_height) / 2 - 75,
                                            menu_width,
                                            menu_height,
-                                           &unpause_command);
+                                           &unpause_command,
+                                           &restart_command,
+                                           &title_screen_command,
+                                           &exit_game_command);
 
-  title_screen = std::make_unique<TitleScreen>(xpos, ypos, width, height, this);
+  title_screen = std::make_unique<TitleScreen>(xpos, ypos, width, height, &unpause_command, &exit_game_command);
 
   drawer = std::make_unique<TetrisDrawerRect>(dynamic_cast<SDL_engine *>(engine.get()));
   tetris = std::make_unique<Tetris>(fps, engine.get());

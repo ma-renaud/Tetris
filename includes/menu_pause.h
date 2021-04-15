@@ -8,7 +8,10 @@
 class MenuPause : public Menu {
 
 public:
-  MenuPause(int xpos, int ypos, int width, int height, MenuCommand *unpause);
+  MenuPause(int xpos, int ypos, int width, int height, MenuCommand *unpause,
+            MenuCommand *restart,
+            MenuCommand *title_screen,
+            MenuCommand *exit);
   ~MenuPause() override = default;
 
   int get_xpos() override { return xpos; }
@@ -25,6 +28,9 @@ protected:
 
 private:
   MenuCommand *unpause;
+  MenuCommand *restart;
+  MenuCommand *title_screen;
+  MenuCommand *exit;
 
 };
 

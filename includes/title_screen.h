@@ -3,13 +3,12 @@
 
 #include "engine.h"
 #include "menu.h"
-
-class IGame;
+#include "menu_command.h"
 
 class TitleScreen : public Menu {
 
 public:
-  TitleScreen(int xpos, int ypos, int width, int height, IGame *game);
+  TitleScreen(int xpos, int ypos, int width, int height, MenuCommand* unpause, MenuCommand *exit);
   ~TitleScreen() override = default;
 
   int get_xpos() override { return xpos; }
@@ -24,7 +23,8 @@ protected:
   void exec_option() override;
 
 private:
-  IGame *game { nullptr };
+  MenuCommand *unpause;
+  MenuCommand *exit;
 
 };
 
