@@ -3,14 +3,14 @@
 
 #include <memory>
 #include <stack>
-#include "igame.h"
 #include "tetris.h"
 #include "engine.h"
 #include "menu_pause.h"
 #include "tetris_drawer.h"
 #include "title_screen.h"
+#include "menu_commands.h"
 
-class Game : public IGame{
+class Game {
 public:
   Game(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps);
   ~Game() = default;
@@ -22,6 +22,7 @@ public:
   void clean();
 
   void pause() override;
+  void unpause();
   void close_menu() override;
   void restart() override;
   void quit() override { is_running = false; }
@@ -39,6 +40,7 @@ private:
   std::unique_ptr<TitleScreen> title_screen {};
   std::unique_ptr<TetrisDrawer> drawer {};
   std::unique_ptr<Tetris> tetris {};
+  MenuCommandPause unpause_command;
 };
 
 #endif //GAME_H

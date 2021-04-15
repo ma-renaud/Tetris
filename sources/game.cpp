@@ -7,7 +7,7 @@
 #include <iostream>
 
 Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps)
-    : fps(fps), width(width), height(height) {
+    : fps(fps), width(width), height(height), unpause_command(this) {
   engine = std::make_unique<SDL_engine>();
   is_running = engine->init(title, xpos, ypos, width, height, fullscreen);
 
@@ -17,7 +17,7 @@ Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fu
                                            (height - menu_height) / 2 - 75,
                                            menu_width,
                                            menu_height,
-                                           this);
+                                           &unpause_command);
 
   title_screen = std::make_unique<TitleScreen>(xpos, ypos, width, height, this);
 
@@ -89,9 +89,13 @@ void Game::pause() {
   menu_stack.push(pause_menu.get());
 }
 
-void Game::close_menu() {
+void Game::unpause() {
   menu_stack.pop();
   tetris->unpause();
+}
+
+void Game::close_menu() {
+  menu_stack.pop();
 }
 
 void Game::restart() {

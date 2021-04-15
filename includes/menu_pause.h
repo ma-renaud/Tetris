@@ -3,13 +3,12 @@
 
 #include "engine.h"
 #include "menu.h"
-
-class IGame;
+#include "menu_command.h"
 
 class MenuPause : public Menu {
 
 public:
-  MenuPause(int xpos, int ypos, int width, int height, IGame *game);
+  MenuPause(int xpos, int ypos, int width, int height, MenuCommand *unpause);
   ~MenuPause() override = default;
 
   int get_xpos() override { return xpos; }
@@ -25,7 +24,7 @@ protected:
   void exec_option() override;
 
 private:
-  IGame *game { nullptr };
+  MenuCommand *unpause;
 
 };
 
