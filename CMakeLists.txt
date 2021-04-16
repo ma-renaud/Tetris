@@ -27,7 +27,7 @@ IF(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 endif()
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES} includes/menu_command.h includes/menu_command.h includes/menu_command.h includes/menu_commands.h)
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${HEADER_FILES} includes/menu_command.h includes/menu_command.h includes/menu_command.h includes/menu_commands.h sources/menu_options.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}
                                       ${SDL2_IMAGE_LIBRARIES}
