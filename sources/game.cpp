@@ -104,7 +104,8 @@ void Game::close_menu() {
 
 void Game::restart() {
   tetris->restart();
-  menu_stack.pop();
+  if (!menu_stack.empty())
+    menu_stack.pop();
 }
 
 void Game::show_title_screen() {
