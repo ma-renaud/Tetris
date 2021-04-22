@@ -5,6 +5,7 @@
 #include "engine.h"
 #include "menu.h"
 #include "menu_command.h"
+#include "options.h"
 
 class MenuOptions : public Menu {
 

@@ -17,7 +17,7 @@ void MenuOptions::handle_key(EngineWrapper::Key key) {
 void MenuOptions::exec_option() {
   switch (selected_index) {
   case 0: {
-    unpause->execute();
+    close_menu();
     break;
   }
   case 1: {
