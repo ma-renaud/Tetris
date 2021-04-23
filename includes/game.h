@@ -9,6 +9,7 @@
 #include "tetris_drawer.h"
 #include "title_screen.h"
 #include "menu_commands.h"
+#include "options.h"
 
 class Game {
 public:
@@ -45,6 +46,7 @@ private:
   MenuCommandCloseMenu close_menu_command;
   MenuCommandTitleScreen title_screen_command;
   MenuCommandExitGame exit_game_command;
+  Options::GameOptions game_options;
 };
 
 #endif //GAME_H

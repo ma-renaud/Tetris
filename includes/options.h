@@ -2,6 +2,7 @@
 #define OPTIONS_H
 
 #include <cstdint>
+#include <unordered_map>
 
 namespace Options {
 
@@ -17,6 +18,11 @@ enum class Resolution : uint8_t {
   R1280x720,
   R1920x1080,
   NB_RESOLUTIONS
+};
+
+struct GameOptions {
+  DisplayMode display_mode{DisplayMode::WINDOW};
+  Resolution resolution{Resolution::R1280x720};
 };
 
 static const Resolution resolutions[] = {Resolution::R1280x720, Resolution::R1920x1080};

@@ -22,14 +22,16 @@ public:
   int get_selected_option_index() override { return selected_index; }
   std::vector<std::string> get_options() override { return options; }
   void handle_key(EngineWrapper::Key key) override;
+  void set_options(Options::GameOptions options) { game_options = options; }
+  Options::GameOptions get_game_options() { return game_options; }
 
 protected:
   void exec_option() override;
 
 private:
-  std::function<void ()> save_options;
-  std::function<void ()> close_menu;
-
+  std::function<void()> save_options;
+  std::function<void()> close_menu;
+  Options::GameOptions game_options;
 };
 
 #endif //MENU_OPTIONS_H
