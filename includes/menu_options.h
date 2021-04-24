@@ -29,9 +29,13 @@ protected:
   void exec_option() override;
 
 private:
+  int nb_index = 0;
   MenuCommand *save_options;
   MenuCommand *close_menu;
   Options::GameOptions game_options;
+  void next();
+  void previous();
+
 };
 
 #endif //MENU_OPTIONS_H

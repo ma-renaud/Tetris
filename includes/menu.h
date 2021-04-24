@@ -44,7 +44,7 @@ protected:
   int width = 0;
   int height = 0;
   int selected_index = 0;
-  std::vector<std::string> options {};
+  std::vector<std::string> options{};
 
   virtual void exec_option() = 0;
 };

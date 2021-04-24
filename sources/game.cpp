@@ -12,21 +12,23 @@ Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fu
   engine = std::make_unique<SDL_engine>();
   is_running = engine->init(title, xpos, ypos, width, height, fullscreen);
 
-  int menu_width = 330;
-  int menu_height = 200;
-  pause_menu = std::make_unique<MenuPause>((width - menu_width) / 2,
-                                           (height - menu_height) / 2 - 75,
-                                           menu_width,
-                                           menu_height,
+  int pause_width = 330;
+  int pause_height = 200;
+  pause_menu = std::make_unique<MenuPause>((width - pause_width) / 2,
+                                           (height - pause_height) / 2 - 75,
+                                           pause_width,
+                                           pause_height,
                                            &unpause_command,
                                            &restart_command,
                                            &title_screen_command,
                                            &exit_game_command);
 
-  options_menu = std::make_unique<MenuOptions>((width - menu_width) / 2,
-                                               (height - menu_height) / 2 - 75,
-                                               menu_width,
-                                               menu_height,
+  int options_width = 430;
+  int options_height = 300;
+  options_menu = std::make_unique<MenuOptions>((width - options_width) / 2,
+                                               (height - options_height) / 2 - 75,
+                                               options_width,
+                                               options_height,
                                                &save_options_command,
                                                &close_menu_command);
 
@@ -102,7 +104,7 @@ void Game::render() {
 
 void Game::clean() {
   engine->clean();
-  std::cout << "Tetris Cleaned!" << std::endl;
+  std::cout << "Game Cleaned!" << std::endl;
 }
 
 void Game::pause() {
@@ -111,24 +113,24 @@ void Game::pause() {
 }
 
 void Game::unpause() {
-  menu_stack.pop_front();
+  close_menu();
   tetris->unpause();
 }
 
 void Game::close_menu() {
-  menu_stack.pop_front();
+  if (!menu_stack.empty())
+    menu_stack.pop_front();
 }
 
 void Game::restart() {
   tetris->restart();
-  if (!menu_stack.empty())
-    menu_stack.pop_front();
+  close_menu(); //close pause menu
 }
 
 void Game::show_title_screen() {
   tetris->restart();
   tetris->pause();
-  menu_stack.pop_front();
+  close_menu(); //close pause menu
   menu_stack.emplace_front(title_screen.get());
 }
 
