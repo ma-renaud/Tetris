@@ -2,10 +2,11 @@
 #define GAME_H
 
 #include <memory>
-#include <stack>
+#include <deque>
 #include "tetris.h"
 #include "engine.h"
 #include "menu_pause.h"
+#include "menu_options.h"
 #include "tetris_drawer.h"
 #include "title_screen.h"
 #include "menu_commands.h"
@@ -28,6 +29,8 @@ public:
   void restart();
   void quit() { is_running = false; }
   void show_title_screen();
+  void show_options();
+  void save_options();
   bool running() const { return is_running; }
 
 private:
@@ -35,9 +38,10 @@ private:
   int width = 0;
   int height = 0;
   bool is_running;
-  std::stack<Menu *> menu_stack;
+  std::deque<Menu *> menu_stack;
   std::unique_ptr<EngineWrapper::Engine> engine {};
   std::unique_ptr<MenuPause> pause_menu {};
+  std::unique_ptr<MenuOptions> options_menu {};
   std::unique_ptr<TitleScreen> title_screen {};
   std::unique_ptr<TetrisDrawer> drawer {};
   std::unique_ptr<Tetris> tetris {};
@@ -46,6 +50,8 @@ private:
   MenuCommandCloseMenu close_menu_command;
   MenuCommandTitleScreen title_screen_command;
   MenuCommandExitGame exit_game_command;
+  MenuCommandShowOptions show_options_command;
+  MenuCommandSaveOptions save_options_command;
   Options::GameOptions game_options;
 };
 

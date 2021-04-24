@@ -1,8 +1,14 @@
 #include <title_screen.h>
 #include <algorithm>    // std::min
 
-TitleScreen::TitleScreen(int xpos, int ypos, int width, int height, MenuCommand* unpause, MenuCommand *exit)
-    : Menu(xpos, ypos, width, height), unpause(unpause), exit(exit) {
+TitleScreen::TitleScreen(int xpos,
+                         int ypos,
+                         int width,
+                         int height,
+                         MenuCommand *unpause,
+                         MenuCommand *show_options,
+                         MenuCommand *exit)
+    : Menu(xpos, ypos, width, height), unpause(unpause), show_options(show_options), exit(exit) {
   options = {"Start", "Options", "Exit"};
 }
 
@@ -13,7 +19,7 @@ void TitleScreen::exec_option() {
     break;
   }
   case 1: {
-    //game->show_options;
+    show_options->execute();
     break;
   }
   case 2: {
@@ -22,5 +28,4 @@ void TitleScreen::exec_option() {
   }
   default:break;
   }
-  selected_index = 0;
 }

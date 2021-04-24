@@ -8,7 +8,13 @@
 class TitleScreen : public Menu {
 
 public:
-  TitleScreen(int xpos, int ypos, int width, int height, MenuCommand* unpause, MenuCommand *exit);
+  TitleScreen(int xpos,
+              int ypos,
+              int width,
+              int height,
+              MenuCommand *unpause,
+              MenuCommand *show_options,
+              MenuCommand *exit);
   ~TitleScreen() override = default;
 
   int get_xpos() override { return xpos; }
@@ -24,6 +30,7 @@ protected:
 
 private:
   MenuCommand *unpause;
+  MenuCommand *show_options;
   MenuCommand *exit;
 
 };

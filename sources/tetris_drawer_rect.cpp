@@ -97,12 +97,50 @@ void TetrisDrawerRect::draw(Menu *menu) {
   if (menu_pause)
     draw(menu_pause);
 
+  auto *menu_options = dynamic_cast<MenuOptions *> (menu);
+  if (menu_options)
+    draw(menu_options);
+
   auto *title_screen = dynamic_cast<TitleScreen *> (menu);
   if (title_screen)
     draw(title_screen);
 }
 
 void TetrisDrawerRect::draw(MenuPause *menu) {
+  static const int WIDTH = menu->get_width();
+  static const int HEIGHT = menu->get_height();
+  static const int FRAME_THIKCNESS = 5;
+  static const SDL_Color FRAME_COLOR = {0, 0, 0, 255};
+  static const SDL_Color BACKGROUD_COLOR = {255, 255, 255, 255};
+  static SDL_Rect frame{0, 0, WIDTH + FRAME_THIKCNESS * 2, HEIGHT + FRAME_THIKCNESS * 2};
+  static SDL_Rect background{0, 0, WIDTH, HEIGHT};
+  static std::vector<Texture> menu_options;
+  static int largest_option = 0;
+
+  if (menu_options.empty())
+    largest_option = generate_menu_texture(menu_options, menu);
+
+  frame.x = menu->get_xpos();
+  frame.y = menu->get_ypos();
+  background.x = frame.x + FRAME_THIKCNESS;
+  background.y = frame.y + FRAME_THIKCNESS;
+
+  draw_rect(renderer, &frame, FRAME_COLOR);
+  draw_rect(renderer, &background, BACKGROUD_COLOR);
+
+  menu_arrow.render(renderer,
+                    frame.x + (WIDTH - largest_option) / 2 - menu_arrow.get_width() - 5,
+                    frame.y + MENU_VERTICAL_PADDING + ARROW_VERTICAL_OFFSET + menu->get_selected_option_index() * OPTION_HEIGHT);
+  menu_title.render(renderer, frame.x + (WIDTH - menu_title.get_width()) / 2, frame.y + 20);
+
+  int i = 0;
+  for (auto &option: menu_options) {
+    option.render(renderer, frame.x + (WIDTH - option.get_width()) / 2, frame.y + i + MENU_VERTICAL_PADDING);
+    i += OPTION_HEIGHT;
+  }
+}
+
+void TetrisDrawerRect::draw(MenuOptions *menu) {
   static const int WIDTH = menu->get_width();
   static const int HEIGHT = menu->get_height();
   static const int FRAME_THIKCNESS = 5;

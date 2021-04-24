@@ -6,7 +6,6 @@
 #include "tetromino.h"
 #include "score_lvl.h"
 #include "bag.h"
-#include "menu_pause.h"
 #include "title_screen.h"
 
 class TetrisDrawer {

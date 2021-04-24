@@ -5,6 +5,8 @@
 #include <SDL_ttf.h>
 #include "texture.h"
 #include "SDL_engine.h"
+#include "menu_pause.h"
+#include "menu_options.h"
 
 class TetrisDrawerRect : public TetrisDrawer {
  public:
@@ -21,6 +23,7 @@ class TetrisDrawerRect : public TetrisDrawer {
   void draw_game_over() override;
   void draw(Menu *menu) override;
   void draw(MenuPause *menu);
+  void draw(MenuOptions *menu);
   void draw(TitleScreen *menu);
 
   SDL_Color get_tetromino_color(int tile);

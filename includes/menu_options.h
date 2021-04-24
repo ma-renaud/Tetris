@@ -10,8 +10,8 @@
 class MenuOptions : public Menu {
 
 public:
-  MenuOptions(int xpos, int ypos, int width, int height, std::function<void()> save_options,
-              std::function<void()> close_menu);
+  MenuOptions(int xpos, int ypos, int width, int height, MenuCommand *save_options,
+              MenuCommand *close_menu);
   ~MenuOptions() override = default;
 
   int get_xpos() override { return xpos; }
@@ -29,8 +29,8 @@ protected:
   void exec_option() override;
 
 private:
-  std::function<void()> save_options;
-  std::function<void()> close_menu;
+  MenuCommand *save_options;
+  MenuCommand *close_menu;
   Options::GameOptions game_options;
 };
 

@@ -20,3 +20,12 @@ void MenuCommandTitleScreen::execute() {
 void MenuCommandExitGame::execute() {
   game->quit();
 }
+
+void MenuCommandShowOptions::execute() {
+  game->show_options();
+}
+
+void MenuCommandSaveOptions::execute() {
+  game->save_options();
+  game->close_menu();
+}

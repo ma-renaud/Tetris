@@ -50,4 +50,22 @@ private:
   Game* game;
 };
 
+class MenuCommandShowOptions : public MenuCommand {
+public :
+  explicit MenuCommandShowOptions(Game* game) : game(game) {}
+  void execute() override;
+
+private:
+  Game* game;
+};
+
+class MenuCommandSaveOptions : public MenuCommand {
+public :
+  explicit MenuCommandSaveOptions(Game* game) : game(game) {}
+  void execute() override;
+
+private:
+  Game* game;
+};
+
 #endif //MENU_COMMANDS_H
