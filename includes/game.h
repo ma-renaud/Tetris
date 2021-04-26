@@ -25,13 +25,19 @@ public:
 
   void pause();
   void unpause();
+  void popup_menu(Menu *);
   void close_menu();
+  void close_all_menus();
+  Menu *topmost_menu() const;
   void restart();
   void quit() { is_running = false; }
   void show_title_screen();
   void show_options();
   void save_options();
   bool running() const { return is_running; }
+
+private:
+  void draw_menus();
 
 private:
   int fps = 0;
