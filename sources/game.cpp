@@ -91,9 +91,6 @@ void Game::render() {
 
   draw_menus();
 
-  if (auto *top = topmost_menu(); top != nullptr)
-    drawer->draw(top);
-
   if (tetris->game_over())
     drawer->draw_game_over();
 
@@ -116,12 +113,11 @@ void Game::unpause() {
 }
 
 void Game::popup_menu(Menu *menu) {
-  menu_stack.emplace_front(menu);
+  menu_stack.emplace_back(menu);
 }
 
 void Game::close_menu() {
-  if (!menu_stack.empty())
-    menu_stack.pop_front();
+  menu_stack.pop_back();
 }
 
 void Game::close_all_menus() {
@@ -129,7 +125,7 @@ void Game::close_all_menus() {
 }
 
 Menu *Game::topmost_menu() const {
-  return menu_stack.empty()? nullptr : menu_stack.front();
+  return menu_stack.empty()? nullptr : menu_stack.back();
 }
 
 void Game::restart() {
