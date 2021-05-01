@@ -45,6 +45,8 @@ class TetrisRendererRect : public TetrisRenderer {
   void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color);
   void draw_right_zone(int xpos, int ypos, int width, int height);
   int generate_menu_texture(std::vector<Texture> &menu_options, Menu *menu);
+  int generate_menu_options(std::vector<Texture> &game_options_textures, std::vector<uint8_t> &game_options_indexes, const Options::GameOptions &game_options);
+  void load_text_texture(Texture &texture, const std::string &text);
 };
 
 #endif //TETRIS_TETRISDRAWERRECT_H

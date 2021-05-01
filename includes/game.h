@@ -45,12 +45,12 @@ private:
   int height = 0;
   bool is_running;
   std::deque<Menu *> menu_stack;
-  std::unique_ptr<EngineWrapper::Engine> engine {};
-  std::unique_ptr<MenuPause> pause_menu {};
-  std::unique_ptr<MenuOptions> options_menu {};
-  std::unique_ptr<TitleScreen> title_screen {};
-  std::unique_ptr<TetrisRenderer> renderer {};
-  std::unique_ptr<Tetris> tetris {};
+  std::unique_ptr<EngineWrapper::Engine> engine{};
+  std::unique_ptr<MenuPause> pause_menu{};
+  std::unique_ptr<MenuOptions> options_menu{};
+  std::unique_ptr<TitleScreen> title_screen{};
+  std::unique_ptr<TetrisRenderer> renderer{};
+  std::unique_ptr<Tetris> tetris{};
   MenuCommandUnpause unpause_command;
   MenuCommandRestart restart_command;
   MenuCommandCloseMenu close_menu_command;
@@ -58,7 +58,7 @@ private:
   MenuCommandExitGame exit_game_command;
   MenuCommandShowOptions show_options_command;
   MenuCommandSaveOptions save_options_command;
-  Options::GameOptions game_options;
+  Options::GameOptions game_options{Options::DisplayMode::WINDOW, Options::Resolution::R1280x720};
 };
 
 #endif //GAME_H

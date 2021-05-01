@@ -25,7 +25,7 @@ public:
   std::vector<std::string> get_options() override { return options; }
   void handle_key(EngineWrapper::Key key) override;
   void set_options(Options::GameOptions options) { game_options = options; }
-  Options::GameOptions get_game_options() { return game_options; }
+  Options::GameOptions& get_game_options() { return game_options; }
 
 protected:
   void exec_option() override;

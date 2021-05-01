@@ -145,6 +145,7 @@ void Game::show_title_screen() {
 }
 
 void Game::show_options() {
+  options_menu->set_options(game_options);
   popup_menu(options_menu.get());
 }
 

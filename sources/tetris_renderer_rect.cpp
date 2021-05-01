@@ -137,14 +137,18 @@ void TetrisRendererRect::draw(MenuOptions *menu) {
   static SDL_Rect frame{0, 0, WIDTH + FRAME_THIKCNESS * 2, HEIGHT + FRAME_THIKCNESS * 2};
   static SDL_Rect background{0, 0, WIDTH, HEIGHT};
   static std::vector<Texture> menu_options;
+  static std::vector<Texture> game_options;
+  static std::vector<uint8_t> game_options_indexes;
   static int largest_option = 0;
 
   static const int NB_OPTIONS = menu->get_nb_options();
   static const int Y_CMD_OFFSET = HEIGHT - OPTION_HEIGHT;
   static const int X_CMD_OFFSET = WIDTH - NB_OPTIONS * 140;
 
-  if (menu_options.empty())
-    largest_option = generate_menu_texture(menu_options, menu);
+  if (menu_options.empty()) {
+    std::ignore = generate_menu_texture(menu_options, menu);
+    largest_option = generate_menu_options(game_options, game_options_indexes, menu->get_game_options());
+  }
 
   frame.x = menu->get_xpos();
   frame.y = menu->get_ypos();
@@ -158,6 +162,12 @@ void TetrisRendererRect::draw(MenuOptions *menu) {
 //                    frame.x + (WIDTH - largest_option) / 2 - menu_arrow.get_width() - 5,
 //                    frame.y + MENU_VERTICAL_PADDING + ARROW_VERTICAL_OFFSET + menu->get_selected_option_index() * OPTION_HEIGHT);
   options_title.render(renderer, frame.x + (WIDTH - options_title.get_width()) / 2, frame.y + 20);
+
+  Texture &selected_display = game_options.at(Options::to_underlying(menu->get_game_options().display_mode) + game_options_indexes.at(0));
+  selected_display.render(renderer, frame.x + (WIDTH - selected_display.get_width()) / 2, frame.y + MENU_VERTICAL_PADDING);
+
+  Texture &selected_resolution = game_options.at(Options::to_underlying(menu->get_game_options().resolution) + game_options_indexes.at(1));
+  selected_resolution.render(renderer, frame.x + (WIDTH - selected_resolution.get_width()) / 2, frame.y + OPTION_HEIGHT + MENU_VERTICAL_PADDING);
 
   int i = 0;
   for (auto &option: menu_options) {
@@ -271,4 +281,37 @@ int TetrisRendererRect::generate_menu_texture(std::vector<Texture> &menu_options
     }
   }
   return largest_width;
+}
+
+int TetrisRendererRect::generate_menu_options(std::vector<Texture> &game_options_textures, std::vector<uint8_t> &game_options_indexes, const Options::GameOptions &game_options) {
+  int largest_width = 0;
+
+  if (font != nullptr) {
+    game_options_indexes.reserve(game_options.nb_options);
+    game_options_indexes.emplace_back(0);
+    game_options_indexes.emplace_back(2);
+
+    game_options_textures.reserve(Options::to_underlying(Options::DisplayMode::NB_MODES) + Options::to_underlying(Options::Resolution::NB_RESOLUTIONS));
+
+    game_options_textures.emplace_back();
+    load_text_texture(game_options_textures.back(), get_string_from_display_mode(Options::DisplayMode::WINDOW));
+
+    game_options_textures.emplace_back();
+    load_text_texture(game_options_textures.back(), get_string_from_display_mode(Options::DisplayMode::FULLSCREEN));
+
+    game_options_textures.emplace_back();
+    load_text_texture(game_options_textures.back(), get_string_from_resolution(Options::Resolution::R1280x720));
+
+    game_options_textures.emplace_back();
+    load_text_texture(game_options_textures.back(), get_string_from_resolution(Options::Resolution::R1920x1080));
+
+    largest_width = game_options_textures.back().get_width();
+  }
+
+  return largest_width;
+}
+
+void TetrisRendererRect::load_text_texture(Texture &texture, const std::string &text) {
+  if (!texture.loadFromRenderedText(renderer, font, text, textColor))
+    printf("%s", std::string("Failed to render \"" + text + "\" texture!\n").c_str());
 }
