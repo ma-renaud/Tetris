@@ -18,8 +18,10 @@ TetrisRendererRect::TetrisRendererRect(SDL_engine *engine) : engine(engine) {
       printf("Failed to render \"score header\" texture!\n");
     if (!level_header.loadFromRenderedText(renderer, font, "Level", textColor))
       printf("Failed to render \"level header\" texture!\n");
-    if (!menu_title.loadFromRenderedText(renderer, font, "Pause", textColor))
+    if (!pause_title.loadFromRenderedText(renderer, font, "Pause", textColor))
       printf("Failed to render \"pause_menu title\" texture!\n");
+    if (!options_title.loadFromRenderedText(renderer, font, "Options", textColor))
+      printf("Failed to render \"options_menu title\" texture!\n");
     if (!game_over.loadFromRenderedText(renderer, font, "Game Over!", textColor))
       printf("Failed to render \"game over\" texture!\n");
   }
@@ -117,7 +119,7 @@ void TetrisRendererRect::draw(MenuPause *menu) {
   menu_arrow.render(renderer,
                     frame.x + (WIDTH - largest_option) / 2 - menu_arrow.get_width() - 5,
                     frame.y + MENU_VERTICAL_PADDING + ARROW_VERTICAL_OFFSET + menu->get_selected_option_index() * OPTION_HEIGHT);
-  menu_title.render(renderer, frame.x + (WIDTH - menu_title.get_width()) / 2, frame.y + 20);
+  pause_title.render(renderer, frame.x + (WIDTH - pause_title.get_width()) / 2, frame.y + 20);
 
   int i = 0;
   for (auto &option: menu_options) {
@@ -137,6 +139,10 @@ void TetrisRendererRect::draw(MenuOptions *menu) {
   static std::vector<Texture> menu_options;
   static int largest_option = 0;
 
+  static const int NB_OPTIONS = menu->get_nb_options();
+  static const int Y_CMD_OFFSET = HEIGHT - OPTION_HEIGHT;
+  static const int X_CMD_OFFSET = WIDTH - NB_OPTIONS * 140;
+
   if (menu_options.empty())
     largest_option = generate_menu_texture(menu_options, menu);
 
@@ -148,15 +154,15 @@ void TetrisRendererRect::draw(MenuOptions *menu) {
   draw_rect(renderer, &frame, FRAME_COLOR);
   draw_rect(renderer, &background, BACKGROUD_COLOR);
 
-  menu_arrow.render(renderer,
-                    frame.x + (WIDTH - largest_option) / 2 - menu_arrow.get_width() - 5,
-                    frame.y + MENU_VERTICAL_PADDING + ARROW_VERTICAL_OFFSET + menu->get_selected_option_index() * OPTION_HEIGHT);
-  menu_title.render(renderer, frame.x + (WIDTH - menu_title.get_width()) / 2, frame.y + 20);
+//  menu_arrow.render(renderer,
+//                    frame.x + (WIDTH - largest_option) / 2 - menu_arrow.get_width() - 5,
+//                    frame.y + MENU_VERTICAL_PADDING + ARROW_VERTICAL_OFFSET + menu->get_selected_option_index() * OPTION_HEIGHT);
+  options_title.render(renderer, frame.x + (WIDTH - options_title.get_width()) / 2, frame.y + 20);
 
   int i = 0;
   for (auto &option: menu_options) {
-    option.render(renderer, frame.x + (WIDTH - option.get_width()) / 2, frame.y + i + MENU_VERTICAL_PADDING);
-    i += OPTION_HEIGHT;
+    option.render(renderer, frame.x + i + X_CMD_OFFSET, frame.y + Y_CMD_OFFSET);
+    i += 140;
   }
 }
 

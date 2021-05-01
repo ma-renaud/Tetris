@@ -40,7 +40,8 @@ class TetrisRendererRect : public TetrisRenderer {
   Texture score;
   Texture level;
   Texture menu_arrow;
-  Texture menu_title;
+  Texture pause_title;
+  Texture options_title;
   void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color);
   void draw_right_zone(int xpos, int ypos, int width, int height);
   int generate_menu_texture(std::vector<Texture> &menu_options, Menu *menu);

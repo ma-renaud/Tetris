@@ -47,7 +47,7 @@ Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fu
 
   tetris = std::make_unique<Tetris>(fps, engine.get());
 
-  menu_stack.emplace_front(title_screen.get());
+  show_title_screen();
 }
 
 void Game::handle_events() {
@@ -76,8 +76,8 @@ void Game::handle_events() {
 }
 
 void Game::handle_keys(EngineWrapper::Key key) {
-  if (!menu_stack.empty())
-    menu_stack.front()->handle_key(key);
+  if (auto *top = topmost_menu(); top != nullptr)
+    top->handle_key(key);
   else if (key == EngineWrapper::Key::ESCAPE)
     pause();
   else
@@ -93,12 +93,7 @@ void Game::render() {
 
   tetris->render(renderer.get());
 
-  for(auto const &menu : menu_stack) {
-    menu->render();
-  }
-
-  if (!menu_stack.empty())
-    menu_stack.front()->render();
+  draw_menus();
 
   if (tetris->game_over())
     renderer->draw_game_over();
@@ -113,7 +108,7 @@ void Game::clean() {
 
 void Game::pause() {
   tetris->pause();
-  menu_stack.emplace_front(pause_menu.get());
+  popup_menu(pause_menu.get());
 }
 
 void Game::unpause() {
@@ -121,27 +116,44 @@ void Game::unpause() {
   tetris->unpause();
 }
 
+void Game::popup_menu(Menu *menu) {
+  menu_stack.emplace_back(menu);
+}
+
 void Game::close_menu() {
-  if (!menu_stack.empty())
-    menu_stack.pop_front();
+  menu_stack.pop_back();
+}
+
+void Game::close_all_menus() {
+  menu_stack.clear();
+}
+
+Menu *Game::topmost_menu() const {
+  return menu_stack.empty()? nullptr : menu_stack.back();
 }
 
 void Game::restart() {
   tetris->restart();
-  close_menu(); //close pause menu
+  close_all_menus();
 }
 
 void Game::show_title_screen() {
   tetris->restart();
   tetris->pause();
-  close_menu(); //close pause menu
-  menu_stack.emplace_front(title_screen.get());
+  close_all_menus();
+  popup_menu(title_screen.get());
 }
 
 void Game::show_options() {
-  menu_stack.emplace_front(options_menu.get());
+  popup_menu(options_menu.get());
 }
 
 void Game::save_options() {
   game_options = options_menu->get_game_options();
+}
+
+void Game::draw_menus() {
+  for(auto const &menu : menu_stack) {
+    menu->render();
+  }
 }
