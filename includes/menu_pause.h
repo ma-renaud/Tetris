@@ -4,16 +4,18 @@
 #include "engine.h"
 #include "menu.h"
 #include "menu_command.h"
+#include "tetris_renderer.h"
 
 class MenuPause : public Menu {
 
 public:
-  MenuPause(int xpos, int ypos, int width, int height, MenuCommand *unpause,
+  MenuPause(int xpos, int ypos, int width, int height, TetrisRenderer *renderer, MenuCommand *unpause,
             MenuCommand *restart,
             MenuCommand *title_screen,
             MenuCommand *exit);
   ~MenuPause() override = default;
 
+  void render() override { renderer->draw(this); }
   int get_xpos() override { return xpos; }
   int get_ypos() override { return ypos; }
   int get_width() override { return width; }
@@ -31,7 +33,7 @@ private:
   MenuCommand *restart;
   MenuCommand *title_screen;
   MenuCommand *exit;
-
+  TetrisRenderer *renderer;
 };
 
 #endif //MENU_PAUSE_H

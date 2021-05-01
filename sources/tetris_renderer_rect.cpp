@@ -1,13 +1,13 @@
 
-#include <tetris_drawer_rect.h>
+#include <tetris_renderer_rect.h>
 
-constexpr SDL_Color TetrisDrawerRect::textColor;
+constexpr SDL_Color TetrisRendererRect::textColor;
 
 static constexpr int OPTION_HEIGHT = 30;
 static constexpr int MENU_VERTICAL_PADDING = 60;
 static constexpr int ARROW_VERTICAL_OFFSET = -5;
 
-TetrisDrawerRect::TetrisDrawerRect(SDL_engine *engine) : engine(engine) {
+TetrisRendererRect::TetrisRendererRect(SDL_engine *engine) : engine(engine) {
 
   renderer = engine->get_renderer();
   font = engine->get_font();
@@ -27,20 +27,20 @@ TetrisDrawerRect::TetrisDrawerRect(SDL_engine *engine) : engine(engine) {
   menu_arrow.loadFromFile(renderer, "../../assets/images/arrow.png");
 }
 
-void TetrisDrawerRect::clear() {
+void TetrisRendererRect::clear() {
   SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
   SDL_RenderClear(renderer);
 }
 
-void TetrisDrawerRect::render() {
+void TetrisRendererRect::render() {
   SDL_RenderPresent(renderer);
 }
 
-void TetrisDrawerRect::draw(Tetromino *tetromino) {
+void TetrisRendererRect::draw(Tetromino *tetromino) {
   draw(tetromino, tetromino->xpos(), tetromino->ypos());
 }
 
-void TetrisDrawerRect::draw(Well *well) {
+void TetrisRendererRect::draw(Well *well) {
   SDL_Rect rect = {0, 0, unit_size, unit_size};
 
   for (int i = TOP_OFFSET; i < Well::HEIGHT; i++) {
@@ -54,7 +54,7 @@ void TetrisDrawerRect::draw(Well *well) {
   }
 }
 
-void TetrisDrawerRect::draw(ScoreLvl *score) {
+void TetrisRendererRect::draw(ScoreLvl *score) {
   static const int WIDTH = 7;
   static const int HEIGHT = 6;
   static const int XPOS = Well::WIDTH * unit_size;
@@ -85,28 +85,14 @@ void TetrisDrawerRect::draw(ScoreLvl *score) {
   level.render(renderer, XPOS + ((WIDTH - 1) * unit_size - level.get_width()) / 2, LEVEL_HEADER_YPOS + unit_size);
 }
 
-void TetrisDrawerRect::draw(Bag *bag) {
+void TetrisRendererRect::draw(Bag *bag) {
   static const int XPOS = Well::WIDTH * unit_size;
   static const int YPOS = 5 * unit_size;
   draw_right_zone(XPOS, YPOS, 7, 8);
   draw(bag->preview().get(), Well::WIDTH + 1, 9);
 }
 
-void TetrisDrawerRect::draw(Menu *menu) {
-  auto *menu_pause = dynamic_cast<MenuPause *> (menu);
-  if (menu_pause)
-    draw(menu_pause);
-
-  auto *menu_options = dynamic_cast<MenuOptions *> (menu);
-  if (menu_options)
-    draw(menu_options);
-
-  auto *title_screen = dynamic_cast<TitleScreen *> (menu);
-  if (title_screen)
-    draw(title_screen);
-}
-
-void TetrisDrawerRect::draw(MenuPause *menu) {
+void TetrisRendererRect::draw(MenuPause *menu) {
   static const int WIDTH = menu->get_width();
   static const int HEIGHT = menu->get_height();
   static const int FRAME_THIKCNESS = 5;
@@ -140,7 +126,7 @@ void TetrisDrawerRect::draw(MenuPause *menu) {
   }
 }
 
-void TetrisDrawerRect::draw(MenuOptions *menu) {
+void TetrisRendererRect::draw(MenuOptions *menu) {
   static const int WIDTH = menu->get_width();
   static const int HEIGHT = menu->get_height();
   static const int FRAME_THIKCNESS = 5;
@@ -174,7 +160,7 @@ void TetrisDrawerRect::draw(MenuOptions *menu) {
   }
 }
 
-void TetrisDrawerRect::draw(TitleScreen *menu) {
+void TetrisRendererRect::draw(TitleScreen *menu) {
   static const int WIDTH = menu->get_width();
   static const int HEIGHT = menu->get_height();
   static const int NB_OPTIONS = menu->get_nb_options();
@@ -201,7 +187,7 @@ void TetrisDrawerRect::draw(TitleScreen *menu) {
   std::ignore = menu;
 }
 
-void TetrisDrawerRect::draw(Tetromino *tetromino, int xpos, int ypos) {
+void TetrisRendererRect::draw(Tetromino *tetromino, int xpos, int ypos) {
   SDL_Rect rect = {xpos * unit_size, ypos * unit_size, unit_size, unit_size};
 
   for (int i = 0; i < tetromino->matrix_size(); i++) {
@@ -215,13 +201,13 @@ void TetrisDrawerRect::draw(Tetromino *tetromino, int xpos, int ypos) {
   }
 }
 
-void TetrisDrawerRect::draw_game_over() {
+void TetrisRendererRect::draw_game_over() {
   game_over.render(renderer,
                    (engine->get_window_width() - game_over.get_width()) / 2,
                    (engine->get_window_height() - game_over.get_height() - 10));
 }
 
-SDL_Color TetrisDrawerRect::get_tetromino_color(int tile) {
+SDL_Color TetrisRendererRect::get_tetromino_color(int tile) {
   switch (tile) {
   case 1:
   case 2:
@@ -237,14 +223,14 @@ SDL_Color TetrisDrawerRect::get_tetromino_color(int tile) {
   }
 }
 
-void TetrisDrawerRect::draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color) {
+void TetrisRendererRect::draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color) {
   SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
   SDL_RenderFillRect(renderer, rect);
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // the rect border color (solid black)
   SDL_RenderDrawRect(renderer, rect);
 }
 
-void TetrisDrawerRect::draw_right_zone(int xpos, int ypos, int width, int height) {
+void TetrisRendererRect::draw_right_zone(int xpos, int ypos, int width, int height) {
   static const int BORDER_TILE = 42;
   SDL_Rect rect = {xpos, ypos, unit_size, unit_size};
 
@@ -265,7 +251,7 @@ void TetrisDrawerRect::draw_right_zone(int xpos, int ypos, int width, int height
   }
 }
 
-int TetrisDrawerRect::generate_menu_texture(std::vector<Texture> &menu_options, Menu *menu) {
+int TetrisRendererRect::generate_menu_texture(std::vector<Texture> &menu_options, Menu *menu) {
   int largest_width = 0;
   if (font != nullptr) {
     menu_options.reserve(menu->get_nb_options());

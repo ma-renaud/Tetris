@@ -9,7 +9,7 @@
 #include "texture.h"
 #include "menu_pause.h"
 #include "score_lvl.h"
-#include "tetris_drawer.h"
+#include "tetris_renderer.h"
 
 class Tetris {
 public:
@@ -18,7 +18,7 @@ public:
 
   void handle_keys(EngineWrapper::Key key);
   void update();
-  void render(TetrisDrawer *drawer);
+  void render(TetrisRenderer *drawer);
   void restart();
   void pause() { is_pause = true; }
   void unpause() { is_pause = false; drop_time = SDL_GetTicks() + 500; }

@@ -7,7 +7,7 @@
 #include "engine.h"
 #include "menu_pause.h"
 #include "menu_options.h"
-#include "tetris_drawer.h"
+#include "tetris_renderer.h"
 #include "title_screen.h"
 #include "menu_commands.h"
 #include "options.h"
@@ -43,7 +43,7 @@ private:
   std::unique_ptr<MenuPause> pause_menu {};
   std::unique_ptr<MenuOptions> options_menu {};
   std::unique_ptr<TitleScreen> title_screen {};
-  std::unique_ptr<TetrisDrawer> drawer {};
+  std::unique_ptr<TetrisRenderer> renderer {};
   std::unique_ptr<Tetris> tetris {};
   MenuCommandUnpause unpause_command;
   MenuCommandRestart restart_command;

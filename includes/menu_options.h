@@ -6,14 +6,16 @@
 #include "menu.h"
 #include "menu_command.h"
 #include "options.h"
+#include "tetris_renderer.h"
 
 class MenuOptions : public Menu {
 
 public:
-  MenuOptions(int xpos, int ypos, int width, int height, MenuCommand *save_options,
+  MenuOptions(int xpos, int ypos, int width, int height, TetrisRenderer *renderer, MenuCommand *save_options,
               MenuCommand *close_menu);
   ~MenuOptions() override = default;
 
+  void render() override { renderer->draw(this); }
   int get_xpos() override { return xpos; }
   int get_ypos() override { return ypos; }
   int get_width() override { return width; }
@@ -35,7 +37,7 @@ private:
   Options::GameOptions game_options;
   void next();
   void previous();
-
+  TetrisRenderer *renderer;
 };
 
 #endif //MENU_OPTIONS_H

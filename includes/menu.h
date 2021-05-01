@@ -10,6 +10,7 @@ public:
   Menu(int xpos, int ypos, int width, int height) : xpos(xpos), ypos(ypos), width(width), height(height) {}
   virtual ~Menu() = default;
 
+  virtual void render() = 0;
   virtual int get_xpos() = 0;
   virtual int get_ypos() = 0;
   virtual int get_width() = 0;

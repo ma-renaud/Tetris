@@ -59,7 +59,7 @@ void Tetris::update() {
   }
 }
 
-void Tetris::render(TetrisDrawer *drawer) {
+void Tetris::render(TetrisRenderer *drawer) {
   drawer->draw(&well);
   drawer->draw(tetromino.get());
   drawer->draw(&score);

@@ -4,6 +4,7 @@
 #include "engine.h"
 #include "menu.h"
 #include "menu_command.h"
+#include "tetris_renderer.h"
 
 class TitleScreen : public Menu {
 
@@ -12,11 +13,13 @@ public:
               int ypos,
               int width,
               int height,
+              TetrisRenderer *renderer,
               MenuCommand *unpause,
               MenuCommand *show_options,
               MenuCommand *exit);
   ~TitleScreen() override = default;
 
+  void render() override { renderer->draw(this); }
   int get_xpos() override { return xpos; }
   int get_ypos() override { return ypos; }
   int get_width() override { return width; }
@@ -32,7 +35,7 @@ private:
   MenuCommand *unpause;
   MenuCommand *show_options;
   MenuCommand *exit;
-
+  TetrisRenderer *renderer;
 };
 
 #endif //TITLE_SCREEN_H

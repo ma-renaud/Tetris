@@ -6,12 +6,15 @@
 #include "tetromino.h"
 #include "score_lvl.h"
 #include "bag.h"
-#include "title_screen.h"
 
-class TetrisDrawer {
+class MenuPause;
+class MenuOptions;
+class TitleScreen;
+
+class TetrisRenderer {
  public:
-  TetrisDrawer() = default;
-  virtual ~TetrisDrawer() = default;
+  TetrisRenderer() = default;
+  virtual ~TetrisRenderer() = default;
 
   virtual void clear() = 0;
   virtual void render() = 0;
@@ -20,7 +23,9 @@ class TetrisDrawer {
   virtual void draw(ScoreLvl *score) = 0;
   virtual void draw(Bag *bag) = 0;
   virtual void draw_game_over() = 0;
-  virtual void draw(Menu *menu) = 0;
+  virtual void draw(MenuPause *menu) = 0;
+  virtual void draw(MenuOptions *menu) = 0;
+  virtual void draw(TitleScreen *menu) = 0;
 
  protected:
   static constexpr int TOP_OFFSET = 2;

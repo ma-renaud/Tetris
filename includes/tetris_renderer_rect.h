@@ -1,17 +1,18 @@
 #ifndef TETRIS_TETRISDRAWERRECT_H
 #define TETRIS_TETRISDRAWERRECT_H
 
-#include "tetris_drawer.h"
+#include "tetris_renderer.h"
 #include <SDL_ttf.h>
 #include "texture.h"
 #include "SDL_engine.h"
 #include "menu_pause.h"
 #include "menu_options.h"
+#include "title_screen.h"
 
-class TetrisDrawerRect : public TetrisDrawer {
+class TetrisRendererRect : public TetrisRenderer {
  public:
-  explicit TetrisDrawerRect(SDL_engine *engine);
-  ~TetrisDrawerRect() override = default;
+  explicit TetrisRendererRect(SDL_engine *engine);
+  ~TetrisRendererRect() override = default;
 
   void clear() override;
   void render() override;
@@ -21,10 +22,9 @@ class TetrisDrawerRect : public TetrisDrawer {
   void draw(Bag *bag) override;
   void draw(Tetromino *tetromino, int xpos, int ypos);
   void draw_game_over() override;
-  void draw(Menu *menu) override;
-  void draw(MenuPause *menu);
-  void draw(MenuOptions *menu);
-  void draw(TitleScreen *menu);
+  void draw(MenuPause *menu) override;
+  void draw(MenuOptions *menu) override;
+  void draw(TitleScreen *menu) override;
 
   SDL_Color get_tetromino_color(int tile);
 

@@ -5,10 +5,11 @@ TitleScreen::TitleScreen(int xpos,
                          int ypos,
                          int width,
                          int height,
+                         TetrisRenderer *renderer,
                          MenuCommand *unpause,
                          MenuCommand *show_options,
                          MenuCommand *exit)
-    : Menu(xpos, ypos, width, height), unpause(unpause), show_options(show_options), exit(exit) {
+    : Menu(xpos, ypos, width, height), unpause(unpause), show_options(show_options), exit(exit), renderer(renderer) {
   options = {"Start", "Options", "Exit"};
 }
 

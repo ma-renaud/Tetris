@@ -1,7 +1,7 @@
 #include "game.h"
 #include "SDL_engine.h"
 #include "tetromino.h"
-#include "tetris_drawer_rect.h"
+#include "tetris_renderer_rect.h"
 
 //for testing purpose
 #include <iostream>
@@ -12,12 +12,15 @@ Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fu
   engine = std::make_unique<SDL_engine>();
   is_running = engine->init(title, xpos, ypos, width, height, fullscreen);
 
+  renderer = std::make_unique<TetrisRendererRect>(dynamic_cast<SDL_engine *>(engine.get()));
+
   int pause_width = 330;
   int pause_height = 200;
   pause_menu = std::make_unique<MenuPause>((width - pause_width) / 2,
                                            (height - pause_height) / 2 - 75,
                                            pause_width,
                                            pause_height,
+                                           renderer.get(),
                                            &unpause_command,
                                            &restart_command,
                                            &title_screen_command,
@@ -29,6 +32,7 @@ Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fu
                                                (height - options_height) / 2 - 75,
                                                options_width,
                                                options_height,
+                                               renderer.get(),
                                                &save_options_command,
                                                &close_menu_command);
 
@@ -36,11 +40,11 @@ Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fu
                                                ypos,
                                                width,
                                                height,
+                                               renderer.get(),
                                                &unpause_command,
                                                &show_options_command,
                                                &exit_game_command);
 
-  drawer = std::make_unique<TetrisDrawerRect>(dynamic_cast<SDL_engine *>(engine.get()));
   tetris = std::make_unique<Tetris>(fps, engine.get());
 
   menu_stack.emplace_front(title_screen.get());
@@ -85,21 +89,21 @@ void Game::update() {
 }
 
 void Game::render() {
-  drawer->clear();
+  renderer->clear();
 
-  tetris->render(drawer.get());
+  tetris->render(renderer.get());
 
   for(auto const &menu : menu_stack) {
-    drawer->draw(menu);
+    menu->render();
   }
 
   if (!menu_stack.empty())
-    drawer->draw(menu_stack.front());
+    menu_stack.front()->render();
 
   if (tetris->game_over())
-    drawer->draw_game_over();
+    renderer->draw_game_over();
 
-  drawer->render();
+  renderer->render();
 }
 
 void Game::clean() {
