@@ -70,7 +70,7 @@ static std::unordered_map<Resolution, std::string> const resolution_to_string =
 [[maybe_unused]] static DisplayMode &operator--(DisplayMode &dp) {
   using IntType = typename std::underlying_type<DisplayMode>::type;
   if (static_cast<IntType>(dp) > 0)
-    dp = static_cast<DisplayMode>( static_cast<IntType>(DisplayMode::NB_MODES) - 1 );
+    dp = static_cast<DisplayMode>( static_cast<IntType>(dp) - 1 );
   return dp;
 }
 
@@ -110,7 +110,7 @@ static std::unordered_map<Resolution, std::string> const resolution_to_string =
 [[maybe_unused]] static Resolution &operator--(Resolution &dp) {
   using IntType = typename std::underlying_type<Resolution>::type;
   if (static_cast<IntType>(dp) > 0)
-    dp = static_cast<Resolution>( static_cast<IntType>(Resolution::NB_RESOLUTIONS) - 1 );
+    dp = static_cast<Resolution>( static_cast<IntType>(dp) - 1 );
   return dp;
 }
 

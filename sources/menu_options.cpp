@@ -42,18 +42,19 @@ void MenuOptions::handle_key(EngineWrapper::Key key) {
 }
 
 void MenuOptions::exec_option() {
-  switch (selected_index) {
+  switch (selected_index - game_options.nb_options) {
   case 0: {
+    selected_index = 0;
     save_options->execute();
     break;
   }
   case 1: {
+    selected_index = 0;
     close_menu->execute();
     break;
   }
   default:break;
   }
-  selected_index = 0;
 }
 
 void MenuOptions::next() {
