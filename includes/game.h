@@ -40,10 +40,10 @@ private:
   void draw_menus();
 
 private:
-  int fps = 0;
-  int width = 0;
-  int height = 0;
-  bool is_running;
+  int fps{0};
+  int width {0};
+  int height{0};
+  bool is_running{false};
   std::deque<Menu *> menu_stack;
   std::unique_ptr<EngineWrapper::Engine> engine{};
   std::unique_ptr<MenuPause> pause_menu{};
@@ -59,6 +59,9 @@ private:
   MenuCommandShowOptions show_options_command;
   MenuCommandSaveOptions save_options_command;
   Options::GameOptions game_options{Options::DisplayMode::WINDOW, Options::Resolution::R1280x720};
+
+  void apply_display_mode(Options::DisplayMode mode);
+  void apply_resolution(Options::Resolution res);
 };
 
 #endif //GAME_H

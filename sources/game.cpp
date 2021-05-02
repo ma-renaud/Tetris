@@ -129,7 +129,7 @@ void Game::close_all_menus() {
 }
 
 Menu *Game::topmost_menu() const {
-  return menu_stack.empty()? nullptr : menu_stack.back();
+  return menu_stack.empty() ? nullptr : menu_stack.back();
 }
 
 void Game::restart() {
@@ -150,11 +150,31 @@ void Game::show_options() {
 }
 
 void Game::save_options() {
-  game_options = options_menu->get_game_options();
+  Options::GameOptions new_options = options_menu->get_game_options();
+  if (game_options.display_mode != new_options.display_mode)
+    apply_display_mode(new_options.display_mode);
+  if (game_options.resolution != new_options.resolution)
+    apply_resolution(new_options.resolution);
+
+  game_options = new_options;
 }
 
 void Game::draw_menus() {
-  for(auto const &menu : menu_stack) {
+  for (auto const &menu : menu_stack) {
     menu->render();
   }
+}
+
+void Game::apply_display_mode(Options::DisplayMode mode) {
+  if (mode == Options::DisplayMode::FULLSCREEN)
+    engine->fullscreen_mode();
+  else
+    engine->window_mode();
+}
+
+void Game::apply_resolution(Options::Resolution res) {
+  if (res == Options::Resolution::R1280x720)
+    engine->set_resolution(1280, 720);
+  else if (res == Options::Resolution::R1920x1080)
+    engine->set_resolution(1920, 1080);
 }

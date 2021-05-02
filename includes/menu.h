@@ -20,6 +20,7 @@ public:
   virtual std::vector<std::string> get_options() = 0;
 
   virtual void handle_key(EngineWrapper::Key key) {
+    static EngineWrapper::Key pressed_key = EngineWrapper::Key::UNKNOWN;
     switch (key) {
     case EngineWrapper::Key::DOWN: {
       if (!options.empty())
@@ -32,11 +33,13 @@ public:
       break;
     }
     case EngineWrapper::Key::RETURN: {
-      exec_option();
+      if (key != pressed_key)
+        exec_option();
       break;
     }
     default:break;
     }
+    pressed_key = key;
   }
 
 protected:

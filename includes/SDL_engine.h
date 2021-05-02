@@ -15,6 +15,9 @@ class SDL_engine : public EngineWrapper::Engine {
   int poll_event(EngineWrapper::Event &event) override;
   void clean() override;
   uint32_t get_ticks() override;
+  void fullscreen_mode() override;
+  void window_mode() override;
+  void set_resolution(int width, int height) override;
 
   SDL_Renderer *get_renderer() { return renderer; }
   TTF_Font *get_font() { return font; }

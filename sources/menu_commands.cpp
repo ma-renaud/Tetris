@@ -27,5 +27,4 @@ void MenuCommandShowOptions::execute() {
 
 void MenuCommandSaveOptions::execute() {
   game->save_options();
-  game->close_menu();
 }

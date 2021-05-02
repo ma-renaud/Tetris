@@ -46,6 +46,7 @@ void MenuOptions::exec_option() {
   case 0: {
     selected_index = 0;
     save_options->execute();
+    close_menu->execute();
     break;
   }
   case 1: {

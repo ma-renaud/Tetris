@@ -69,3 +69,33 @@ void SDL_engine::clean() {
 uint32_t SDL_engine::get_ticks() {
   return SDL_GetTicks();
 }
+
+void SDL_engine::fullscreen_mode() {
+  SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+}
+
+void SDL_engine::window_mode() {
+  SDL_SetWindowFullscreen(window, 0);
+}
+
+void SDL_engine::set_resolution(int width, int height) {
+  bool success = false;
+  bool IsFullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN;
+  if (IsFullscreen) {
+    SDL_DisplayMode current_display_mode;
+    if (SDL_GetDisplayMode(0, 0, &current_display_mode) == 0) {
+      current_display_mode.w = width;
+      current_display_mode.h = height;
+      SDL_SetWindowDisplayMode(window, &current_display_mode);
+      success = true;
+    }
+  } else {
+    SDL_SetWindowSize(window, width, height);
+    success = true;
+  }
+
+  if (success) {
+    this->width = width;
+    this->height = height;
+  }
+}

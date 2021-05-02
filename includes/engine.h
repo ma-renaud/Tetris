@@ -34,6 +34,9 @@ class Engine {
   virtual int poll_event(Event &event) = 0;
   virtual void clean() = 0;
   virtual uint32_t get_ticks() = 0;
+  virtual void fullscreen_mode() = 0;
+  virtual void window_mode() = 0;
+  virtual void set_resolution(int width, int height) = 0;
 };
 }
 
