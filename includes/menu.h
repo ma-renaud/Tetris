@@ -7,14 +7,18 @@
 
 class Menu {
 public:
-  Menu(int xpos, int ypos, int width, int height) : xpos(xpos), ypos(ypos), width(width), height(height) {}
+  Menu(int width, int height) : width(width), height(height) {}
   virtual ~Menu() = default;
 
   virtual void render() = 0;
-  virtual int get_xpos() = 0;
-  virtual int get_ypos() = 0;
-  virtual int get_width() = 0;
-  virtual int get_height() = 0;
+  int get_xpos() const { return xpos; }
+  int get_ypos() const { return ypos; }
+  void set_xpos(int pos) { xpos = pos; }
+  void set_ypos(int pos) { ypos = pos; }
+  int get_width() { return width; }
+  int get_height() { return height; }
+  void set_width(int width) { this->width = width; }
+  void set_height(int height) { this->height = height; }
   virtual int get_nb_options() = 0;
   virtual int get_selected_option_index() = 0;
   virtual std::vector<std::string> get_options() = 0;

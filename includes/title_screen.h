@@ -9,9 +9,7 @@
 class TitleScreen : public Menu {
 
 public:
-  TitleScreen(int xpos,
-              int ypos,
-              int width,
+  TitleScreen(int width,
               int height,
               TetrisRenderer *renderer,
               MenuCommand *unpause,
@@ -20,10 +18,6 @@ public:
   ~TitleScreen() override = default;
 
   void render() override { renderer->draw(this); }
-  int get_xpos() override { return xpos; }
-  int get_ypos() override { return ypos; }
-  int get_width() override { return width; }
-  int get_height() override { return height; }
   int get_nb_options() override { return options.size(); }
   int get_selected_option_index() override { return selected_index; }
   std::vector<std::string> get_options() override { return options; }

@@ -6,19 +6,17 @@
 //for testing purpose
 #include <iostream>
 
-Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps)
-    : fps(fps), width(width), height(height), unpause_command(this), restart_command(this), close_menu_command(this),
+Game::Game(const char *title, int xpos, int ypos, bool fullscreen, int fps)
+    : fps(fps), unpause_command(this), restart_command(this), close_menu_command(this),
       title_screen_command(this), exit_game_command(this), show_options_command(this), save_options_command(this) {
   engine = std::make_unique<SDL_engine>();
   is_running = engine->init(title, xpos, ypos, width, height, fullscreen);
 
   renderer = std::make_unique<TetrisRendererRect>(dynamic_cast<SDL_engine *>(engine.get()));
 
-  int pause_width = 330;
-  int pause_height = 200;
-  pause_menu = std::make_unique<MenuPause>((width - pause_width) / 2,
-                                           (height - pause_height) / 2 - 75,
-                                           pause_width,
+  static int pause_width = 330;
+  static int pause_height = 200;
+  pause_menu = std::make_unique<MenuPause>(pause_width,
                                            pause_height,
                                            renderer.get(),
                                            &unpause_command,
@@ -28,17 +26,13 @@ Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fu
 
   int options_width = 430;
   int options_height = 300;
-  options_menu = std::make_unique<MenuOptions>((width - options_width) / 2,
-                                               (height - options_height) / 2 - 75,
-                                               options_width,
+  options_menu = std::make_unique<MenuOptions>(options_width,
                                                options_height,
                                                renderer.get(),
                                                &save_options_command,
                                                &close_menu_command);
 
-  title_screen = std::make_unique<TitleScreen>(xpos,
-                                               ypos,
-                                               width,
+  title_screen = std::make_unique<TitleScreen>(width,
                                                height,
                                                renderer.get(),
                                                &unpause_command,
@@ -46,7 +40,8 @@ Game::Game(const char *title, int xpos, int ypos, int width, int height, bool fu
                                                &exit_game_command);
 
   tetris = std::make_unique<Tetris>(fps, engine.get());
-
+  update_dimentions_from_options(game_options.resolution);
+  update_menus_pos();
   show_title_screen();
 }
 
@@ -173,8 +168,22 @@ void Game::apply_display_mode(Options::DisplayMode mode) {
 }
 
 void Game::apply_resolution(Options::Resolution res) {
-  if (res == Options::Resolution::R1280x720)
-    engine->set_resolution(1280, 720);
-  else if (res == Options::Resolution::R1920x1080)
-    engine->set_resolution(1920, 1080);
+  update_dimentions_from_options(res);
+  update_menus_pos();
+}
+
+void Game::update_menus_pos() {
+  pause_menu->set_xpos((width - pause_menu->get_width()) / 2);
+  pause_menu->set_ypos((height - pause_menu->get_height()) / 2 - 75);
+  options_menu->set_xpos((width - options_menu->get_width()) / 2);
+  options_menu->set_ypos((height - options_menu->get_height()) / 2 - 75);
+}
+
+void Game::update_dimentions_from_options(Options::Resolution res) {
+  auto res_size = Options::get_pair_from_resolution(res);
+  engine->set_resolution(res_size.first, res_size.second);
+  width = res_size.first;
+  height = res_size.second;
+  title_screen->set_width(width);
+  title_screen->set_height(height);
 }

@@ -11,15 +11,11 @@
 class MenuOptions : public Menu {
 
 public:
-  MenuOptions(int xpos, int ypos, int width, int height, TetrisRenderer *renderer, MenuCommand *save_options,
+  MenuOptions(int width, int height, TetrisRenderer *renderer, MenuCommand *save_options,
               MenuCommand *close_menu);
   ~MenuOptions() override = default;
 
   void render() override { renderer->draw(this); }
-  int get_xpos() override { return xpos; }
-  int get_ypos() override { return ypos; }
-  int get_width() override { return width; }
-  int get_height() override { return height; }
   int get_nb_options() override { return options.size(); }
   int get_selected_option_index() override { return selected_index; }
   std::vector<std::string> get_options() override { return options; }

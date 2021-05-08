@@ -197,10 +197,10 @@ void TetrisRendererRect::draw(MenuOptions *menu) {
 }
 
 void TetrisRendererRect::draw(TitleScreen *menu) {
-  static const int WIDTH = menu->get_width();
-  static const int HEIGHT = menu->get_height();
+  int WIDTH = menu->get_width();
+  int HEIGHT = menu->get_height();
   static const int NB_OPTIONS = menu->get_nb_options();
-  static const int Y_OFFSET = HEIGHT - NB_OPTIONS * OPTION_HEIGHT - MENU_VERTICAL_PADDING;
+  int Y_OFFSET = HEIGHT - NB_OPTIONS * OPTION_HEIGHT - MENU_VERTICAL_PADDING;
   static std::vector <Texture> menu_options;
   static int largest_option = 0;
 

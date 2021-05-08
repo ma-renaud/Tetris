@@ -1,16 +1,14 @@
 #include <menu_pause.h>
 #include <algorithm>    // std::min
 
-MenuPause::MenuPause(int xpos,
-                     int ypos,
-                     int width,
+MenuPause::MenuPause(int width,
                      int height,
                      TetrisRenderer *renderer,
                      MenuCommand *unpause,
                      MenuCommand *restart,
                      MenuCommand *title_screen,
                      MenuCommand *exit)
-    : Menu(xpos, ypos, width, height), unpause(unpause), restart(restart), title_screen(title_screen), exit(exit),
+    : Menu(width, height), unpause(unpause), restart(restart), title_screen(title_screen), exit(exit),
       renderer(renderer) {
   options = {"Resume", "Restart", "Title Screen", "Exit"};
 }

@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <unordered_map>
+#include <utility>
 
 namespace Options {
 
@@ -90,6 +91,15 @@ static std::unordered_map<Resolution, std::string> const resolution_to_string =
   }
 }
 
+[[maybe_unused]] static std::pair<int,int> get_pair_from_resolution(const Resolution &resolution) {
+  if (resolution == Options::Resolution::R1280x720)
+    return std::make_pair(1280, 720);
+  else if (resolution == Options::Resolution::R1920x1080)
+    return std::make_pair(1920, 1080);
+  else
+    return std::make_pair(0, 0);
+};
+
 // Special behavior for ++Resolution
 [[maybe_unused]] static Resolution &operator++(Resolution &r) {
   using IntType = typename std::underlying_type<Resolution>::type;
@@ -106,7 +116,7 @@ static std::unordered_map<Resolution, std::string> const resolution_to_string =
   return result;
 }
 
-// Special behavior for --DisplayMode
+// Special behavior for --Resolution
 [[maybe_unused]] static Resolution &operator--(Resolution &dp) {
   using IntType = typename std::underlying_type<Resolution>::type;
   if (static_cast<IntType>(dp) > 0)
@@ -114,7 +124,7 @@ static std::unordered_map<Resolution, std::string> const resolution_to_string =
   return dp;
 }
 
-// Special behavior for DisplayMode--
+// Special behavior for Resolution--
 [[maybe_unused]] static Resolution operator--(Resolution &dp, int) {
   Resolution result = dp;
   --dp;

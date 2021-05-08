@@ -14,7 +14,7 @@
 
 class Game {
 public:
-  Game(const char *title, int xpos, int ypos, int width, int height, bool fullscreen, int fps);
+  Game(const char *title, int xpos, int ypos, bool fullscreen, int fps);
   ~Game() = default;
 
   void handle_events();
@@ -62,6 +62,8 @@ private:
 
   void apply_display_mode(Options::DisplayMode mode);
   void apply_resolution(Options::Resolution res);
+  void update_menus_pos();
+  void update_dimentions_from_options(Options::Resolution res);
 };
 
 #endif //GAME_H

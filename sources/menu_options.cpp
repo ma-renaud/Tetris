@@ -1,7 +1,7 @@
 #include "menu_options.h"
 
-MenuOptions::MenuOptions(int xpos, int ypos, int width, int height, TetrisRenderer *renderer, MenuCommand *save_options,
-                         MenuCommand *close_menu) : Menu(xpos, ypos, width, height),
+MenuOptions::MenuOptions(int width, int height, TetrisRenderer *renderer, MenuCommand *save_options,
+                         MenuCommand *close_menu) : Menu(width, height),
                                                     save_options(save_options), close_menu(close_menu),
                                                     renderer(renderer) {
   options = {"Save", "Cancel"};
