@@ -71,31 +71,22 @@ uint32_t SDL_engine::get_ticks() {
 }
 
 void SDL_engine::fullscreen_mode() {
-  SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+  SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
 }
 
 void SDL_engine::window_mode() {
   SDL_SetWindowFullscreen(window, 0);
+  SDL_SetWindowSize(window, width, height);
 }
 
 void SDL_engine::set_resolution(int width, int height) {
-  bool success = false;
-  bool IsFullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN;
-  if (IsFullscreen) {
-    SDL_DisplayMode current_display_mode;
-    if (SDL_GetDisplayMode(0, 0, &current_display_mode) == 0) {
-      current_display_mode.w = width;
-      current_display_mode.h = height;
-      SDL_SetWindowDisplayMode(window, &current_display_mode);
-      success = true;
-    }
-  } else {
+  bool IsFullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN_DESKTOP;
+  if (!IsFullscreen) {
     SDL_SetWindowSize(window, width, height);
-    success = true;
   }
 
-  if (success) {
-    this->width = width;
-    this->height = height;
-  }
+  SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "linear" );
+  SDL_RenderSetLogicalSize( renderer, width, height );
+  this->width = width;
+  this->height = height;
 }
