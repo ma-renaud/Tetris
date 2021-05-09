@@ -30,6 +30,7 @@ enum class Resolution : uint8_t {
 struct GameOptions {
   DisplayMode display_mode{DisplayMode::WINDOW};
   Resolution resolution{Resolution::R1280x720};
+  uint8_t selected_display = 0;
   uint8_t nb_options = 2;
 };
 

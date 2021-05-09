@@ -6,11 +6,18 @@
 //for testing purpose
 #include <iostream>
 
-Game::Game(const char *title, int xpos, int ypos, bool fullscreen, int fps)
+Game::Game(const char *title, int fps)
     : fps(fps), unpause_command(this), restart_command(this), close_menu_command(this),
       title_screen_command(this), exit_game_command(this), show_options_command(this), save_options_command(this) {
   engine = std::make_unique<SDL_engine>();
-  is_running = engine->init(title, xpos, ypos, width, height, fullscreen);
+
+  // Initial positioning
+  EngineWrapper::Display current_display = engine->display_info(game_options.selected_display);
+  auto res_size = Options::get_pair_from_resolution(game_options.resolution);
+  int xpos = current_display.width/2 - res_size.first/2 + current_display.x;
+  int ypos = current_display.height/2 - res_size.second/2 + + current_display.y;
+
+  is_running = engine->init(title, xpos, ypos, width, height, game_options.display_mode == Options::DisplayMode::FULLSCREEN);
 
   renderer = std::make_unique<TetrisRendererRect>(dynamic_cast<SDL_engine *>(engine.get()));
 

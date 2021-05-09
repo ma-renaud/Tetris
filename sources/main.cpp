@@ -7,7 +7,7 @@ int main(int argc, char*argv[]) {
   const int FPS = 60;
   const int FRAME_DELAY = 1000 / FPS;
 
-  Game game("Tetris", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, false, FPS); // NOLINT
+  Game game("Tetris", FPS); // NOLINT
 
   uint32_t frame_start;
   uint32_t frame_time;

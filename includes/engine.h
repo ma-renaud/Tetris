@@ -25,6 +25,13 @@ class Event {
   Key key = Key::UNKNOWN;
 };
 
+struct Display {
+  int x;
+  int y;
+  int width;
+  int height;
+};
+
 class Engine {
  public:
   Engine() = default;
@@ -37,6 +44,9 @@ class Engine {
   virtual void fullscreen_mode() = 0;
   virtual void window_mode() = 0;
   virtual void set_resolution(int width, int height) = 0;
+  virtual void set_window_position(int x, int y) = 0;
+  virtual int get_nb_displays() = 0;
+  virtual Display display_info(uint8_t display) = 0;
 };
 }
 

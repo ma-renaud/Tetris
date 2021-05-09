@@ -9,12 +9,28 @@ const std::map<Uint32, EngineWrapper::EventType> event_map =
      {SDL_KEYUP, EngineWrapper::EventType::KEYUP}};
 }
 
+SDL_engine::SDL_engine() {
+  if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
+    initialized = true;
+
+    std::cout << "Subsystems Initialised!..." << std::endl;
+    // enumerate displays
+    int displays = SDL_GetNumVideoDisplays();
+
+    // get display bounds for all displays
+    for (int i = 0; i < displays; i++) {
+      displayBounds.emplace_back();
+      SDL_GetDisplayBounds(i, &displayBounds.back());
+    }
+  }
+}
+
 bool SDL_engine::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen) {
   bool res = false;
   this->width = width;
   this->height = height;
 
-  if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
+  if (initialized) {
     std::cout << "Subsystems Initialised!..." << std::endl;
 
     Uint32 flags = 0;
@@ -39,6 +55,7 @@ bool SDL_engine::init(const char *title, int xpos, int ypos, int width, int heig
         printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
       }
     }
+
     res = true;
   }
   return res;
@@ -85,8 +102,23 @@ void SDL_engine::set_resolution(int width, int height) {
     SDL_SetWindowSize(window, width, height);
   }
 
-  SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "linear" );
-  SDL_RenderSetLogicalSize( renderer, width, height );
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+  SDL_RenderSetLogicalSize(renderer, width, height);
   this->width = width;
   this->height = height;
+}
+
+void SDL_engine::set_window_position(int x, int y) {
+  SDL_SetWindowPosition(window, x, y);
+}
+
+EngineWrapper::Display SDL_engine::display_info(uint8_t display) {
+  EngineWrapper::Display display_info = {0, 0, 0, 0};
+  if (display < displayBounds.size()) {
+    display_info.x = displayBounds.at(display).x;
+    display_info.y = displayBounds.at(display).y;
+    display_info.width = displayBounds.at(display).w;
+    display_info.height = displayBounds.at(display).h;
+  }
+  return display_info;
 }

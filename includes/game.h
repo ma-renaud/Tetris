@@ -14,7 +14,7 @@
 
 class Game {
 public:
-  Game(const char *title, int xpos, int ypos, bool fullscreen, int fps);
+  Game(const char *title, int fps);
   ~Game() = default;
 
   void handle_events();
