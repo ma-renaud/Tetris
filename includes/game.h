@@ -64,6 +64,7 @@ private:
   void apply_resolution(Options::Resolution res);
   void update_menus_pos();
   void update_dimentions_from_options(Options::Resolution res);
+  void center_game_window();
 };
 
 #endif //GAME_H

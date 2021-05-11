@@ -11,13 +11,9 @@ Game::Game(const char *title, int fps)
       title_screen_command(this), exit_game_command(this), show_options_command(this), save_options_command(this) {
   engine = std::make_unique<SDL_engine>();
 
-  // Initial positioning
-  EngineWrapper::Display current_display = engine->display_info(game_options.selected_display);
-  auto res_size = Options::get_pair_from_resolution(game_options.resolution);
-  int xpos = current_display.width/2 - res_size.first/2 + current_display.x;
-  int ypos = current_display.height/2 - res_size.second/2 + + current_display.y;
+  is_running = engine->init(title, 0, 0, width, height, game_options.display_mode == Options::DisplayMode::FULLSCREEN);
 
-  is_running = engine->init(title, xpos, ypos, width, height, game_options.display_mode == Options::DisplayMode::FULLSCREEN);
+  center_game_window();
 
   renderer = std::make_unique<TetrisRendererRect>(dynamic_cast<SDL_engine *>(engine.get()));
 
@@ -159,6 +155,7 @@ void Game::save_options() {
     apply_resolution(new_options.resolution);
 
   game_options = new_options;
+  center_game_window();
 }
 
 void Game::draw_menus() {
@@ -193,4 +190,12 @@ void Game::update_dimentions_from_options(Options::Resolution res) {
   height = res_size.second;
   title_screen->set_width(width);
   title_screen->set_height(height);
+}
+
+void Game::center_game_window() {
+  EngineWrapper::Display current_display = engine->display_info(game_options.selected_display);
+  auto res_size = Options::get_pair_from_resolution(game_options.resolution);
+  int xpos = current_display.width/2 - res_size.first/2 + current_display.x;
+  int ypos = current_display.height/2 - res_size.second/2 + + current_display.y;
+  engine->set_window_position(xpos, ypos);
 }
