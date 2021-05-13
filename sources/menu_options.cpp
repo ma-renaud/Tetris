@@ -1,7 +1,7 @@
 #include "menu_options.h"
 
-MenuOptions::MenuOptions(int width, int height, TetrisRenderer *renderer, MenuCommand *save_options,
-                         MenuCommand *close_menu) : Menu(width, height),
+MenuOptions::MenuOptions(int width, int height, int nb_displays, TetrisRenderer *renderer, MenuCommand *save_options,
+                         MenuCommand *close_menu) : Menu(width, height), nb_displays(nb_displays),
                                                     save_options(save_options), close_menu(close_menu),
                                                     renderer(renderer) {
   options = {"Save", "Cancel"};
@@ -64,11 +64,13 @@ void MenuOptions::next() {
     break;
   case 1:game_options.resolution++;
     break;
-  case 2:
+  case 2:game_options.selected_display = std::min(game_options.selected_display + 1, nb_displays - 1);
+    break;
+  case 3:
     if (!options.empty())
       selected_index = std::min(selected_index + 1, (static_cast<int>(nb_index) - 1));
     break;
-  case 3:
+  case 4:
     if (!options.empty())
       selected_index = std::max(selected_index - 1, 0);
     break;
@@ -81,9 +83,11 @@ void MenuOptions::previous() {
     break;
   case 1:game_options.resolution--;
     break;
-  case 2:selected_index = std::min(selected_index + 1, (static_cast<int>(nb_index) - 1));
+  case 2:game_options.selected_display = std::max(game_options.selected_display - 1, 0);
     break;
-  case 3:selected_index = std::max(selected_index - 1, 0);
+  case 3:selected_index = std::min(selected_index + 1, (static_cast<int>(nb_index) - 1));
+    break;
+  case 4:selected_index = std::max(selected_index - 1, 0);
     break;
   }
 }

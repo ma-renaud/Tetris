@@ -10,7 +10,7 @@
 #include "title_screen.h"
 
 class TetrisRendererRect : public TetrisRenderer {
- public:
+public:
   explicit TetrisRendererRect(SDL_engine *engine);
   ~TetrisRendererRect() override = default;
 
@@ -28,7 +28,7 @@ class TetrisRendererRect : public TetrisRenderer {
 
   SDL_Color get_tetromino_color(int tile);
 
- private:
+private:
   static constexpr int unit_size = 26;
   static constexpr SDL_Color textColor = {0, 0, 0, 255};
   TTF_Font *font;
@@ -45,7 +45,10 @@ class TetrisRendererRect : public TetrisRenderer {
   void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, SDL_Color color);
   void draw_right_zone(int xpos, int ypos, int width, int height);
   int generate_menu_texture(std::vector<Texture> &menu_options, Menu *menu);
-  int generate_menu_options(std::vector<Texture> &game_options_textures, std::vector<uint8_t> &game_options_indexes, const Options::GameOptions &game_options);
+  int generate_menu_options(std::vector<Texture> &game_options_textures,
+                            std::vector<uint8_t> &game_options_indexes,
+                            std::vector<Texture> &displays_textures,
+                            const Options::GameOptions &game_options);
   void load_text_texture(Texture &texture, const std::string &text);
 };
 

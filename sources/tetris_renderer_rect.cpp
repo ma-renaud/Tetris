@@ -102,7 +102,7 @@ void TetrisRendererRect::draw(MenuPause *menu) {
   static const SDL_Color BACKGROUD_COLOR = {255, 255, 255, 255};
   static SDL_Rect frame{0, 0, WIDTH + FRAME_THIKCNESS * 2, HEIGHT + FRAME_THIKCNESS * 2};
   static SDL_Rect background{0, 0, WIDTH, HEIGHT};
-  static std::vector <Texture> menu_options;
+  static std::vector<Texture> menu_options;
   static int largest_option = 0;
 
   if (menu_options.empty())
@@ -140,6 +140,7 @@ void TetrisRendererRect::draw(MenuOptions *menu) {
   static std::vector<Texture> menu_options;
   static std::vector<Texture> game_options;
   static std::vector<uint8_t> game_options_indexes;
+  static std::vector<Texture> game_displays;
   static int largest_option = 0;
 
   static const int NB_OPTIONS = menu->get_nb_options();
@@ -148,7 +149,7 @@ void TetrisRendererRect::draw(MenuOptions *menu) {
 
   if (menu_options.empty()) {
     std::ignore = generate_menu_texture(menu_options, menu);
-    largest_option = generate_menu_options(game_options, game_options_indexes, menu->get_game_options());
+    largest_option = generate_menu_options(game_options, game_options_indexes, game_displays, menu->get_game_options());
   }
 
   frame.x = menu->get_xpos();
@@ -178,16 +179,21 @@ void TetrisRendererRect::draw(MenuOptions *menu) {
 
   options_title.render(renderer, frame.x + (WIDTH - options_title.get_width()) / 2, frame.y + 20);
 
-  Texture &selected_display =
+  Texture &selected_display_mode =
       game_options.at(Options::to_underlying(menu->get_game_options().display_mode) + game_options_indexes.at(0));
-  selected_display
-      .render(renderer, frame.x + (WIDTH - selected_display.get_width()) / 2, frame.y + MENU_VERTICAL_PADDING);
+  selected_display_mode
+      .render(renderer, frame.x + (WIDTH - selected_display_mode.get_width()) / 2, frame.y + MENU_VERTICAL_PADDING);
 
   Texture &selected_resolution =
       game_options.at(Options::to_underlying(menu->get_game_options().resolution) + game_options_indexes.at(1));
   selected_resolution.render(renderer,
                              frame.x + (WIDTH - selected_resolution.get_width()) / 2,
                              frame.y + OPTION_HEIGHT + MENU_VERTICAL_PADDING);
+
+  Texture &selected_display = game_displays.at(menu->get_game_options().selected_display);
+  selected_display.render(renderer,
+                          frame.x + (WIDTH - selected_display.get_width()) / 2,
+                          frame.y + OPTION_HEIGHT * 2 + MENU_VERTICAL_PADDING);
 
   int i = 0;
   for (auto &option: menu_options) {
@@ -201,7 +207,7 @@ void TetrisRendererRect::draw(TitleScreen *menu) {
   int HEIGHT = menu->get_height();
   static const int NB_OPTIONS = menu->get_nb_options();
   int Y_OFFSET = HEIGHT - NB_OPTIONS * OPTION_HEIGHT - MENU_VERTICAL_PADDING;
-  static std::vector <Texture> menu_options;
+  static std::vector<Texture> menu_options;
   static int largest_option = 0;
 
   if (menu_options.empty())
@@ -287,7 +293,7 @@ void TetrisRendererRect::draw_right_zone(int xpos, int ypos, int width, int heig
   }
 }
 
-int TetrisRendererRect::generate_menu_texture(std::vector <Texture> &menu_options, Menu *menu) {
+int TetrisRendererRect::generate_menu_texture(std::vector<Texture> &menu_options, Menu *menu) {
   int largest_width = 0;
   if (font != nullptr) {
     menu_options.reserve(menu->get_nb_options());
@@ -303,8 +309,9 @@ int TetrisRendererRect::generate_menu_texture(std::vector <Texture> &menu_option
   return largest_width;
 }
 
-int TetrisRendererRect::generate_menu_options(std::vector <Texture> &game_options_textures,
-                                              std::vector <uint8_t> &game_options_indexes,
+int TetrisRendererRect::generate_menu_options(std::vector<Texture> &game_options_textures,
+                                              std::vector<uint8_t> &game_options_indexes,
+                                              std::vector<Texture> &displays_textures,
                                               const Options::GameOptions &game_options) {
   int largest_width = 0;
 
@@ -329,6 +336,11 @@ int TetrisRendererRect::generate_menu_options(std::vector <Texture> &game_option
     load_text_texture(game_options_textures.back(), get_string_from_resolution(Options::Resolution::R1920x1080));
 
     largest_width = game_options_textures.back().get_width();
+
+    constexpr int MAX_DISPLAY = 9;
+    for (int i = 0; i < MAX_DISPLAY; i++) {
+      load_text_texture(displays_textures.emplace_back(), "Display " + std::to_string(i));
+    }
   }
 
   return largest_width;

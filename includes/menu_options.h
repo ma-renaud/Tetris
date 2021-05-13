@@ -11,7 +11,7 @@
 class MenuOptions : public Menu {
 
 public:
-  MenuOptions(int width, int height, TetrisRenderer *renderer, MenuCommand *save_options,
+  MenuOptions(int width, int height, int nb_displays, TetrisRenderer *renderer, MenuCommand *save_options,
               MenuCommand *close_menu);
   ~MenuOptions() override = default;
 
@@ -28,6 +28,7 @@ protected:
 
 private:
   int nb_index = 0;
+  int nb_displays = 0;
   MenuCommand *save_options;
   MenuCommand *close_menu;
   Options::GameOptions game_options;

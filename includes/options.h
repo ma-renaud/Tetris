@@ -31,7 +31,7 @@ struct GameOptions {
   DisplayMode display_mode{DisplayMode::WINDOW};
   Resolution resolution{Resolution::R1280x720};
   uint8_t selected_display = 0;
-  uint8_t nb_options = 2;
+  uint8_t nb_options = 3;
 };
 
 static const Resolution resolutions[] = {Resolution::R1280x720, Resolution::R1920x1080};

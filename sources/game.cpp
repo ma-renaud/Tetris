@@ -31,6 +31,7 @@ Game::Game(const char *title, int fps)
   int options_height = 300;
   options_menu = std::make_unique<MenuOptions>(options_width,
                                                options_height,
+                                               engine->get_nb_displays(),
                                                renderer.get(),
                                                &save_options_command,
                                                &close_menu_command);
