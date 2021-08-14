@@ -14,12 +14,19 @@ public:
   std::unique_ptr<Tetromino> next();
   std::unique_ptr<Tetromino> preview() { return bag.front()->clone(); }
   std::size_t bag_count() { return bag.size(); }
+  int get_xpos() const { return xpos; }
+  int get_ypos() const { return ypos; }
+  void set_xpos(int pos) { xpos = pos; }
+  void set_ypos(int pos) { ypos = pos; }
 
   static constexpr int BAG_SIZE = 7;
   static constexpr int S_OR_Z_MAX_STREAK = 4;
   static constexpr int MAXIMUM_INTERVAL_WITHOUT_I = 12;
 
 protected:
+  int xpos = 0;
+  int ypos = 0;
+
   std::deque<std::unique_ptr<Tetromino>> bag;
   std::uniform_int_distribution<int> shapes;
   std::mt19937 prng;

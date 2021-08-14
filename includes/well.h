@@ -23,6 +23,9 @@ protected:
   std::array<std::array<uint8_t, WIDTH>, HEIGHT> well;
 
 private:
+  int xpos = 0;
+  int ypos = 0;
+
   std::array<uint8_t, WIDTH> empty_line;
 
   void init();

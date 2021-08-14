@@ -10,10 +10,17 @@ class ScoreLvl {
   void restart();
   int get_score() { return score; }
   int get_level() { return level; }
+  int get_xpos() const { return xpos; }
+  int get_ypos() const { return ypos; }
+  void set_xpos(int pos) { xpos = pos; }
+  void set_ypos(int pos) { ypos = pos; }
 
   static const int MAX_SPEED_LEVEL = 25;
 
  private:
+  int xpos = 0;
+  int ypos = 0;
+
   static constexpr int line_points[4] = {40, 100, 300, 1200};
   static constexpr int line_awards[4] = {1, 3, 5, 8};
 
